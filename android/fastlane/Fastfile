@@ -1,0 +1,25 @@
+default_platform(:android)
+
+platform :android do
+  desc "Lane for Android Firebase app distribution"
+  lane :install_android_sdk do
+    sh "sdkmanager --install 'tools' 'platform-tools' 'build-tools;34.0.0'"
+  end
+  lane :firebase_distribution do
+      commit = last_git_commit
+      sh "flutter clean"
+    sh "flutter build apk --release --target lib/main.dart --no-tree-shake-icons"
+      firebase_app_distribution(
+          app: "1:750960724874:android:670f6aea9b0308d72f5673",
+          firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
+      android_artifact_type: "APK",
+    android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
+          testers: "
+          amrsamy25211@gmail.com,
+          muhammad.elashry@gmail.com
+           ",
+      release_notes: commit[:message],
+      upload_timeout: 600, # Set upload timeout to 10 minutes
+        )
+  end
+end

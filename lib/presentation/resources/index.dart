@@ -1,0 +1,17 @@
+export 'package:flutter/material.dart';
+export 'package:life_pulse/presentation/resources/assets_manager.dart';
+export 'package:life_pulse/presentation/resources/color_manager.dart';
+export 'package:life_pulse/presentation/resources/constants_manager.dart';
+export 'package:life_pulse/presentation/resources/routes_manager.dart';
+export 'package:life_pulse/presentation/resources/font_manager.dart';
+export 'package:life_pulse/presentation/resources/strings_manager.dart';
+export 'package:life_pulse/presentation/resources/styles_manager.dart';
+export 'package:life_pulse/presentation/resources/theme_manager.dart';
+export 'package:life_pulse/presentation/resources/validation_manager.dart';
+export 'package:life_pulse/presentation/resources/values_manager.dart';
+export 'package:life_pulse/presentation/resources/language_manager.dart';
+export 'package:life_pulse/presentation/resources/helpers/functions.dart';
+export 'package:flutter_svg/svg.dart';
+export 'package:get/get.dart';
+export 'package:flutter_screenutil/flutter_screenutil.dart';
+export 'package:life_pulse/presentation/widgets/app_tool_bar.dart';

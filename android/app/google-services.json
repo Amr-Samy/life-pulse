@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "750960724874",
+    "project_id": "mobeen-c36a2",
+    "storage_bucket": "mobeen-c36a2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750960724874:android:759d05ef457c03202f5673",
+        "android_client_info": {
+          "package_name": "com.example.mobeen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750960724874-jnmc2lg5svhjkmqqbqcqk22ot1s9ifpt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mobeen",
+            "certificate_hash": "1471528a4e999b2e8743fd3fbbcd1626edb0929d"
+          }
+        },
+        {
+          "client_id": "750960724874-qualun48m66ld5jbahgj875g7h8tc245.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWKBjmsgQ2I6wSbKu5b-TWNMmdQNyIk9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750960724874-qualun48m66ld5jbahgj875g7h8tc245.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "750960724874-0i4dh8nouke04mkm8gfeqdr0qqmr3pf5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mobeen"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750960724874:android:670f6aea9b0308d72f5673",
+        "android_client_info": {
+          "package_name": "com.wolphin.mobeen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750960724874-lcgprq26os78e5l2mtg31l8j35vtq1p2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wolphin.mobeen",
+            "certificate_hash": "1471528a4e999b2e8743fd3fbbcd1626edb0929d"
+          }
+        },
+        {
+          "client_id": "750960724874-qualun48m66ld5jbahgj875g7h8tc245.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWKBjmsgQ2I6wSbKu5b-TWNMmdQNyIk9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750960724874-qualun48m66ld5jbahgj875g7h8tc245.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "750960724874-0i4dh8nouke04mkm8gfeqdr0qqmr3pf5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mobeen"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

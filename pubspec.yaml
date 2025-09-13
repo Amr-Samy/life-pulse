@@ -1,0 +1,160 @@
+name: life_pulse
+description: An E-Learning Platform
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.23+5
+
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+
+# dependencies can be manually updated by changing the version numbers below to
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  flutter_svg: ^2.0.10+1
+  dio: ^5.7.0
+  get: ^4.6.6
+  get_storage: ^2.1.1
+  flutter_verification_code: ^1.1.7
+  country_code_picker:
+   git:
+    url: https://github.com/Amr-Samy/CountryCodePicker.git
+    ref: main
+
+  flutter_screenutil: ^5.9.3
+  flutter_native_splash: ^2.4.3
+  device_preview: ^1.2.0
+  flutter_credit_card: ^4.0.1
+  image_picker: ^1.0.7
+  url_launcher: ^6.2.4
+  firebase_core: 3.13.0
+  firebase_auth: ^5.5.3
+  flutter_facebook_auth: ^7.1.1
+  google_sign_in: 6.3.0
+  permission_handler: ^11.0.1 #To handle file downloads
+  omni_video_player: ^2.1.1
+  cached_network_image: ^3.4.1
+  webview_flutter: ^4.13.0 # for privacy policy
+  dotted_border: ^2.1.0 #dropzone border
+
+
+
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^5.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/icons/
+    - assets/icons/bold/
+    - assets/icons/bulk/
+    - assets/icons/bulk/pdf.png
+    - assets/icons/curved/
+    - assets/icons/light/
+    - assets/images/
+    - assets/images/boarding/boarding1.png
+    - assets/images/boarding/boarding2.png
+    - assets/images/boarding/boarding3.png
+    - assets/images/home/
+    - assets/images/notifications/
+    - assets/images/profile_placeholder.png
+    - assets/images/splash/
+    - assets/images/splash/dark_splash_logo_12.png
+    - assets/images/splash/light_splash_logo_12.png
+#    - assets/audio/
+
+  fonts:
+    - family: Cairo-Black
+      fonts:
+        - asset: assets/fonts/Cairo-Black.ttf
+    - family: Cairo-Bold
+      fonts:
+        - asset: assets/fonts/Cairo-Bold.ttf
+    - family: Cairo-ExtraBold
+      fonts:
+        - asset: assets/fonts/Cairo-ExtraBold.ttf
+    - family: Cairo-ExtraLight
+      fonts:
+        - asset: assets/fonts/Cairo-ExtraLight.ttf
+    - family: Cairo-Light
+      fonts:
+        - asset: assets/fonts/Cairo-Light.ttf
+    - family: Cairo-Medium
+      fonts:
+        - asset: assets/fonts/Cairo-Medium.ttf
+    - family: Cairo-Regular
+      fonts:
+        - asset: assets/fonts/Cairo-Regular.ttf
+    - family: Cairo-SemiBold
+      fonts:
+        - asset: assets/fonts/Cairo-SemiBold.ttf
+    - family: Urbanist-Black
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-Black.ttf
+    - family: Urbanist-BlackItalic
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-BlackItalic.ttf
+    - family: Urbanist-Bold
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-Bold.ttf
+    - family: Urbanist-BoldItalic
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-BoldItalic.ttf
+    - family: Urbanist-ExtraBold
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-ExtraBold.ttf
+    - family: Urbanist-ExtraBoldItalic
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-ExtraBoldItalic.ttf
+    - family: Urbanist-ExtraLight
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-ExtraLight.ttf
+    - family: Urbanist-ExtraLightItalic
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-ExtraLightItalic.ttf
+    - family: Urbanist-Light
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-Light.ttf
+    - family: Urbanist-LightItalic
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-LightItalic.ttf
+    - family: Urbanist-Medium
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-Medium.ttf
+    - family: Urbanist-MediumItalic
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-MediumItalic.ttf
+    - family: Urbanist-Regular
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-Regular.ttf
+    - family: Urbanist-SemiBold
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-SemiBold.ttf
+    - family: Urbanist-SemiBoldItalic
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-SemiBoldItalic.ttf
+    - family: Urbanist-Thin
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-Thin.ttf
+    - family: Urbanist-ThinItalic
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-ThinItalic.ttf

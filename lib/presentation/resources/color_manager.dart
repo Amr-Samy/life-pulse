@@ -13,6 +13,9 @@ class ColorManager {
   static Color error = const Color(0xffF75555);
   static Color disabled = const Color(0xffD8D8D8);
   static Color disabledButton = const Color(0xff4360C9);
+
+  static Color lightGreenColor = const Color(0xFFE8F5E9);
+  static Color lightBlueColor = const Color(0xFFE3F2FD);
   // Greyscale
   static Color black900 = const Color (0xff212121);
   static Color black800 = const Color (0xff424242);

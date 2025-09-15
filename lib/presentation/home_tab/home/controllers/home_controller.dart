@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 class HomeController extends GetxController{
   RxBool isLoading = true.obs;
 
-  final RxInt selectedCampaignIndex = 0.obs;
   final RxInt currentCampaignIndex = 1.obs;
   late PageController pageController;
 
@@ -23,9 +22,6 @@ class HomeController extends GetxController{
     super.onClose();
   }
 
-  void selectCampaign(int index) {
-    selectedCampaignIndex.value = index;
-  }
   void onPageChanged(int index) {
     currentCampaignIndex.value = index;
   }

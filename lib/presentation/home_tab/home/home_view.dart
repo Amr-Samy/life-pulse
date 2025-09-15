@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import '../../layout/layout_controller.dart';
 import '../../profile_tab/profile/profile_controller.dart';
 import '../../resources/index.dart';
@@ -21,6 +23,12 @@ class _HomeViewState extends State<HomeView> {
   }
   final HomeController controller = Get.put(HomeController());
 
+  final List<String> latestCampaignImages = [
+    'assets/images/boarding/boarding3.png',
+    'assets/images/boarding/boarding3.png',
+    'assets/images/boarding/boarding3.png',
+    'assets/images/boarding/boarding3.png',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +42,7 @@ class _HomeViewState extends State<HomeView> {
         color: ColorManager.primary,
         triggerMode: RefreshIndicatorTriggerMode.onEdge,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppPadding.p16),
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.p8),
           child: SingleChildScrollView(
             child: Column(
               // shrinkWrap: true,
@@ -46,6 +54,9 @@ class _HomeViewState extends State<HomeView> {
                 _buildFeatureCampaignTitle(),
                 const SizedBox(height: 16),
                 _buildFeatureCampaignList(),
+                const SizedBox(height: 24),
+                _buildLatestCampaigns(),
+                const SizedBox(height: 24),
               ],
             ),
           ),
@@ -61,13 +72,20 @@ class _HomeViewState extends State<HomeView> {
     );
   }
   Widget _buildFeatureCampaignList() {
+  const int itemCount = 3;
+  const double screenPadding = 0.0;
+  const double cardSpacing = 46.0;
+
     return SizedBox(
-      height: 420,
+    height: 480,
       child: PageView.builder(
         controller: controller.pageController,
         onPageChanged: controller.onPageChanged,
-        itemCount: 3,
+      itemCount: itemCount,
           itemBuilder: (context, index) {
+        final double leftPadding = (index == 0) ? screenPadding : (cardSpacing / 2);
+        final double rightPadding = (index == itemCount - 1) ? screenPadding : (cardSpacing / 2);
+
           return AnimatedBuilder(
             animation: controller.pageController,
             builder: (context, child) {
@@ -81,25 +99,80 @@ class _HomeViewState extends State<HomeView> {
               scale = scale.clamp(0.85, 1.0);
 
               return Transform.rotate(
-                angle: value,
+              angle: math.pi * value,
                 child: Transform.scale(
                   scale: scale,
                   child: child,
                 ),
               );
               },
+          child: Padding(
+            padding: EdgeInsets.only(left: leftPadding, right: rightPadding, top: 20, bottom: 20),
                 child: Obx(
                     () {
                 bool isSelected = controller.currentCampaignIndex.value == index;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
-                  child: CampaignCard(isSelected: isSelected),
-                );
-              },
+              return CampaignCard(isSelected: isSelected);
+            }),
               ),
             );
           },
         ),
+    );
+  }
+
+  Widget _buildLatestCampaigns() {
+  List<Widget> _buildGridRows() {
+    List<Widget> rows = [];
+    for (int i = 0; i < latestCampaignImages.length; i += 2) {
+      Widget card1 = LatestCampaignCard(
+        imagePath: latestCampaignImages[i],
+      );
+      Widget card2;
+      if (i + 1 < latestCampaignImages.length) {
+        card2 = LatestCampaignCard(
+          imagePath: latestCampaignImages[i + 1],
+        );
+      } else {
+        card2 = Expanded(child: Container());
+      }
+
+      rows.add(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: card1),
+            const SizedBox(width: 16),
+            Expanded(child: card2),
+          ],
+        ),
+      );
+
+      if (i + 2 < latestCampaignImages.length) {
+        rows.add(const SizedBox(height: 16));
+      }
+    }
+    return rows;
+  }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Latest Campaign',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 16),
+        Column(
+          children: _buildGridRows(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -113,7 +186,7 @@ AppBar _buildAppBar() {
       children: [
         const CircleAvatar(
             radius: 22,
-          backgroundImage: AssetImage('assets/images/user_profile.png'),
+          backgroundImage: AssetImage('assets/images/boarding/boarding3.png'),
         ),
         const SizedBox(width: 12),
         const Column(
@@ -220,6 +293,8 @@ Widget _buildFeatureCampaignTitle() {
   );
 }
 
+
+
 class CampaignCard extends StatelessWidget {
   final bool isSelected;
 
@@ -235,8 +310,6 @@ class CampaignCard extends StatelessWidget {
     final Color authorColor = isSelected ? Colors.green : Colors.blue;
 
     return Container(
-      width: 300,
-      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(16),
@@ -244,22 +317,22 @@ class CampaignCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           //Image
           ClipRRect(
             borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(14),
-              topRight: Radius.circular(14),
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
             ),
             child: Image.asset(
               'assets/images/boarding/boarding1.png',
               height: 150,
               width: double.infinity,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
             ),
           ),
-          Expanded(
-            child: SingleChildScrollView(
+          Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -307,14 +380,13 @@ class CampaignCard extends StatelessWidget {
                 // donors
                 Row(
                   children: [
-                    // Stacked donor avatars
                     SizedBox(
                       width: 70,
                       child: Stack(
                         children: [
-                          _buildDonorAvatar('assets/images/donor1.png'),
-                          Positioned(left: 20, child: _buildDonorAvatar('assets/images/donor2.png')),
-                          Positioned(left: 40, child: _buildDonorAvatar('assets/images/donor3.png')),
+                          _buildDonorAvatar('assets/images/boarding/boarding3.png'),
+                          Positioned(left: 20, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
+                          Positioned(left: 40, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
                         ],
                       ),
                     ),
@@ -334,7 +406,6 @@ class CampaignCard extends StatelessWidget {
               ],
             ),
               ),
-            ),
         ],
       ),
     );
@@ -359,7 +430,132 @@ class CampaignCard extends StatelessWidget {
 }
 
 
+class LatestCampaignCard extends StatelessWidget {
+  final String imagePath;
+
+  const LatestCampaignCard({super.key, required this.imagePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+                child: Image.asset(
+                  imagePath,
+                    height: 120,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.8),
+                    shape: BoxShape.circle,
+                  ),
+                    child: const Icon(Icons.favorite_border, color: Colors.black54, size: 18),
+                ),
+              ),
+            ],
+          ),
+
+            Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Donation for Child',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                  const Row(
+                  children: [
+                      Text('By', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                      SizedBox(width: 4),
+                      Text('Unesco', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 12)),
+                      SizedBox(width: 4),
+                    Icon(Icons.check_circle, color: Colors.green, size: 14),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                const Row(
+                  children: [
+                    Text('Raised', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                    Spacer(),
+                    Text('50%',
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey, fontSize: 12)),
+                  ],
+                ),
+                const SizedBox(height: 2),
+                LinearProgressIndicator(
+                  value: 0.5,
+                  backgroundColor: Colors.grey.shade300,
+                  color: Colors.green,
+                  minHeight: 6,
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                        SizedBox(
+                        width: 50,
+                        height: 20,
+                          child: Stack(
+                            children: [
+                              _buildDonorAvatar('assets/images/boarding/boarding3.png'),
+                              Positioned(left: 12, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
+                              Positioned(left: 24, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
+                            ],
+                          ),
+                        ),
+                    const Expanded(
+                      child: Text(
+                        '+12,300',
+                        style: TextStyle(color: Colors.grey, fontSize: 11, fontWeight: FontWeight.w500),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDonorAvatar(String imagePath) {
+    return CircleAvatar(
+      radius: 10,
+      backgroundColor: Colors.white,
+        child: CircleAvatar(
+        radius: 9,
+          backgroundImage: AssetImage(imagePath),
+        ),
+    );
+  }
 
 
-
-
+}

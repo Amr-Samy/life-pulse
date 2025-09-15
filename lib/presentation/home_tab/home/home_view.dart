@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 
+import 'package:life_pulse/presentation/home_tab/campaign_details/campaign_details_screen.dart';
+
 import '../../layout/layout_controller.dart';
 import '../../profile_tab/profile/profile_controller.dart';
 import '../../resources/index.dart';
@@ -182,6 +184,8 @@ AppBar _buildAppBar() {
     return AppBar(
       elevation: 0,
       backgroundColor: ColorManager.lightGreenColor,
+      automaticallyImplyLeading: false,
+      titleSpacing: 25,
       title: Row(
       children: [
         const CircleAvatar(
@@ -309,104 +313,109 @@ class CampaignCard extends StatelessWidget {
     final Color borderColor = isSelected ? Colors.green : Colors.blue;
     final Color authorColor = isSelected ? Colors.green : Colors.blue;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: cardColor,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: borderColor, width: 1.5),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          //Image
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-            ),
-            child: Image.asset(
-              'assets/images/boarding/boarding1.png',
-              height: 150,
-              width: double.infinity,
-              fit: BoxFit.contain,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Title
-                const Text(
-                  'Donation for Child',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                // verified by ( case sponsor )
-                Row(
-                  children: [
-                    const Text('By', style: TextStyle(color: Colors.grey)),
-                    const SizedBox(width: 4),
-                      Text(
-                        'Unesco',
-                        style: TextStyle(color: authorColor, fontWeight: FontWeight.bold),
-                      ),
-                    const SizedBox(width: 4),
-                      Icon(Icons.check_circle, color: authorColor, size: 16),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                // progress bar
-                Row(
-                  children: [
-                    Expanded(
-                      child: LinearProgressIndicator(
-                        value: 0.5, // 50% progress
-                        backgroundColor: Colors.grey.shade300,
-                          color: authorColor,
-                        minHeight: 8,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      '50%',
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                // donors
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 70,
-                      child: Stack(
-                        children: [
-                          _buildDonorAvatar('assets/images/boarding/boarding3.png'),
-                          Positioned(left: 20, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
-                          Positioned(left: 40, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
-                        ],
-                      ),
-                    ),
-                    const Expanded(
-                      child: Text(
-                        '+12,300 people donated',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Divider(color: Colors.grey.shade200),
-                const SizedBox(height: 8),
-                _buildInfoRow(Icons.folder_open, 'Emergencies'),
-              ],
-            ),
+    return GestureDetector(
+      onTap: () {
+        Get.to(CampaignDetailsScreen());
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: cardColor,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: borderColor, width: 1.5),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            //Image
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
               ),
-        ],
+              child: Image.asset(
+                'assets/images/boarding/boarding1.png',
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Title
+                  const Text(
+                    'Donation for Child',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  // verified by ( case sponsor )
+                  Row(
+                    children: [
+                      const Text('By', style: TextStyle(color: Colors.grey)),
+                      const SizedBox(width: 4),
+                        Text(
+                          'Unesco',
+                          style: TextStyle(color: authorColor, fontWeight: FontWeight.bold),
+                        ),
+                      const SizedBox(width: 4),
+                        Icon(Icons.check_circle, color: authorColor, size: 16),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  // progress bar
+                  Row(
+                    children: [
+                      Expanded(
+                        child: LinearProgressIndicator(
+                          value: 0.5, // 50% progress
+                          backgroundColor: Colors.grey.shade300,
+                            color: authorColor,
+                          minHeight: 8,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      const Text(
+                        '50%',
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  // donors
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 70,
+                        child: Stack(
+                          children: [
+                            _buildDonorAvatar('assets/images/boarding/boarding3.png'),
+                            Positioned(left: 20, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
+                            Positioned(left: 40, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
+                          ],
+                        ),
+                      ),
+                      const Expanded(
+                        child: Text(
+                          '+12,300 people donated',
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Divider(color: Colors.grey.shade200),
+                  const SizedBox(height: 8),
+                  _buildInfoRow(Icons.folder_open, 'Emergencies'),
+                ],
+              ),
+                ),
+          ],
+        ),
       ),
     );
   }
@@ -437,111 +446,116 @@ class LatestCampaignCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                ),
-                child: Image.asset(
-                  imagePath,
-                    height: 120,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.8),
-                    shape: BoxShape.circle,
-                  ),
-                    child: const Icon(Icons.favorite_border, color: Colors.black54, size: 18),
-                ),
-              ),
-            ],
-          ),
-
-            Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
+    return GestureDetector(
+      onTap: () {
+        Get.to(CampaignDetailsScreen());
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
               children: [
-                const Text(
-                  'Donation for Child',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                  child: Image.asset(
+                    imagePath,
+                      height: 120,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                const SizedBox(height: 4),
-                  const Row(
-                  children: [
-                      Text('By', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                      SizedBox(width: 4),
-                      Text('Unesco', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 12)),
-                      SizedBox(width: 4),
-                    Icon(Icons.check_circle, color: Colors.green, size: 14),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                const Row(
-                  children: [
-                    Text('Raised', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                    Spacer(),
-                    Text('50%',
-                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey, fontSize: 12)),
-                  ],
-                ),
-                const SizedBox(height: 2),
-                LinearProgressIndicator(
-                  value: 0.5,
-                  backgroundColor: Colors.grey.shade300,
-                  color: Colors.green,
-                  minHeight: 6,
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                        SizedBox(
-                        width: 50,
-                        height: 20,
-                          child: Stack(
-                            children: [
-                              _buildDonorAvatar('assets/images/boarding/boarding3.png'),
-                              Positioned(left: 12, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
-                              Positioned(left: 24, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
-                            ],
-                          ),
-                        ),
-                    const Expanded(
-                      child: Text(
-                        '+12,300',
-                        style: TextStyle(color: Colors.grey, fontSize: 11, fontWeight: FontWeight.w500),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.8),
+                      shape: BoxShape.circle,
                     ),
-                  ],
-                )
+                      child: const Icon(Icons.favorite_border, color: Colors.black54, size: 18),
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
+
+              Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Donation for Child',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                    const Row(
+                    children: [
+                        Text('By', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        SizedBox(width: 4),
+                        Text('Unesco', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 12)),
+                        SizedBox(width: 4),
+                      Icon(Icons.check_circle, color: Colors.green, size: 14),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  const Row(
+                    children: [
+                      Text('Raised', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                      Spacer(),
+                      Text('50%',
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey, fontSize: 12)),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  LinearProgressIndicator(
+                    value: 0.5,
+                    backgroundColor: Colors.grey.shade300,
+                    color: Colors.green,
+                    minHeight: 6,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                          SizedBox(
+                          width: 50,
+                          height: 20,
+                            child: Stack(
+                              children: [
+                                _buildDonorAvatar('assets/images/boarding/boarding3.png'),
+                                Positioned(left: 12, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
+                                Positioned(left: 24, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
+                              ],
+                            ),
+                          ),
+                      const Expanded(
+                        child: Text(
+                          '+12,300',
+                          style: TextStyle(color: Colors.grey, fontSize: 11, fontWeight: FontWeight.w500),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

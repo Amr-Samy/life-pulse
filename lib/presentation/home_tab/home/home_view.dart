@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:life_pulse/presentation/home_tab/campaign_details/campaign_details_screen.dart';
+import 'package:life_pulse/presentation/home_tab/home/widgets/quick_donation_sheet_view.dart';
 
 import '../../layout/layout_controller.dart';
 import '../../profile_tab/profile/profile_controller.dart';
@@ -63,6 +64,18 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: "Quick Donation",
+        onPressed: () {
+          showQuickDonationSheet(context);
+        },
+        backgroundColor: ColorManager.primary,
+        child: Image.asset(
+          ImageAssets.quick,
+          width: AppSize.s32,
+          color: Colors.white,
+        )
       ),
     );
   }
@@ -178,6 +191,18 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+  void showQuickDonationSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return const DonationBottomSheet();
+      },
+    );
+  }
 }
 
 AppBar _buildAppBar() {
@@ -238,12 +263,16 @@ Widget _buildDonationWalletCard() {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Column(
+           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  Icon(Icons.wallet_travel, color: Colors.green),
+                  Image.asset(
+                    ImageAssets.wallet,
+                    width: AppSize.s24,
+                    color: Colors.green,
+                  ),
                   SizedBox(width: 8),
                   Text(
                     'Donation wallet',
@@ -570,6 +599,7 @@ class LatestCampaignCard extends StatelessWidget {
         ),
     );
   }
+
 
 
 }

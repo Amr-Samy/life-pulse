@@ -357,6 +357,9 @@ class AppStrings{
   ///
   static const dragItemsHere = "Drag items here";
 
+  static const anonymous = "Donate as Anonymous";
+
+
 }
 String ene = 'en';
 String ara = 'ar';

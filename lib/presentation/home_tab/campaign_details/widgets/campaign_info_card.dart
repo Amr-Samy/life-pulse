@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import '../../../resources/index.dart';
+import '../../donation/donation_screen.dart';
 
 class CampaignInfoCard extends StatelessWidget {
   const CampaignInfoCard({super.key});
@@ -165,7 +166,9 @@ class CampaignInfoCard extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.to(() => const DonationScreen());
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF1DE9B6),
           padding: const EdgeInsets.symmetric(vertical: 16),

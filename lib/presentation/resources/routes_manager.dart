@@ -12,7 +12,6 @@ import 'package:life_pulse/presentation/home_tab/notifications/notifications_vie
 import 'package:life_pulse/presentation/home_tab/payment/confirm_payment/confirm_payment_view.dart';
 import 'package:life_pulse/presentation/home_tab/payment/credit/add_credit_view.dart';
 import 'package:life_pulse/presentation/home_tab/payment/receipt/receipt_view.dart';
-import 'package:life_pulse/presentation/home_tab/payment/select_payment/select_payment_view.dart';
 import 'package:life_pulse/presentation/layout/layout_view.dart';
 import 'package:life_pulse/presentation/onboarding/onboarding_view.dart';
 import 'package:life_pulse/presentation/profile_tab/edit_profile/edit_profile_view.dart';
@@ -91,16 +90,13 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => const HomeView());
       case Routes.notificationsRoute:
         return MaterialPageRoute(builder: (_) => const NotificationsView());
-      case Routes.selectPaymentRoute :
-        return MaterialPageRoute(builder: (_) => const SelectPaymentView());
+
       case Routes.addCreditRoute :
         return MaterialPageRoute(builder: (_) => const AddCreditView());
       case Routes.confirmPaymentRoute :
         return MaterialPageRoute(builder: (_) => const ConfirmPaymentView());
       case Routes.receiptRoute :
         return MaterialPageRoute(builder: (_) => const ReceiptView());
-      case Routes.transactionsRoute :
-        return MaterialPageRoute(builder: (_) => const TransactionsView());
       case Routes.profileRoute :
         return MaterialPageRoute(builder: (_) => const ProfileView());
       case Routes.notificationsSettingsRoute :

@@ -67,8 +67,8 @@ class _HelpCenterViewState extends State<HelpCenterView> with SingleTickerProvid
                         labelPadding: const EdgeInsets.all(0),
                         isScrollable: false,
                         indicatorColor: ColorManager.primary,
-                        labelColor: ColorManager.primary, //<-- selected text color
-                        unselectedLabelColor: const Color.fromARGB(255, 131, 127, 127), //<--
+                        labelColor: ColorManager.primary,
+                        unselectedLabelColor: const Color.fromARGB(255, 131, 127, 127),
 
                         tabs: [
                           SizedBox(
@@ -130,89 +130,55 @@ class FaqTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final contactUsController = Get.find<ContactUsController>(tag: "ContactUsController");
     final scrollController = ScrollController();
-    void setupScrollListener() {
-      scrollController.addListener(() {
-        if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-          if (contactUsController.hasMoreData.value &&
-              !contactUsController.isLoadMoreLoading.value) { //isPageLoading
-            contactUsController.getFAQs(
-              category: "",
-              items: 5,
-              isLoadMore: true,
-            );
-          }
-        }
-      });
-    }
+    // void setupScrollListener() {
+    //   scrollController.addListener(() {
+    //     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+    //       if (contactUsController.hasMoreData.value &&
+    //           !contactUsController.isLoadMoreLoading.value) { //isPageLoading
+    //         contactUsController.getFAQs(
+    //           category: "",
+    //           items: 5,
+    //           isLoadMore: true,
+    //         );
+    //       }
+    //     }
+    //   });
+    // }
+    // setupScrollListener();
 
-    setupScrollListener();
-
-    return Obx(
-      () => contactUsController.isPageLoading.value
-          ? SizedBox(
-              height: MediaQuery.of(context).size.height / 1.3,
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ))
-          : Column(
-              children: [
-                ///Filters
-                Obx(
-                  () => SizedBox(
-                    height: AppSize.s40,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Obx(
-                          () => ToggleButton(
-                            text: "q",
-                            isSelected: index ==1? true : false,
-                            onTap: () {
-
-                            },
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => SizedBox(width: AppPadding.p8),
-                      itemCount: 3,
-                    ),
-                  ),
-                ),
-                SizedBox(height: AppPadding.p16),
-                // * FAQ //
-                Expanded(
-                  //NotificationListener<ScrollNotification>
-                  child: ListView.separated(
-                    key: const ValueKey('controllerA'),
-                    controller: scrollController,
-                    shrinkWrap: true,
-                    itemCount: contactUsController.faqsList.length +
-                            ((contactUsController.hasMoreData.value && contactUsController.isLoadMoreLoading.value) ? 1 : 0),
-
-                    scrollDirection: Axis.vertical,
-                    // physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      if (index >= contactUsController.faqsList.length) {
-                        return const Center(
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      }
-                      return FaqCard(
-                        question: contactUsController.faqsList[index].question ?? "",
-                        answer: contactUsController.faqsList[index].answer ?? "",
-                      );
-                    },
-                    separatorBuilder: (context, index) => SizedBox(height: AppPadding.p16),
-                  ),
-                ),
-                SizedBox(height: AppPadding.p16),
-
-              ],
-            ),
-    );
+    return
+      // contactUsController.isPageLoading.value
+      //     ? SizedBox(
+      //         height: MediaQuery.of(context).size.height / 1.3,
+      //         child: const Center(
+      //           child: CircularProgressIndicator(),
+      //         ))
+      //     :
+      ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: const [
+          FaqTile(
+            question: 'What is Dona?',
+            answer: 'In the bustling city of Dentropolis, Sharky, the tooth-brushing shark superhero, patrolled the streets with a toothbrush in hand and a fin-toothed grin.',
+          ),
+          FaqTile(
+            question: 'How to use Dona?',
+            answer: 'Detailed instructions on how to use the Dona app.',
+          ),
+          FaqTile(
+            question: 'Dona is Free?',
+            answer: 'Information about the pricing and free features of Dona.',
+          ),
+          FaqTile(
+            question: 'Why use Dona?',
+            answer: 'Explanation of the benefits and key features of using Dona.',
+          ),
+          FaqTile(
+            question: 'How I can delete all Dona?',
+            answer: 'Instructions on how to delete your data from Dona will be provided here.',
+          ),
+        ],
+      ) ;
   }
 }
 
@@ -232,13 +198,7 @@ class ContactUsTab extends StatelessWidget {
       child: ListView(
         shrinkWrap: true,
         children: [
-          CustomCard(
-            icon: ImageAssets.service,
-            title: AppStrings.customerService.tr,
-            onTap: () {
-              Get.toNamed(Routes.supportChatView);
-            },
-          ),
+          /// Whats app
           CustomCard(
             icon: ImageAssets.whatsapp,
             title: AppStrings.whatsApp.tr,
@@ -256,35 +216,81 @@ class ContactUsTab extends StatelessWidget {
             leadingWidth: AppSize.s28,
             leadingHeight: AppSize.s28,
           ),
+
           CustomCard(
             icon: ImageAssets.web,
             title: AppStrings.website.tr,
             onTap: () {
-              contactUsController.launchLink(url: contactUsController.contactUs?.website);
+              contactUsController.launchLink(url: "https://www.moss.gov.eg/ar-eg/Pages/default.aspx");
             },
           ),
           CustomCard(
             icon: ImageAssets.f,
             title: AppStrings.facebook.tr,
             onTap: () {
-              contactUsController.launchLink(url: contactUsController.contactUs?.facebook);
+              contactUsController.launchLink(url: "https://web.facebook.com/MoSS.Egypt/");
             },
           ),
           CustomCard(
             icon: ImageAssets.x,
             title: AppStrings.x.tr,
             onTap: () {
-              contactUsController.launchLink(url: contactUsController.contactUs?.twitter);
+              contactUsController.launchLink(url: "https://x.com/Moss_Egypt/");
             },
           ),
           CustomCard(
             icon: ImageAssets.i,
             title: AppStrings.instagram.tr,
             onTap: () {
-              contactUsController.launchLink(url: contactUsController.contactUs?.instagram);
+              contactUsController.launchLink(url: "https://www.instagram.com/Moss.Egypt/");
             },
           ),
         ],
+      ),
+    );
+  }
+}
+
+class FaqTile extends StatelessWidget {
+  final String question;
+  final String answer;
+
+  const FaqTile({
+    super.key,
+    required this.question,
+    required this.answer,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: AppPadding.p16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: ExpansionTile(
+          shape: const Border(),
+          collapsedShape: const Border(),
+          title: Text(
+            question,
+            style: TextStyle(fontWeight: FontWeight.bold, color: theme.textTheme.bodyMedium?.color, fontSize: FontSize.s16),
+          ),
+          // The content to show when expanded (the answer)
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: Text(
+              answer,
+              style: theme.textTheme.bodyMedium?.copyWith(height: 1.5),
+            ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -5,6 +5,8 @@ import 'package:life_pulse/presentation/widgets/button.dart';
 import 'package:life_pulse/presentation/widgets/drop_down.dart';
 import 'package:life_pulse/presentation/widgets/input_field.dart';
 
+import '../../widgets/custom_text_field.dart';
+
 class EditProfileView extends StatefulWidget {
   const EditProfileView({super.key});
 
@@ -35,22 +37,58 @@ class _EditProfileViewState extends State<EditProfileView> {
         padding: EdgeInsets.symmetric(horizontal: AppPadding.p16),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+            SizedBox(height: AppMargin.m16,),
+            // Avatar
+            Center(
+              child: Stack(
+                children: [
+                  const CircleAvatar(
+                    radius: 60,
+                    backgroundColor: Color(0xFFF1F1F1),
+                    child: Icon(
+                      Icons.sync, // Placeholder icon similar to the image
+                      color: Colors.grey,
+                      size: 50,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
-              SizedBox(height: AppMargin.m16,),
-
-              InputField(
-                controller: profileController.fullNameTextController,
-                hintText: AppStrings.fullName.tr,
-                keyboardType: TextInputType.name,
+            SizedBox(height: AppMargin.m40,),
+              /// Full Name
+              CustomTextField(
+                  hintText: AppStrings.fullName.tr,
+                  keyboardType: TextInputType.name,
                 onFieldSubmitted: (text){
 
                 },
+                controller: profileController.fullNameTextController,
               ),
 
               SizedBox(height: AppMargin.m16,),
-
-              InputField(
+              /// Nickname
+              CustomTextField(
                 controller: profileController.nicknameTextController,
                 hintText: AppStrings.nickname.tr,
                 keyboardType: TextInputType.name,
@@ -60,14 +98,13 @@ class _EditProfileViewState extends State<EditProfileView> {
               ),
 
               SizedBox(height: AppMargin.m16,),
-
-
-              SizedBox(height: AppMargin.m16,),
-
-              InputField(
+              /// Email
+              CustomTextField(
                 controller: profileController.emailTextController,
-                hintText: AppStrings.email.tr,
+                // hintText: AppStrings.email.tr,
+                hintText: "mail@example.com",
                 keyboardType: TextInputType.emailAddress,
+                enabled: false,
                 onFieldSubmitted: (text){
 
                 },
@@ -75,57 +112,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
               SizedBox(height: AppMargin.m20,),
 
-              Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.all(Radius.circular(AppSize.s8)),
-                ),
-                child: CountryCodePicker(
-                  padding: const EdgeInsetsDirectional.all(0),
-                  alignLeft: true ,
-                  onChanged: (code) {
-
-                  },
-                  dialogBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  showCountryOnly: true,
-                  showOnlyCountryWhenClosed: true,
-                  showDropDownButton: true,
-                  dialogTextStyle: getSemiBoldStyle(
-                      color: Theme.of(context).textTheme.bodyLarge!.color!,
-                      fontSize: FontSize.s16),
-                  textStyle: getSemiBoldStyle(
-                      color: Theme.of(context).textTheme.bodyLarge!.color!,
-                      fontSize: FontSize.s16),
-                  barrierColor: Theme.of(context).cardColor,
-                  searchStyle: getSemiBoldStyle(
-                      color: Theme.of(context).textTheme.bodyLarge!.color!,
-                      fontSize: FontSize.s16),
-                  //TODO remove he
-                  // countryFilter: ['he','iw'],
-                ),
-              ),
-
-              SizedBox(height: AppMargin.m20,),
-
-               CommonDropdownButton(
-                    hintText: AppStrings.language.tr,
-                    chosenValue: profileController.selectedFavLanguage,
-                    itemsList: profileController.languages,
-                    onChanged: (value) {
-                        profileController.selectedFavLanguage!.value = value;
-                        for (var language in profileController.languageList) {
-                          if (language.name == value) {
-                            profileController.favLangId = language.id;
-                            break;
-                          }
-                        }
-                    }
-                ),
-
-              SizedBox(height: AppMargin.m16,),
-
-
+              // phone
               InputField(
                 controller: profileController.phoneTextController,
                 hintText: AppStrings.phoneNumber.tr,
@@ -140,8 +127,13 @@ class _EditProfileViewState extends State<EditProfileView> {
                     onChanged: (code) {
 
                     },
+                    boxDecoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    initialSelection: "EG",
                     dialogBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    backgroundColor: Colors.white,
                     // showDropDownButton: true,
                     dialogTextStyle: getSemiBoldStyle(
                         color: Theme.of(context).textTheme.bodyLarge!.color!,
@@ -153,8 +145,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                     searchStyle: getSemiBoldStyle(
                         color: Theme.of(context).textTheme.bodyLarge!.color!,
                         fontSize: FontSize.s16),
-                    //TODO remove he
-                    // countryFilter: ['he','iw'],
                   ),
                 ),
               ),
@@ -164,18 +154,20 @@ class _EditProfileViewState extends State<EditProfileView> {
           ),
         ),
       ),
-      bottomSheet:  Padding(
+      bottomNavigationBar: Padding(
         padding: EdgeInsets.only(
           left: AppPadding.p16,
           right: AppPadding.p16,
           bottom: AppPadding.p16,
         ),
         child: CustomButton(
-          loading: profileController.isLoading.value,
+          // loading: profileController.isLoading.value,
+          loading: false,
           onTap: (){
-            profileController.editProfile();
+            // profileController.editProfile();
           },
           textButton: AppStrings.update.tr,
+          color: Colors.green,
         ),
       ),
     );

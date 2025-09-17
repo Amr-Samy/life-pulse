@@ -124,6 +124,11 @@ class ImageAssets {
   static const String  image = '$lightIconPath/Image.png';
   static const String  leftArrow = '$lightIconPath/left.png';
   static const String  rightArrow = '$lightIconPath/right.png';
+  static const String  editUsers = '$lightIconPath/user-edit.png';
+  static const String  anonymous = '$lightIconPath/anonymous.png';
+  static const String  quick = '$lightIconPath/light_flash.png';
+  static const String  donateHeartFlower = '$lightIconPath/donate-heart-flower.png';
+
 }
 
 class AudioAssets{

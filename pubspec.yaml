@@ -70,16 +70,26 @@ flutter:
     - assets/icons/bulk/pdf.png
     - assets/icons/curved/
     - assets/icons/light/
+    - assets/icons/light/anonymous.png
+    - assets/icons/light/donate-heart-flower.png
+    - assets/icons/light/donate-heart.png
+    - assets/icons/light/donate.png
+    - assets/icons/light/light_flash.png
+    - assets/icons/light/user-edit.png
     - assets/images/
+    - assets/images/background_pattern.png
     - assets/images/boarding/boarding1.png
     - assets/images/boarding/boarding2.png
     - assets/images/boarding/boarding3.png
     - assets/images/home/
+    - assets/images/master.png
+    - assets/images/meeza.png
     - assets/images/notifications/
     - assets/images/profile_placeholder.png
     - assets/images/splash/
     - assets/images/splash/dark_splash_logo_12.png
     - assets/images/splash/light_splash_logo_12.png
+    - assets/images/visa.png
 #    - assets/audio/
 
   fonts:

@@ -1,58 +1,85 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:life_pulse/presentation/transations_tab/widgets/search_bar_widget.dart';
+import 'package:life_pulse/presentation/transations_tab/widgets/section_header_widget.dart';
+import 'package:life_pulse/presentation/transations_tab/widgets/transaction_list_item_widget.dart';
+import 'transactions_controller.dart';
 
-import 'package:life_pulse/presentation/resources/index.dart';
-import 'package:life_pulse/presentation/widgets/empty_state_place_holder.dart';
-import 'package:life_pulse/presentation/widgets/transaction_item.dart';
-class TransactionsView extends StatefulWidget {
-  const TransactionsView({super.key});
-  @override
-  State<TransactionsView> createState() => _TransactionsViewState();
-}
-class _TransactionsViewState extends State<TransactionsView> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class TransactionsScreen extends StatelessWidget {
+  const TransactionsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return isGuest() ?
-      Scaffold(
-        body: GestureDetector(
-          onTap: (){
-            Navigator.pushNamed(context, Routes.letsInRoute);
-          },
-          child: EmptyStateHolder(
-              image: ImageAssets.profile,
-              description: AppStrings.logInHint.tr
-          ),
-        ),
-      ):
-      Scaffold(
-      appBar: ApplicationToolbar(
-        leading: ImageAssets.leadingLogo,
-        title: AppStrings.transactions.tr,
-        actions:  const [],
-      ),
-      body: Padding(
-        padding: EdgeInsets.only(top: AppPadding.p16,left: AppPadding.p16,right: AppPadding.p16),
-        child: Obx(
-          ()=>
-          // ListView.separated(
-          //   shrinkWrap: true,
-          //   itemCount: enrollmentController.transactionsList.length,
-          //   itemBuilder: (context, index) => TransactionItem(
-          //     image: enrollmentController.transactionsList[index].course?.imageUrl ??"",
-          //     title: enrollmentController.transactionsList[index].course?.name ??"",
-          //     tags: [enrollmentController.transactionsList[index].status ??"",],
-          //     onTap: () {
-          //       //TODO if paid
-          //       enrollmentController.getReceipt(enrollmentController.transactionsList[index].id ??0);
-          //       Navigator.pushNamed(context, Routes.receiptRoute);
-          //     },
-          //   ),
-          //   separatorBuilder: (context, index) =>
-          //       SizedBox(height: AppPadding.p16),
-          // ) :
-           EmptyStateHolder(image: ImageAssets.buy,description: AppStrings.empty.tr),
+    // Initialize the controller
+    final TransactionsController controller = Get.put(TransactionsController());
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8FDF7),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Custom App Bar
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  const SizedBox(width: 8),
+                  const Text(
+                    'Transactions',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Search Bar
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: SearchBarWidget(),
+            ),
+            // Transaction List
+            Expanded(
+              child: Obx(() {
+                if (controller.groupedTransactions.isEmpty) {
+                  return const Center(child: Text("No transactions found."));
+                }
+                // Using ListView.builder for performance
+                return ListView.builder(
+                  itemCount: controller.groupedTransactions.keys.length,
+                  itemBuilder: (context, index) {
+                    final String month =
+                    controller.groupedTransactions.keys.elementAt(index);
+                    final transactions = controller.groupedTransactions[month]!;
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SectionHeaderWidget(title: month),
+                        // Using ListView.separated to add dividers
+                        ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(), // Important for nested lists
+                          shrinkWrap: true,
+                          itemCount: transactions.length,
+                          itemBuilder: (context, itemIndex) {
+                            return TransactionListItemWidget(
+                                transaction: transactions[itemIndex]);
+                          },
+                          separatorBuilder: (context, index) => const Divider(
+                            height: 1,
+                            indent: 16,
+                            endIndent: 16,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }),
+            ),
+          ],
         ),
       ),
     );

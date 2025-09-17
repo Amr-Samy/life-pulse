@@ -15,8 +15,8 @@ class LayoutView extends StatefulWidget {
 class _LayoutViewState extends State<LayoutView> {
   final layoutController = Get.put(LayoutController(),tag: "LayoutController");
   List<Widget> screens = [
-    const HomeView(),       //1
-    const TransactionsView(),
+    const HomeView(),
+    const TransactionsScreen(),
     const ProfileView(),
   ];
   final profileController = Get.put(
@@ -49,20 +49,26 @@ class _LayoutViewState extends State<LayoutView> {
                   ImageAssets.home,
                   height: AppSize.s24,
                 ),
-                selectedIcon: Image.asset(
-                  ImageAssets.homeSelected,
-                  height: AppSize.s24,
+                selectedIcon: ColorFiltered(
+                  colorFilter: const ColorFilter.mode(Colors.green, BlendMode.srcIn),
+                  child: Image.asset(
+                    ImageAssets.homeSelected,
+                    height: AppSize.s24,
+                  ),
                 ),
                 label: AppStrings.home.tr,
               ),
               NavigationDestination(
                 icon: Image.asset(
-                  ImageAssets.buy,
+                  ImageAssets.doc,
                   height: AppSize.s24,
                 ),
-                selectedIcon: Image.asset(
-                  ImageAssets.buySelected,
-                  height: AppSize.s24,
+                selectedIcon: ColorFiltered(
+                  colorFilter: const ColorFilter.mode(Colors.green, BlendMode.srcIn),
+                  child: Image.asset(
+                    ImageAssets.docSelected,
+                    height: AppSize.s24,
+                  ),
                 ),
                 label: AppStrings.transactions.tr,
               ),
@@ -71,9 +77,12 @@ class _LayoutViewState extends State<LayoutView> {
                   ImageAssets.profile,
                   height: AppSize.s24,
                 ),
-                selectedIcon: Image.asset(
-                  ImageAssets.profileSelected,
-                  height: AppSize.s24,
+                selectedIcon: ColorFiltered(
+                  colorFilter: const ColorFilter.mode(Colors.green, BlendMode.srcIn),
+                  child: Image.asset(
+                    ImageAssets.profileSelected,
+                    height: AppSize.s24,
+                  ),
                 ),
                 label: AppStrings.profile.tr,
               ),

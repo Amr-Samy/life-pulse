@@ -1,10 +1,10 @@
-import 'package:life_pulse/app/app.dart';
+import 'package:flutter/foundation.dart';
 import 'package:life_pulse/presentation/layout/layout_view.dart';
 import 'package:life_pulse/presentation/resources/index.dart';
 import 'package:life_pulse/presentation/widgets/button.dart';
-import 'package:life_pulse/presentation/widgets/empty_state_place_holder.dart';
 import '../../widgets/setting_tile.dart';
 import '../../widgets/switch.dart';
+import '../partners/success_partners_screen.dart';
 import 'profile_controller.dart';
 
 class ProfileView extends StatefulWidget {
@@ -18,6 +18,8 @@ class _ProfileViewState extends State<ProfileView> {
   final profileController = Get.find<ProfileController>(tag: "ProfileController");
 
   bool isLightMode = false;
+  bool _isAnonymous = true;
+
   @override
   void initState() {
     super.initState();
@@ -25,105 +27,31 @@ class _ProfileViewState extends State<ProfileView> {
   }
   @override
   Widget build(BuildContext context) {
-    return isGuest() ?
+    return
+      // isGuest() ?
+      // Scaffold(
+      //   body: GestureDetector(
+      //     onTap: (){
+      //       Navigator.pushNamed(context, Routes.letsInRoute);
+      //     },
+      //     child:  EmptyStateHolder(
+      //         image: ImageAssets.profile,
+      //         description: AppStrings.logInHint.tr
+      //     ),
+      //   ),
+      // ):
       Scaffold(
-        body: GestureDetector(
-          onTap: (){
-            Navigator.pushNamed(context, Routes.letsInRoute);
-          },
-          child:  EmptyStateHolder(
-              image: ImageAssets.profile,
-              description: AppStrings.logInHint.tr
-          ),
-        ),
-      ):
-      Scaffold(
-      appBar: ApplicationToolbar(
-      leading: ImageAssets.leadingLogo,
-      title: AppStrings.profile.tr,
-        actions: const [
-          SizedBox.shrink(),
-        ],
-      ),
-
      body: SingleChildScrollView(
       child: Column(
         children: [
-          Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              CircleAvatar(
-                radius: AppSize.s48,
-                backgroundColor: ColorManager.lightPrimary,
-                child: Obx(
-                    ()=> ClipRRect(
-                      borderRadius: BorderRadius.circular(AppSize.s48),
-                      child:
-                      Image.network(
-                          AppStrings.baseUrl+(profileController.studentImage.value),
-                        height: double.infinity,
-                        width: double.infinity,
-                      fit: BoxFit.cover,
-                      )
-                    ),
-                ),
-              ),
-              GestureDetector(
-                onTap: (){
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s8),
-                    color: ColorManager.primary,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(AppPadding.p4),
-                    child: Icon(
-                      Icons.edit,
-                      size: AppSize.s18,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          _ProfileHeader(isAnonymous: _isAnonymous),
 
-          SizedBox(height: AppMargin.m16,),
-
-          Obx(
-            ()=> Text(
-              profileController.studentName.value,
-              style: getSemiBoldStyle(
-                  color: Get.textTheme.displayLarge!.color!,
-                  fontSize: FontSize.s26
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-
-          Obx(
-            ()=> Text(
-              profileController.studentEmail.value,
-              style: getLightStyle(
-                  color: Get.textTheme.displayLarge!.color!,
-                  fontSize: FontSize.s16),
-            ),
-          ),
-
-          SizedBox(height: AppMargin.m16,),
-
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: AppPadding.p8,),
-            child: Divider(
-              height: AppSize.s2,
-              thickness: AppSize.s02,
-              endIndent: AppPadding.p16,
-              indent: AppPadding.p16,
-            ),
-          ),
+          const SizedBox(height: 24),
+          const _DonationWalletCard(),
+          const SizedBox(height: 24),
 
           SettingTile(
-            icon: ImageAssets.profile,
+            icon: ImageAssets.editUsers,
             title: AppStrings.editProfile.tr,
             onTap: () {
               Navigator.pushNamed(context, Routes.editProfileRoute);
@@ -135,44 +63,35 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           ),
 
+          SettingTile(
+            icon: ImageAssets.anonymous,
+            title: AppStrings.anonymous.tr,
+            onTap: () {
+              // _isAnonymous = value;
+            },
+            trailing: StyledSwitch(
+              onToggled: (bool isToggled) {
+                setState(() {
+                  _isAnonymous = isToggled;
+                });
+              },
+              isToggled: _isAnonymous,
+            ),
+          ),
 
-          /// Notifications
-          // SettingTile(
-          //   icon: ImageAssets.notification,
-          //   title: AppStrings.notifications.tr,
-          //   onTap: () {
-          //     Navigator.pushNamed(context, Routes.notificationsSettingsRoute);
-          //   },
-          //   trailing: Icon(
-          //     Icons.arrow_forward_ios_rounded,
-          //     color: Theme.of(context).textTheme.displayLarge!.color!,
-          //     size: AppSize.s20,
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          //   child: _MenuList(
+          //     isAnonymous: _isAnonymous,
+          //     onAnonymousToggle: (value) {
+          //       setState(() {
+          //         _isAnonymous = value;
+          //       });
+          //     },
           //   ),
           // ),
-          /// Payment
-          SettingTile(
-            icon: ImageAssets.wallet,
-            title: AppStrings.payment.tr,
-            onTap: () {  },
-            trailing: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: Theme.of(context).textTheme.displayLarge!.color!,
-              size: AppSize.s20,
-            ),
-          ),
-          /// Security
-          SettingTile(
-            icon: ImageAssets.security,
-            title: AppStrings.security.tr,
-            onTap: () {
-              Navigator.pushNamed(context, Routes.securitySettingsRoute);
-            },
-            trailing: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: Theme.of(context).textTheme.displayLarge!.color!,
-              size: AppSize.s20,
-            ),
-          ),
+
+
           /// Language
           SettingTile(
             icon: ImageAssets.language,
@@ -184,7 +103,7 @@ class _ProfileViewState extends State<ProfileView> {
               child: Row(
                 children: [
                   Text(
-                    profileController.getCurrentLanguageName(context), // Dynamic language name
+                    profileController.getCurrentLanguageName(context),
                     style: getRegularStyle(
                       color: Theme.of(context).textTheme.displayLarge!.color!,
                       fontSize: FontSize.s16,
@@ -200,27 +119,27 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           ),
           ///Theme
-          SettingTile(
-            icon: ImageAssets.theme,
-            title: AppStrings.darkMode.tr,
-            onTap: () {
-              ThemeService().switchTheme();
-              isLightMode = !isLightMode;
-            },
-            trailing: StyledSwitch(
-              onToggled: (bool isToggled) {
-                ThemeService().switchTheme();
-                isLightMode = !isLightMode;
-              },
-              isToggled: isLightMode,
-            ),
-          ),
+          // SettingTile(
+          //   icon: ImageAssets.theme,
+          //   title: AppStrings.darkMode.tr,
+          //   onTap: () {
+          //     ThemeService().switchTheme();
+          //     isLightMode = !isLightMode;
+          //   },
+          //   trailing: StyledSwitch(
+          //     onToggled: (bool isToggled) {
+          //       ThemeService().switchTheme();
+          //       isLightMode = !isLightMode;
+          //     },
+          //     isToggled: isLightMode,
+          //   ),
+          // ),
           /// Terms & Conditions
           SettingTile(
             icon: ImageAssets.locked,
             title: AppStrings.privacyPolicy.tr,
             onTap: () {
-              Navigator.pushNamed(context, Routes.privacyPolicyRoute);
+              // Navigator.pushNamed(context, Routes.privacyPolicyRoute);
             },
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
@@ -242,6 +161,21 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           ),
 
+          //Success partners ( Hidden on release )
+          if (!kReleaseMode)
+            SettingTile(
+            icon: ImageAssets.donateHeartFlower,
+            title: "شركاء النجاح",
+            onTap: () {
+              Get.to(SuccessPartnersScreen());
+            },
+            trailing: Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Theme.of(context).textTheme.displayLarge!.color!,
+              size: AppSize.s20,
+            ),
+          ),
+
           SettingTile(
             icon: ImageAssets.users,
             title: AppStrings.inviteFriends.tr,
@@ -255,7 +189,7 @@ class _ProfileViewState extends State<ProfileView> {
               size: AppSize.s20,
             ),
           ),
-
+          ///Logout
           ColorFiltered(
             colorFilter: ColorFilter.mode(
                 ColorManager.error,
@@ -369,6 +303,178 @@ class _ProfileViewState extends State<ProfileView> {
 
             ],
           )),
+    );
+  }
+
+}
+
+class _ProfileHeader extends StatelessWidget {
+  final bool isAnonymous;
+
+  const _ProfileHeader({required this.isAnonymous});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipPath(
+      clipper: WaveClipper(),
+      child: Container(
+        height: 220,
+        decoration: const BoxDecoration(
+          color: Color(0xFFD7F0E3),
+        ),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/background_pattern.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Stack(
+                      children: [
+                         CircleAvatar(
+                          radius: 35,
+                           backgroundColor: Colors.white,
+                          backgroundImage: AssetImage(
+                            isAnonymous
+                                ? ImageAssets.anonymous
+                                : 'assets/images/profile_placeholder.png',
+                        ),
+                        ),
+                        if (!isAnonymous)
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Container(
+                            width: 15,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: const Color(0xFFD7F0E3), width: 2),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(width: 15),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          isAnonymous ? 'Hello, Anonymous' : 'Hello, Mr Dat',
+                          style: const TextStyle(
+                            color: Color(0xFF1E2F38),
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        if (!isAnonymous)
+                        Text(
+                          'Donated \$150K',
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class WaveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, size.height - 50);
+    var firstControlPoint = Offset(size.width / 4, size.height);
+    var firstEndPoint = Offset(size.width / 2, size.height - 30.0);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
+
+    var secondControlPoint =
+    Offset(size.width - (size.width / 4), size.height - 60);
+    var secondEndPoint = Offset(size.width, size.height - 80);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondEndPoint.dx, secondEndPoint.dy);
+
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+class _DonationWalletCard extends StatelessWidget {
+  const _DonationWalletCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: const Color(0xFF00C853),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'Donation wallet',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  '\$500.00',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              ),
+              child: const Text('Top up'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

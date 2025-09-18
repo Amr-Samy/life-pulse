@@ -1,4 +1,4 @@
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:life_pulse/presentation/auth/sign_up/signUp_strategy.dart';
 import 'package:life_pulse/presentation/auth/sign_up/signUp_viewmodel.dart';
 import 'package:life_pulse/presentation/resources/index.dart';
@@ -22,7 +22,7 @@ class _SignUpViewState extends State<SignUpView> {
   final signUpController = Get.put(SignUpController(
     registrationFactory: RegistrationFactory(
       Api(),
-      GoogleSignIn(),
+      // GoogleSignIn(),
     ),
   ));
   @override

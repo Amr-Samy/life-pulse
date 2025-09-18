@@ -1,4 +1,4 @@
-package com.wolphin.mobeen
+package com.life.pulse
 
 import io.flutter.embedding.android.FlutterActivity
 

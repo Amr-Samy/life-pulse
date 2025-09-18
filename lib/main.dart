@@ -9,16 +9,10 @@ import 'app/app.dart';
 
 void main() async{
   await GetStorage.init();
-  // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // GlobalBindings().dependencies();
-  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Future.delayed(const Duration(milliseconds: 150));
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
-  final secureStorage = TokenStorage();
-  // await secureStorage.initializeCache();
   runApp( DevicePreview(
     // enabled: !kReleaseMode,
     enabled: false,

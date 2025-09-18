@@ -1,4 +1,3 @@
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:life_pulse/presentation/resources/index.dart';
 import 'package:life_pulse/presentation/widgets/button.dart';
 import 'package:life_pulse/presentation/widgets/divider.dart';
@@ -14,19 +13,19 @@ class LetsInView extends StatelessWidget {
   const LetsInView({super.key});
   @override
   Widget build(BuildContext context) {
-    final signInController = Get.put(
-        SignInController(
-          authFactory: AuthenticationFactory(
-            Api(), // Your API instance
-            GoogleSignIn(
-              scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
-              serverClientId: AppStrings.serverClientId,
-            ), // Your GoogleSignIn instance
-          ),
-          secureStorage: TokenStorage(), // Your secure storage instance
-        ),
-        tag: "SignInController"
-    );
+    // final signInController = Get.put(
+    //     SignInController(
+    //       authFactory: AuthenticationFactory(
+    //         Api(), // Your API instance
+    //         GoogleSignIn(
+    //           scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
+    //           serverClientId: AppStrings.serverClientId,
+    //         ), // Your GoogleSignIn instance
+    //       ),
+    //       secureStorage: TokenStorage(), // Your secure storage instance
+    //     ),
+    //     tag: "SignInController"
+    // );
 
     return Scaffold(
       body: Padding(
@@ -51,7 +50,7 @@ class LetsInView extends StatelessWidget {
               icon: ImageAssets.facebook,
               textButton: AppStrings.cwf.tr,
               onTap: () {
-                signInController.signInWithFacebook();
+                // signInController.signInWithFacebook();
               },
             ),
             ///signInWithGoogle
@@ -59,7 +58,7 @@ class LetsInView extends StatelessWidget {
               icon: ImageAssets.google,
               textButton: AppStrings.cwg.tr,
               onTap: () {
-                signInController.signInWithGoogle();
+                // signInController.signInWithGoogle();
               },
             ),
             TextIconButton(

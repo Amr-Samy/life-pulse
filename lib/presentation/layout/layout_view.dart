@@ -1,5 +1,5 @@
 
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:life_pulse/presentation/home_tab/home/home_view.dart';
 import 'package:life_pulse/presentation/layout/layout_controller.dart';
 import 'package:life_pulse/presentation/profile_tab/profile/profile_controller.dart';
@@ -21,10 +21,10 @@ class _LayoutViewState extends State<LayoutView> {
   ];
   final profileController = Get.put(
       ProfileController(
-        googleSignIn: GoogleSignIn(
-          scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
-          serverClientId: AppStrings.serverClientId,
-        ),
+        // googleSignIn: GoogleSignIn(
+        //   scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
+        //   serverClientId: AppStrings.serverClientId,
+        // ),
       ),
       tag: "ProfileController"
   );

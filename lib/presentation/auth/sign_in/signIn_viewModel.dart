@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:life_pulse/data/model/signIn.dart';
 import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/resources/assets_manager.dart';
@@ -50,18 +50,18 @@ class SignInController extends GetxController {
 
       AuthenticationStrategy strategy;
 
-      if (method == AuthMethod.email) {
-        strategy = authFactory.createStrategy(
-          method,
-          email: emailTextController.text,
-          password: passwordTextController.text,
-      );
-      } else {
-        strategy = authFactory.createStrategy(method);
-      }
+      // if (method == AuthMethod.email) {
+      //   strategy = authFactory.createStrategy(
+      //     method,
+      //     email: emailTextController.text,
+      //     password: passwordTextController.text,
+      // );
+      // } else {
+      //   strategy = authFactory.createStrategy(method);
+      // }
 
-      final token = await strategy.authenticate();
-      await secureStorage.saveToken(token);
+      // final token = await strategy.authenticate();
+      // await secureStorage.saveToken(token);
 
       Get.offAllNamed(Routes.mainRoute);
 

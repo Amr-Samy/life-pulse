@@ -6,7 +6,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:life_pulse/data/model/languages.dart';
 import 'package:life_pulse/data/network/api.dart';
@@ -20,8 +20,8 @@ import '../../resources/routes_manager.dart';
 import '../../resources/strings_manager.dart';
 import '../../widgets/dialog.dart';
 class ProfileController extends GetxController{
-  final GoogleSignIn _googleSignIn;
-  ProfileController({required GoogleSignIn googleSignIn}) : _googleSignIn = googleSignIn;
+  // final GoogleSignIn _googleSignIn;
+  // ProfileController({required GoogleSignIn googleSignIn}) : _googleSignIn = googleSignIn;
   RxBool isLoading = true.obs;
   RxString studentName = ''.obs;
   RxString studentEmail = ''.obs;
@@ -145,10 +145,10 @@ class ProfileController extends GetxController{
     final secureStorage = TokenStorage();
     secureStorage.deleteToken();
     Get.deleteAll();
-    if (await _googleSignIn.isSignedIn()) {
-    await _googleSignIn.signOut();
-    debugPrint("Google Sign-In session cleared");
-    }
+    // if (await _googleSignIn.isSignedIn()) {
+    // await _googleSignIn.signOut();
+    // debugPrint("Google Sign-In session cleared");
+    // }
 
     // Get.offAllNamed(Routes.letsInRoute);
   }

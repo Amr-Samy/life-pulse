@@ -1,5 +1,3 @@
-
-// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:life_pulse/presentation/home_tab/home/home_view.dart';
 import 'package:life_pulse/presentation/layout/layout_controller.dart';
 import 'package:life_pulse/presentation/profile_tab/profile/profile_controller.dart';
@@ -20,25 +18,19 @@ class _LayoutViewState extends State<LayoutView> {
     const ProfileView(),
   ];
   final profileController = Get.put(
-      ProfileController(
-        // googleSignIn: GoogleSignIn(
-        //   scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
-        //   serverClientId: AppStrings.serverClientId,
-        // ),
-      ),
+      ProfileController(),
       tag: "ProfileController"
   );
   @override
   void initState() {
     super.initState();
-    // isGuest() ?(){} : profileController.getStudentData();
-
+    isGuest() ?(){} : profileController.fetchUserProfile();
   }
 
   @override
   Widget build(BuildContext context) {
     return  WillPopScope(
-      //back button disabled
+      //?back button disabled
       onWillPop: () async => false,
       child: Scaffold(
         bottomNavigationBar: Obx(

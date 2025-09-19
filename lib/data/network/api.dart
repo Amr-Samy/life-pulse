@@ -11,7 +11,7 @@ class Api {
   final dio = createDio();
   String _token = "";
   String _apiKey = "";
-  String _languageCode = 'en'; // Default to English
+  String _languageCode = 'en';
 
   Api._internal();
 
@@ -26,7 +26,7 @@ class Api {
 
   static Dio createDio() {
     var dio = Dio(BaseOptions(
-      baseUrl: "https://mobeen-ar.com/api/students/v1/",
+      baseUrl: "https://nabd.kirellos.com/api/",
       contentType: Headers.jsonContentType,
         validateStatus: (int? status) {
           return status != null;

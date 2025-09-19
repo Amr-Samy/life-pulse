@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:life_pulse/presentation/layout/layout_view.dart';
 import 'package:life_pulse/presentation/resources/index.dart';
 import 'package:life_pulse/presentation/widgets/button.dart';
+import '../../widgets/empty_state_place_holder.dart';
 import '../../widgets/setting_tile.dart';
 import '../../widgets/switch.dart';
 import '../partners/success_partners_screen.dart';
@@ -28,18 +29,18 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return
-      // isGuest() ?
-      // Scaffold(
-      //   body: GestureDetector(
-      //     onTap: (){
-      //       Navigator.pushNamed(context, Routes.letsInRoute);
-      //     },
-      //     child:  EmptyStateHolder(
-      //         image: ImageAssets.profile,
-      //         description: AppStrings.logInHint.tr
-      //     ),
-      //   ),
-      // ):
+      isGuest() ?
+      Scaffold(
+        body: GestureDetector(
+          onTap: (){
+            Navigator.pushNamed(context, Routes.letsInRoute);
+          },
+          child:  EmptyStateHolder(
+              image: ImageAssets.profile,
+              description: AppStrings.logInHint.tr
+          ),
+        ),
+      ):
       Scaffold(
      body: SingleChildScrollView(
       child: Column(

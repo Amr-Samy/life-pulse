@@ -78,12 +78,12 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => const SignUpView());
       case Routes.signInRoute:
         return MaterialPageRoute(builder: (_) => const SignInView());
-      case Routes.forgotPasswordRoute:
-        return MaterialPageRoute(builder: (_) => const ForgotPasswordView());
-      case Routes.otpRoute:
-        return MaterialPageRoute(builder: (_) => const OTPScreen());
-        case Routes.newPasswordRoute:
-        return MaterialPageRoute(builder: (_) => const NewPasswordView());
+      // case Routes.forgotPasswordRoute:
+      //   return MaterialPageRoute(builder: (_) => const ForgotPasswordView());
+      // case Routes.otpRoute:
+      //   return MaterialPageRoute(builder: (_) => const OTPScreen());
+      //   case Routes.newPasswordRoute:
+      //   return MaterialPageRoute(builder: (_) => const NewPasswordView());
       case Routes.mainRoute:
         return MaterialPageRoute(builder: (_) => LayoutView());
       case Routes.homeRoute:

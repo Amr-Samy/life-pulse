@@ -1,73 +1,69 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:life_pulse/presentation/auth/sign_up/signUp_strategy.dart';
-import 'package:life_pulse/presentation/resources/color_manager.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:life_pulse/presentation/resources/routes_manager.dart';
-import 'package:life_pulse/presentation/resources/strings_manager.dart';
-
+import '../../../data/network/api.dart';
 import '../../resources/helpers/functions.dart';
-import 'factory/registration_factory.dart';
 
 class SignUpController extends GetxController{
   RxBool isLoading = false.obs;
   RxBool isPasswordHidden = true.obs;
-  String error = '';
-  TextEditingController emailTextController = TextEditingController();
-  TextEditingController passwordTextController = TextEditingController();
+  RxBool isPasswordConfirmationHidden = true.obs;
 
-  final RegistrationFactory registrationFactory;
+  final TextEditingController nameTextController = TextEditingController();
+  final TextEditingController mobileTextController = TextEditingController();
+  final TextEditingController emailTextController = TextEditingController();
+  final TextEditingController passwordTextController = TextEditingController();
+  final TextEditingController passwordConfirmationTextController = TextEditingController();
 
-  SignUpController({required this.registrationFactory});
-
-  Future<void> register(RegistrationMethod method) async {
+  Future<void> register() async {
     try {
     isLoading.value = true ;
-
-      RegistrationStrategy strategy;
-
-      if (method == RegistrationMethod.email) {
-        strategy = registrationFactory.createStrategy(
-          method,
-          email: emailTextController.text,
-          password: passwordTextController.text,
-      );
-      } else {
-        strategy = registrationFactory.createStrategy(method);
+      if (passwordTextController.text != passwordConfirmationTextController.text) {
+        showErrorSnackBar(message: "Passwords do not match.");
+        return;
       }
 
-      final responseData = await strategy.register();
+      dynamic data = {
+        "name": nameTextController.text,
+        "mobile": mobileTextController.text,
+        "email": emailTextController.text,
+        "password": passwordTextController.text,
+        "password_confirmation": passwordConfirmationTextController.text
+      };
 
-      String status = responseData['status'];
-      String message = responseData['message'];
+      var response = await Api().post('register', data: data);
 
-      if (status == "success") {
-        showErrorSnackBar(
-            message: AppStrings.checkMail.tr,
-            icon: Icons.mark_email_unread_outlined,
-          color: ColorManager.info,
-        );
+      dynamic responseData = response.data;
+      if (responseData is String) {
+        responseData = json.decode(responseData);
+      }
 
-        Get.toNamed(
-            Routes.signInRoute,
-          arguments: {'email': emailTextController.text},
-        );
+      bool success = responseData['success'] ?? false;
+      String message = responseData['message'] ?? 'An unknown error occurred.';
+
+      if (success) {
+        GetStorage storage = GetStorage();
+        storage.write('token', responseData['token']);
+        showSuccessSnackBar(message: message);
+        Get.offAllNamed(Routes.mainRoute);
 
         } else{
-        error = message;
-        showErrorSnackBar(message:  error.isNotEmpty ? error :"");
+        String errorMessage = message;
+        if (responseData.containsKey('errors') && responseData['errors'] is Map) {
+          final errors = responseData['errors'] as Map;
+          if (errors.isNotEmpty) {
+            errorMessage = errors.values.map((e) => e.join('\n')).join('\n');
+          }
+        }
+        showErrorSnackBar(message: errorMessage);
       }
     } catch (e) {
-      showErrorSnackBar(message: error.isNotEmpty ? error : e.toString());
-      throw Exception(e.toString());
+      showErrorSnackBar(message: e.toString());
     } finally {
         isLoading.value = false ;
       }
     }
-
-  // Convenience methods
-  Future<void> signUpWithEmail() => register(RegistrationMethod.email);
-  Future<void> signUpWithGoogle() => register(RegistrationMethod.google);
-  Future<void> signUpWithFacebook() => register(RegistrationMethod.facebook);
 }
 

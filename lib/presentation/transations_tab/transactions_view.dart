@@ -3,6 +3,11 @@ import 'package:get/get.dart';
 import 'package:life_pulse/presentation/transations_tab/widgets/search_bar_widget.dart';
 import 'package:life_pulse/presentation/transations_tab/widgets/section_header_widget.dart';
 import 'package:life_pulse/presentation/transations_tab/widgets/transaction_list_item_widget.dart';
+import '../resources/assets_manager.dart';
+import '../resources/routes_manager.dart';
+import '../resources/strings_manager.dart';
+import '../resources/validation_manager.dart';
+import '../widgets/empty_state_place_holder.dart';
 import 'transactions_controller.dart';
 
 class TransactionsScreen extends StatelessWidget {
@@ -12,8 +17,20 @@ class TransactionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Initialize the controller
     final TransactionsController controller = Get.put(TransactionsController());
-
-    return Scaffold(
+    return
+    isGuest() ?
+    Scaffold(
+      body: GestureDetector(
+        onTap: (){
+          Navigator.pushNamed(context, Routes.letsInRoute);
+        },
+        child:  EmptyStateHolder(
+            image: ImageAssets.profile,
+            description: AppStrings.logInHint.tr
+        ),
+      ),
+    ):
+     Scaffold(
       backgroundColor: const Color(0xFFF8FDF7),
       body: SafeArea(
         child: Column(

@@ -1,9 +1,8 @@
 class AppStrings{
 
-  static const baseUrl = "https://mobeen-ar.com/";
-  static const apiBaseUrl = "https://mobeen-ar.com/api/students/v1";
+  static const baseUrl = "https://nabd.kirellos.com/";
+  static const apiBaseUrl = "https://nabd.kirellos.com/";
   static const noRoute = 'Route Not Found';
-  static const serverClientId = '750960724874-qualun48m66ld5jbahgj875g7h8tc245.apps.googleusercontent.com';
 
   static const onBoardingTitle1 = 'إدعم من هم فى أمس الحاجه إليك ';
   static const onBoardingTitle2 = 'إدعم حالات موثوقة ومعتمدة';
@@ -29,6 +28,7 @@ class AppStrings{
   static const ltya = "Login to your Account";
   static const email = "Email";
   static const password = "Password";
+  static const confirmPassword = "Confirm Password";
   static const rememberMe = "Remember Me";
   static const signIn = "Sign in";
   static const forgot = "Forgot the password?";

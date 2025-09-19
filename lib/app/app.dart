@@ -20,19 +20,16 @@ class _MyAppState extends State<MyApp> {
     final box = GetStorage();
     final storedLang = box.read('language_code');
 
-    // If we have a stored language that matches our supported locales
     if (storedLang != null && _isLanguageSupported(storedLang)) {
       return Locale(storedLang);
     }
 
-    // Fallback to device locale if supported
     final deviceLocale = Platform.localeName.split('_').first;
     if (_isLanguageSupported(deviceLocale)) {
       return Locale(deviceLocale);
     }
 
-    // Final fallback to English
-    return const Locale('en');
+    return const Locale('ar');
   }
 
   bool _isLanguageSupported(String languageCode) {
@@ -51,15 +48,12 @@ class _MyAppState extends State<MyApp> {
       designSize: const Size(428, 926),
       minTextAdapt: true,
       splitScreenMode: true,
-      // Use builder only if you need to use library outside ScreenUtilInit context
       builder: (_ , child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           useInheritedMediaQuery: true,
-          // builder: DevicePreview.appBuilder,
-          // locale: DevicePreview.locale(context),
           locale: _getStoredLocale(),
-          fallbackLocale: const Locale('en'),
+          fallbackLocale: const Locale('ar'),
           translations: LocalizationApp(),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
@@ -84,20 +78,13 @@ class _MyAppState extends State<MyApp> {
           ],
           onGenerateRoute: RouteGenerator.getRoute,
           initialRoute:
-          // storage.read("firstRun") != null ? Routes.mainRoute : Routes.onBoardingRoute,
-          Routes.onBoardingRoute,
+          storage.read("firstRun") != null ? Routes.mainRoute : Routes.onBoardingRoute,
           scrollBehavior: ScrollConfiguration.of(context).copyWith(
             physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           ),
           theme: getApplicationTheme('light'),
           darkTheme: getApplicationTheme('dark'),
           themeMode: ThemeService().theme,
-          // builder: (BuildContext context, Widget? widget) {
-          //   ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
-          //     return CustomError(errorDetails: errorDetails);
-          //   };
-          //   return widget!;
-          // },
         );
       },
     );

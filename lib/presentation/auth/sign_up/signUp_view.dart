@@ -1,15 +1,7 @@
-// import 'package:google_sign_in/google_sign_in.dart';
-import 'package:life_pulse/presentation/auth/sign_up/signUp_strategy.dart';
 import 'package:life_pulse/presentation/auth/sign_up/signUp_viewmodel.dart';
 import 'package:life_pulse/presentation/resources/index.dart';
 import 'package:life_pulse/presentation/widgets/button.dart';
-import 'package:life_pulse/presentation/widgets/divider.dart';
-import 'package:life_pulse/presentation/widgets/icon_button.dart';
 import 'package:life_pulse/presentation/widgets/input_field.dart';
-
-import '../../../data/network/api.dart';
-import 'factory/registration_factory.dart';
-
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -19,12 +11,7 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
-  final signUpController = Get.put(SignUpController(
-    registrationFactory: RegistrationFactory(
-      Api(),
-      // GoogleSignIn(),
-    ),
-  ));
+  final signUpController = Get.put(SignUpController());
   @override
   Widget build(BuildContext context) {
 
@@ -41,26 +28,35 @@ class _SignUpViewState extends State<SignUpView> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: AppMargin.m20,
+               SizedBox(height: AppMargin.m20),
+              Text(AppStrings.createAccount.tr, style: Theme.of(context).textTheme.displayLarge),
+               SizedBox(height: AppMargin.m20),
+
+              // Name
+              InputField(
+                controller: signUpController.nameTextController,
+                prefix:  Icon(Icons.person_outline_rounded, size: AppSize.s20),
+                hintText: AppStrings.name.tr,
+                keyboardType: TextInputType.name,
+                inputAction: TextInputAction.next,
               ),
+               SizedBox(height: AppMargin.m16),
 
-              Text(AppStrings.createAccount.tr,style: Theme.of(context).textTheme.displayLarge,),
-
-
-              SizedBox(
-                height: AppMargin.m20,
-              ),
-
-              SizedBox(
-                height: AppMargin.m16,
-              ),
-
+              // Email
               InputField(
                 controller: signUpController.emailTextController,
-                prefix: Icon(Icons.email_rounded,size: AppSize.s20),
+                prefix:  Icon(Icons.email_outlined, size: AppSize.s20),
                 hintText: AppStrings.email.tr,
                 keyboardType: TextInputType.emailAddress,
+                inputAction: TextInputAction.next,
+              ),
+               SizedBox(height: AppMargin.m16),
+
+              InputField(
+                controller: signUpController.mobileTextController,
+                prefix:  Icon(Icons.phone_android_rounded, size: AppSize.s20),
+                hintText: AppStrings.phoneNumber.tr,
+                keyboardType: TextInputType.phone,
                 inputAction: TextInputAction.next,
               ),
 
@@ -69,43 +65,44 @@ class _SignUpViewState extends State<SignUpView> {
               Obx(
                 ()=> InputField(
                   controller: signUpController.passwordTextController,
-                  prefix: Icon(Icons.lock,size: AppSize.s20),
+                  prefix:  Icon(Icons.lock_outline_rounded, size: AppSize.s20),
                   hintText: AppStrings.password.tr,
                   keyboardType: TextInputType.text,
                   enableOptions: false,
                   isTextHidden: signUpController.isPasswordHidden.value,
                   suffix: GestureDetector(
-                      onTap: (){signUpController.isPasswordHidden.value = !signUpController.isPasswordHidden.value;},
-                      child: Icon(Icons.visibility_off_rounded,size: AppSize.s20)
+                    onTap: () {
+                      signUpController.isPasswordHidden.value = !signUpController.isPasswordHidden.value;
+                    },
+                    child: Icon(
+                      signUpController.isPasswordHidden.value ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+                      size: AppSize.s20,
+                    ),
                   ),
                 ),
               ),
+               SizedBox(height: AppMargin.m16),
 
-              // Center(
-              //   child: IntrinsicWidth(
-              //     child: StatefulBuilder(
-              //         builder: (context,StateSetter stateUpdater) {
-              //           return CheckboxListTile(
-              //             splashRadius: AppSize.s0,
-              //             title: Text(AppStrings.rememberMe.tr),
-              //             visualDensity: const VisualDensity(horizontal: AppPadding.pNegative4),
-              //             value: signUpController.checkedValue,
-              //             onChanged: (newValue) { stateUpdater(() {
-              //               print(newValue);
-              //               signUpController.checkedValue = !signUpController.checkedValue;
-              //             }); },
-              //             controlAffinity: ListTileControlAffinity.leading,
-              //             checkboxShape: RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(AppSize.s5),
-              //             ),
-              //             side: BorderSide(color: ColorManager.primary,width: AppSize.s2,style: BorderStyle.solid),
-              //           );
-              //         }
-              //     ),
-              //   ),
-              // ),
-
-              //todo disabled color
+              // Confirm Password
+              Obx(
+                () => InputField(
+                  controller: signUpController.passwordConfirmationTextController,
+                  prefix: Icon(Icons.lock_outline_rounded, size: AppSize.s20),
+                  hintText: AppStrings.confirmPassword.tr,
+                  keyboardType: TextInputType.text,
+                  enableOptions: false,
+                  isTextHidden: signUpController.isPasswordConfirmationHidden.value,
+                  suffix: GestureDetector(
+                    onTap: () {
+                      signUpController.isPasswordConfirmationHidden.value = !signUpController.isPasswordConfirmationHidden.value;
+                    },
+                    child: Icon(
+                      signUpController.isPasswordConfirmationHidden.value ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+                      size: AppSize.s20,
+                  ),
+                ),
+              ),
+              ),
 
               SizedBox(height: AppMargin.m40,),
 
@@ -113,7 +110,7 @@ class _SignUpViewState extends State<SignUpView> {
               Obx(
                     () => CustomButton(
                   onTap: () {
-                    signUpController.signUpWithEmail();
+                    signUpController.register();
                   },
                   textButton: AppStrings.signUp.tr,
                   loading: signUpController.isLoading.value,
@@ -121,35 +118,6 @@ class _SignUpViewState extends State<SignUpView> {
               ),
 
               SizedBox(height: AppMargin.m40,),
-
-              CustomDivider(text: AppStrings.continueWith.tr,),
-
-              SizedBox(height: AppMargin.m20,),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomIconButton(
-                    icon: ImageAssets.facebook,
-                    onTap: () {
-                      signUpController.signUpWithFacebook();
-                    },
-                  ),
-                  CustomIconButton(
-                    icon: ImageAssets.google,
-                    onTap: () {
-                      signUpController.signUpWithGoogle();
-                    },
-                  ),
-                  CustomIconButton(
-                    icon:  isDarkMode()? ImageAssets.apple : ImageAssets.darkApple,
-                    onTap: () {
-                    },
-                  ),
-                ],
-              ),
-
-              SizedBox(height: AppMargin.m20,),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

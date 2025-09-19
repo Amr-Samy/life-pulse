@@ -123,7 +123,7 @@ import 'package:get_storage/get_storage.dart';
 
 class TokenStorage {
   static final GetStorage _storage = GetStorage();
-  static const String _tokenKey = 'user_token';
+  static const String _tokenKey = 'token';
 
   static String? _cachedToken;
 

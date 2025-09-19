@@ -1,3 +1,5 @@
+import 'package:get_storage/get_storage.dart';
+
 import '../resources/index.dart';
 import 'package:flutter/services.dart';
 
@@ -81,6 +83,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                   child: TextButton(
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, Routes.mainRoute);
+                      completeOnboarding();
+
                     },
                     child: Text(
                       AppStrings.skip,
@@ -91,7 +95,6 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                   ),
                 ),
 
-                // Bottom Navigation Controls
               Positioned(
                 bottom: AppPadding.p20,
                 left: AppPadding.p20,
@@ -142,7 +145,6 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // --- Page Indicator ---
         Row(
           children: [
             for (int i = 0; i < _list.length; i++)
@@ -157,6 +159,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           onPressed: () {
             if (_currentIndex == _list.length - 1) {
               Navigator.pushReplacementNamed(context, Routes.mainRoute);
+              completeOnboarding();
             } else {
               _pageController.nextPage(
                 duration: const Duration(milliseconds: AppConstants.sliderAnimationTime),
@@ -234,7 +237,6 @@ class OnBoardingPage extends StatelessWidget {
   }
 }
 
-// --- Data Model (Unchanged) ---
 class SliderObject {
   String title;
   String subTitle;
@@ -242,4 +244,9 @@ class SliderObject {
   Color backgroundColor;
 
   SliderObject(this.title, this.subTitle, this.image, this.backgroundColor);
+}
+
+void completeOnboarding() {
+  final storage = GetStorage();
+  storage.write("firstRun", "done");
 }

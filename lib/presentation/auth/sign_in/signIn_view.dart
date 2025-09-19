@@ -1,16 +1,7 @@
-// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:life_pulse/presentation/auth/sign_in/signIn_viewModel.dart';
 import 'package:life_pulse/presentation/resources/index.dart';
 import 'package:life_pulse/presentation/widgets/button.dart';
-import 'package:life_pulse/presentation/widgets/divider.dart';
-import 'package:life_pulse/presentation/widgets/icon_button.dart';
 import 'package:life_pulse/presentation/widgets/input_field.dart';
-
-import '../../../data/network/api.dart';
-import '../../resources/helpers/storage.dart';
-import 'auth_strategy.dart';
-import 'factory/auth_factory.dart';
-
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
@@ -25,13 +16,7 @@ class _SignInViewState extends State<SignInView> {
 
   Widget build(BuildContext context) {
     final signInController = Get.put(
-        SignInController(
-          authFactory: AuthenticationFactory(
-            Api(), // Your API instance
-            // GoogleSignIn(), // Your GoogleSignIn instance
-          ),
-          secureStorage: TokenStorage(), // Your secure storage instance
-        ),
+        SignInController(),
         tag: "SignInController"
     );
     return Scaffold(
@@ -53,10 +38,10 @@ class _SignInViewState extends State<SignInView> {
               SizedBox(height: AppMargin.m40,),
 
               InputField(
-                controller: signInController.emailTextController,
-                prefix: Icon(Icons.email_rounded,size: AppSize.s20),
-                hintText: AppStrings.email.tr,
-                keyboardType: TextInputType.emailAddress,
+                controller: signInController.mobileTextController,
+                prefix: Icon(Icons.phone_android_rounded, size: AppSize.s20),
+                hintText: AppStrings.phoneNumber.tr,
+                keyboardType: TextInputType.phone,
                 inputAction: TextInputAction.next,
               ),
 
@@ -72,9 +57,12 @@ class _SignInViewState extends State<SignInView> {
                   isTextHidden: signInController.isPasswordHidden.value,
                   suffix: GestureDetector(
                       onTap: (){signInController.isPasswordHidden.value = !signInController.isPasswordHidden.value;},
-                      child: Icon(Icons.visibility_off_rounded,size: AppSize.s20)
+                    child: Icon(
+                      signInController.isPasswordHidden.value ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+                      size: AppSize.s20,
                   ),
                 ),
+              ),
               ),
 
               SizedBox(height: AppMargin.m16,),
@@ -82,7 +70,7 @@ class _SignInViewState extends State<SignInView> {
               Obx(
                   () => CustomButton(
                   onTap: () {
-                    signInController.signInWithEmail();
+                    signInController.signIn();
                   },
                   textButton: AppStrings.signIn.tr,
                   loading: signInController.isLoading.value,
@@ -90,49 +78,6 @@ class _SignInViewState extends State<SignInView> {
               ),
 
               SizedBox(height: AppMargin.m16,),
-
-              GestureDetector(
-                onTap: signInController.goToForgotPassword,
-                child: Center(
-                  child: Text(
-                    AppStrings.forgot.tr,
-                    style: getSemiBoldStyle(
-                        color: ColorManager.primary,
-                        fontSize: FontSize.s16),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: AppMargin.m40,),
-
-              CustomDivider(text: AppStrings.continueWith.tr,),
-
-              SizedBox(height: AppMargin.m20,),
-              /// Social Login
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomIconButton(
-                    icon: ImageAssets.facebook,
-                    onTap: () {
-                      signInController.signInWithFacebook();
-                    },
-                  ),
-                  CustomIconButton(
-                    icon: ImageAssets.google,
-                    onTap: () {
-                      signInController.signInWithGoogle();
-                    },
-                  ),
-                  CustomIconButton(
-                    icon:  isDarkMode()? ImageAssets.apple : ImageAssets.darkApple,
-                    onTap: () {
-                    },
-                  ),
-                ],
-              ),
-
-              SizedBox(height: AppMargin.m20,),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

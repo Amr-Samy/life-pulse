@@ -20,6 +20,7 @@ Map<String,String> ar = {
   AppStrings.ltya : "تسجيل الدخول إلى حسابك",
   AppStrings.email : "البريد الإلكتروني",
   AppStrings.password : "كلمة المرور",
+  AppStrings.confirmPassword : "تأكيد كلمة المرور",
   AppStrings.rememberMe : "تذكرنى",
   AppStrings.signIn : "تسجيل الدخول",
   AppStrings.forgot : "هل نسيت كلمة المرور؟",

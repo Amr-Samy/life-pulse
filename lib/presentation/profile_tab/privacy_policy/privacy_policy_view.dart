@@ -48,7 +48,7 @@ class _PrivacyPolicyViewState extends State<PrivacyPolicyView> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('/privacy/?locale=${Get.locale}'));
+      ..loadRequest(Uri.parse('https://nabd.kirellos.com/mobile/privacy'));
 
   }
 

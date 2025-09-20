@@ -34,9 +34,7 @@ dependencies:
   cached_network_image: ^3.4.1
   webview_flutter: ^4.13.0 # for privacy policy
   dotted_border: ^2.1.0 #dropzone border
-
-
-
+  flutter_launcher_icons: ^0.14.4
 
 
 
@@ -51,6 +49,11 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
   rename: ^3.1.0
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -79,6 +82,7 @@ flutter:
     - assets/images/boarding/boarding2.png
     - assets/images/boarding/boarding3.png
     - assets/images/home/
+    - assets/images/logo.png
     - assets/images/master.png
     - assets/images/meeza.png
     - assets/images/notifications/

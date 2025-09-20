@@ -140,7 +140,7 @@ class _ProfileViewState extends State<ProfileView> {
             icon: ImageAssets.locked,
             title: AppStrings.privacyPolicy.tr,
             onTap: () {
-              // Navigator.pushNamed(context, Routes.privacyPolicyRoute);
+              Navigator.pushNamed(context, Routes.privacyPolicyRoute);
             },
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,

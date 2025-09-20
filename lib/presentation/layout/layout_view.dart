@@ -15,6 +15,7 @@ class _LayoutViewState extends State<LayoutView> {
   List<Widget> screens = [
     const HomeView(),
     const TransactionsScreen(),
+    const TransactionsScreen(),
     const ProfileView(),
   ];
   final profileController = Get.put(
@@ -64,6 +65,22 @@ class _LayoutViewState extends State<LayoutView> {
                 ),
                 label: AppStrings.transactions.tr,
               ),
+
+              NavigationDestination(
+                icon: Image.asset(
+                  ImageAssets.donateHeart,
+                  height: AppSize.s24,
+                ),
+                selectedIcon: ColorFiltered(
+                  colorFilter: const ColorFilter.mode(Colors.green, BlendMode.srcIn),
+                  child: Image.asset(
+                    ImageAssets.donateHeart,
+                    height: AppSize.s24,
+                  ),
+                ),
+                label: "Donations",
+              ),
+
               NavigationDestination(
                 icon: Image.asset(
                   ImageAssets.profile,

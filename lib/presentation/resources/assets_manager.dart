@@ -114,6 +114,7 @@ class ImageAssets {
   static const String  buy = '$lightIconPath/Buy.png';
   static const String  chat = '$lightIconPath/Chat.png';
   static const String  doc = '$lightIconPath/Document.png';
+  static const String  donateHeart = '$lightIconPath/donate-heart.png';
   static const String  home = '$lightIconPath/Home.png';
   static const String  profile = '$lightIconPath/Profile.png';
   static const String  filter = '$lightIconPath/Filter.png';

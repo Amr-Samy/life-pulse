@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:life_pulse/presentation/resources/helpers/functions.dart';
 import '../../../../data/network/api.dart';
+import '../../campaign_details/controllers/campaign_details_controller.dart';
+import '../../favorites/favorites_controller.dart';
 import '../models/campaign_model.dart';
 
 class HomeController extends GetxController{
@@ -149,10 +151,60 @@ class HomeController extends GetxController{
     );
   }
 
+  Future<void> toggleFavorite(int campaignId) async {
+    try {
+      final response = await Api().post('campaigns/$campaignId/favorite');
+
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        final bool newIsFavorited = response.data['is_favorited'];
+
+        final latestIndex =
+        latestCampaigns.indexWhere((c) => c.id == campaignId);
+        if (latestIndex != -1) {
+          latestCampaigns[latestIndex] =
+              latestCampaigns[latestIndex].copyWith(isFavorited: newIsFavorited);
+        }
+        final featuredIndex =
+        featuredCampaigns.indexWhere((c) => c.id == campaignId);
+        if (featuredIndex != -1) {
+          featuredCampaigns[featuredIndex] = featuredCampaigns[featuredIndex]
+              .copyWith(isFavorited: newIsFavorited);
+        }
+
+        if (Get.isRegistered<CampaignDetailsController>()) {
+          final detailsController = Get.find<CampaignDetailsController>();
+          if (detailsController.campaignId == campaignId) {
+            detailsController.campaign.value = detailsController.campaign.value
+                ?.copyWith(isFavorited: newIsFavorited);
+          }
+        }
+
+        if (Get.isRegistered<FavoritesController>()) {
+          final favoritesController = Get.find<FavoritesController>();
+          if (!newIsFavorited) {
+            favoritesController.favoriteCampaigns.removeWhere((c) => c.id == campaignId);
+          } else {
+            //Todo refresh list
+
+          }
+        }
+
+        showSuccessSnackBar(message: response.data['message']);
+      } else {
+        showErrorSnackBar(message: 'Failed to update favorite status.');
+      }
+    } catch (e) {
+      showErrorSnackBar(message: 'An error occurred: $e');
+    }
+  }
+
+
   void onPageChanged(int index) {
     currentCampaignIndex.value = index;
     if (index >= featuredCampaigns.length - 2 && hasMoreFeatured.value) {
       loadMoreFeatured();
   }
   }
+
+
 }

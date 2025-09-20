@@ -4,6 +4,7 @@ import 'package:life_pulse/presentation/home_tab/home/widgets/quick_donation_she
 import '../../layout/layout_controller.dart';
 import '../../profile_tab/profile/profile_controller.dart';
 import '../../resources/index.dart';
+import '../favorites/favorites_screen.dart';
 import 'controllers/home_controller.dart';
 import 'models/campaign_model.dart';
 
@@ -201,7 +202,7 @@ class _HomeViewState extends State<HomeView> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-              childAspectRatio: 0.7, //! card height
+              childAspectRatio: 0.55, //! card height
               ),
               itemBuilder: (context, index) {
                 final campaign = homeController.latestCampaigns[index];
@@ -295,6 +296,16 @@ AppBar _buildAppBar(ProfileController profileController) {
           icon: const Icon(Icons.search, size: 28),
           color: Colors.black54,
         ),
+
+        IconButton(
+          onPressed: () {
+            Get.to(() => const FavoritesScreen());
+          },
+          icon: const Icon(Icons.favorite_outline, size: 28),
+          color: Colors.black54,
+        ),
+
+
         const SizedBox(width: 8),
       ],
   );
@@ -395,8 +406,7 @@ class CampaignCard extends StatelessWidget {
     final double progress = campaign.progressPercentage / 100.0;
 
     return GestureDetector(
-      // onTap: () => Get.to(() => CampaignDetailsScreen(campaign: campaign)),
-      onTap: () => Get.to(() => CampaignDetailsScreen()),
+      onTap: () => Get.to(() => CampaignDetailsScreen(campaignId: campaign.id)),
       child: Container(
         decoration: BoxDecoration(
           color: cardColor,
@@ -516,7 +526,7 @@ class CampaignCard extends StatelessWidget {
 
                   const SizedBox(height: 8),
                   if(campaign.isPriority)
-                  _buildInfoRow(Icons.star, 'Emergencies'),
+                  _buildInfoRow(Icons.flash_on, 'Emergencies'),
                 ],
               ),
                 ),
@@ -554,8 +564,7 @@ class LatestCampaignCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final double progress = campaign.progressPercentage / 100.0;
     return GestureDetector(
-      // onTap: () => Get.to(() => CampaignDetailsScreen(campaign: campaign)),
-      onTap: () => Get.to(() => CampaignDetailsScreen()),
+      onTap: () => Get.to(() => CampaignDetailsScreen(campaignId: campaign.id)),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -593,6 +602,11 @@ class LatestCampaignCard extends StatelessWidget {
                 Positioned(
                   top: 8,
                   right: 8,
+                  child: GestureDetector(
+                    onTap: () {
+                      final homeController = Get.find<HomeController>(tag: "HomeController");
+                      homeController.toggleFavorite(campaign.id);
+                    },
                   child: Container(
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
@@ -600,10 +614,16 @@ class LatestCampaignCard extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                      campaign.isFavorited ? Icons.favorite : Icons.favorite_border,
-                      color: campaign.isFavorited ? Colors.red : Colors.black54,
+                      campaign.isFavorited
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: campaign.isFavorited
+                          ? Colors.red
+                          : Colors.black54,
                       size: 18,
                     ),
+
+                  ),
                   ),
                 ),
               ],

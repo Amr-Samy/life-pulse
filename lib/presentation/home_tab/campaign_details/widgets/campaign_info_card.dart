@@ -1,8 +1,10 @@
 import '../../../resources/index.dart';
 import '../../donation/donation_screen.dart';
+import '../../home/models/campaign_model.dart';
 
 class CampaignInfoCard extends StatelessWidget {
-  const CampaignInfoCard({super.key});
+  final Campaign campaign;
+  const CampaignInfoCard({super.key, required this.campaign});
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +46,8 @@ class CampaignInfoCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Donation for Child',
-          style: TextStyle(
+          campaign.title,
+          style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: Colors.black87,
@@ -56,8 +58,8 @@ class CampaignInfoCard extends StatelessWidget {
           children: [
             Text('By ', style: TextStyle(color: Colors.grey[600])),
             Text(
-              'Unesco',
-              style: TextStyle(
+              campaign.creator.name,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.teal,
               ),
@@ -73,37 +75,42 @@ class CampaignInfoCard extends StatelessWidget {
   Widget _buildProgressIndicator() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
-      child: const LinearProgressIndicator(
-        value: 0.8,
+      child: LinearProgressIndicator(
+        value: campaign.progressPercentage / 100.0,
         minHeight: 10,
-        backgroundColor: Color(0xFFE0E0E0),
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+        backgroundColor: const Color(0xFFE0E0E0),
+        valueColor: const AlwaysStoppedAnimation<Color>(Colors.teal),
       ),
     );
   }
 
   Widget _buildFundingDetails() {
+    final daysLeft = campaign.updatedAt.difference(DateTime.now()).inDays;
+    final daysLeftText = daysLeft > 0 ? '$daysLeft days left' : 'Ended';
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         RichText(
           text: TextSpan(
-            style: TextStyle(fontSize: 14, color: Colors.black87),
-            children: const [
+            style: const TextStyle(fontSize: 14, color: Colors.black87),
+            children: [
               TextSpan(
-                text: '\$8,000 ',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                text: '\$${campaign.currentAmount} ',
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              TextSpan(text: 'fund raised from \$10,000'),
+              TextSpan(text: 'fund raised from \$${campaign.targetAmount}'),
             ],
           ),
         ),
+        //!TODO : HANDLE NULL
         Text(
-          '10 days left',
+          daysLeftText,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            color: Colors.deepOrangeAccent,
+            color:
+                daysLeft > 0 ? Colors.deepOrangeAccent : Colors.grey.shade600,
           ),
         ),
       ],
@@ -113,6 +120,7 @@ class CampaignInfoCard extends StatelessWidget {
   Widget _buildDonatorAvatars() {
     return Row(
       children: [
+        if (int.parse(campaign.donationsCount) > 0)
         Stack(
           children: List.generate(
             3,
@@ -126,8 +134,9 @@ class CampaignInfoCard extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 80),
+        if (int.parse(campaign.donationsCount) > 0)
         Text(
-          '+12,300 people donated',
+            '+${campaign.donationsCount} people donated',
           style: TextStyle(color: Colors.grey[600]),
         ),
       ],
@@ -137,7 +146,7 @@ class CampaignInfoCard extends StatelessWidget {
   Widget _buildTags() {
     return Row(
       children: [
-        _buildTag('Emergencies', Icons.flash_on),
+        if (campaign.isPriority) _buildTag('Emergencies', Icons.flash_on),
       ],
     );
   }

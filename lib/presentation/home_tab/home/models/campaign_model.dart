@@ -17,6 +17,8 @@ class CampaignsResponse {
     data: List<Campaign>.from(json["data"].map((x) => Campaign.fromJson(x))),
     meta: Meta.fromJson(json["meta"]),
   );
+
+
 }
 
 class Campaign {
@@ -73,7 +75,45 @@ class Campaign {
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );
+
+  Campaign copyWith({
+    int? id,
+    String? title,
+    String? description,
+    dynamic targetAmount,
+    dynamic currentAmount,
+    dynamic remainingAmount,
+    dynamic progressPercentage,
+    bool? isActive,
+    bool? isPriority,
+    List<String>? images,
+    Creator? creator,
+    dynamic donationsCount,
+    bool? isFavorited,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return Campaign(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      targetAmount: targetAmount ?? this.targetAmount,
+      currentAmount: currentAmount ?? this.currentAmount,
+      remainingAmount: remainingAmount ?? this.remainingAmount,
+      progressPercentage: progressPercentage ?? this.progressPercentage,
+      isActive: isActive ?? this.isActive,
+      isPriority: isPriority ?? this.isPriority,
+      images: images ?? this.images,
+      creator: creator ?? this.creator,
+      donationsCount: donationsCount ?? this.donationsCount,
+      isFavorited: isFavorited ?? this.isFavorited,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 }
+
+
 
 class Creator {
   final int id;

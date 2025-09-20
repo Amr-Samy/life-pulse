@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
+import '../../home/models/campaign_model.dart';
 
 class SummaryStatsSection extends StatelessWidget {
-  const SummaryStatsSection({super.key});
+  final Campaign campaign;
+  const SummaryStatsSection({super.key, required this.campaign});
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
         Expanded(
           child: _StatCard(
             label: 'Fund Raised',
-            value: '\$1M+',
+            value: '${campaign.currentAmount} ج.م',
           ),
         ),
-        SizedBox(width: 16),
+        const SizedBox(width: 16),
         Expanded(
           child: _StatCard(
             label: 'People donated',
-            value: '30K+',
+            value: '${campaign.donationsCount}',
           ),
         ),
       ],

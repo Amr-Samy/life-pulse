@@ -6,10 +6,14 @@ import 'package:get_storage/get_storage.dart';
 import 'package:life_pulse/presentation/resources/helpers/storage.dart';
 
 import 'app/app.dart';
+import 'core/firebase_notifications/firebase.dart';
 
 void main() async{
-  await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
+  await FirebaseFcm.setUp();
+  await GetStorage.init();
+  final storage = GetStorage();
+  debugPrint(storage.read("deviceToken"));
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Future.delayed(const Duration(milliseconds: 150));
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);

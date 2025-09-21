@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1087151145138",
+    "project_id": "life-pulse-4ff3a",
+    "storage_bucket": "life-pulse-4ff3a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087151145138:android:f2ff7f740a7543c30589ab",
+        "android_client_info": {
+          "package_name": "com.life.pulse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmi-VfQ42XOuvHCsegole65WR2qak9ccg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

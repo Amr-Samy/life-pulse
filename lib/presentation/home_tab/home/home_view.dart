@@ -390,15 +390,15 @@ class CampaignCard extends StatelessWidget {
     final differenceInDays = normalizedEndTime.difference(normalizedToday).inDays;
 
     if (differenceInDays == 0) {
-      return 'Today';
+      return 'اليوم';
     } else if (differenceInDays == 1) {
-      return 'Tomorrow';
+      return 'غداً';
     } else if (differenceInDays > 1) {
-      return '$differenceInDays days';
+      return '$differenceInDays يوم ';
     } else if (differenceInDays == -1) {
-      return 'Yesterday';
+      return 'أمس';
     } else {
-      return '${differenceInDays.abs()} days ago';
+      return '${differenceInDays.abs()} أيام مضت ';
     }
   }
 

@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import '../../campaign_details/models/campaign_update_model.dart';
 CampaignsResponse campaignsResponseFromJson(String str) => CampaignsResponse.fromJson(json.decode(str));
 
 class CampaignsResponse {
@@ -34,6 +36,8 @@ class Campaign {
   final List<String>? images;
   final Creator creator;
   final dynamic donationsCount;
+  final int? updatesCount;
+  final CampaignUpdate? latestUpdate;
   final bool isFavorited;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -52,6 +56,8 @@ class Campaign {
     this.images,
     required this.creator,
     required this.donationsCount,
+    this.updatesCount,
+    this.latestUpdate,
     required this.isFavorited,
     required this.createdAt,
     required this.updatedAt,
@@ -73,6 +79,10 @@ class Campaign {
     images: json["images"] == null ? null : List<String>.from(json["images"].map((x) => x)),
     creator: Creator.fromJson(json["creator"]),
     donationsCount: json["donations_count"],
+        updatesCount: json["updates_count"],
+        latestUpdate: json["latest_update"] == null
+            ? null
+            : CampaignUpdate.fromJson(json["latest_update"]),
     isFavorited: json["is_favorited"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
@@ -96,6 +106,9 @@ class Campaign {
     bool? isFavorited,
     DateTime? createdAt,
     DateTime? updatedAt,
+    DateTime? endDate,
+    int? updatesCount,
+    CampaignUpdate? latestUpdate,
   }) {
     return Campaign(
       id: id ?? this.id,
@@ -110,13 +123,15 @@ class Campaign {
       images: images ?? this.images,
       creator: creator ?? this.creator,
       donationsCount: donationsCount ?? this.donationsCount,
+      updatesCount: updatesCount ?? this.updatesCount,
+      latestUpdate: latestUpdate ?? this.latestUpdate,
       isFavorited: isFavorited ?? this.isFavorited,
+      endTime: endDate ?? endTime,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }
-
 
 
 class Creator {

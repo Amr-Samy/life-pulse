@@ -14,7 +14,6 @@ class CampaignDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize the controller
     final CampaignDetailsController controller =
         Get.put(CampaignDetailsController(campaignId: campaignId));
 
@@ -54,11 +53,11 @@ class CampaignDetailsScreen extends StatelessWidget {
                   ),
                       const SizedBox(height: 24),
                     ],
-                    ///TODO Posts section
-                    const UpdatesSection(),
-                    const SizedBox(height: 24),
-                    SummaryStatsSection(campaign: campaign),
-                    const SizedBox(height: 24),
+                  const SizedBox(height: 24),
+                  UpdatesSection(campaign: campaign,),
+                  const SizedBox(height: 24),
+                  SummaryStatsSection(campaign: campaign),
+                  const SizedBox(height: 24),
                 ],
               ),
             ),

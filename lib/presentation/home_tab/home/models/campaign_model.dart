@@ -37,6 +37,7 @@ class Campaign {
   final bool isFavorited;
   final DateTime createdAt;
   final DateTime updatedAt;
+  DateTime? endTime;
 
   Campaign({
     required this.id,
@@ -54,6 +55,7 @@ class Campaign {
     required this.isFavorited,
     required this.createdAt,
     required this.updatedAt,
+    this.endTime,
   });
 
   String? get firstImage => (images != null && images!.isNotEmpty) ? images!.first : null;
@@ -74,6 +76,8 @@ class Campaign {
     isFavorited: json["is_favorited"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
+    endTime: json["end_date"] == null ? null : DateTime.parse(json["end_date"]),
+
   );
 
   Campaign copyWith({

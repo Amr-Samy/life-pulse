@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'package:flutter/material.dart';
 import 'package:life_pulse/presentation/home_tab/campaign_details/campaign_details_screen.dart';
 import 'package:life_pulse/presentation/home_tab/home/widgets/quick_donation_sheet_view.dart';
 import '../../layout/layout_controller.dart';
@@ -7,6 +8,7 @@ import '../../resources/index.dart';
 import '../favorites/favorites_screen.dart';
 import 'controllers/home_controller.dart';
 import 'models/campaign_model.dart';
+import 'package:get/get.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -63,8 +65,6 @@ class _HomeViewState extends State<HomeView> {
             controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
-              // shrinkWrap: true,
-              // physics: const BouncingScrollPhysics(),
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildDonationWalletCard(profileController),
@@ -202,14 +202,13 @@ class _HomeViewState extends State<HomeView> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-              childAspectRatio: 0.55, //! card height
+              childAspectRatio: 0.55,
               ),
               itemBuilder: (context, index) {
                 final campaign = homeController.latestCampaigns[index];
                 return LatestCampaignCard(campaign: campaign);
               },
                 ),
-                // Show loading indicator at the bottom if loading more
                 Obx(() {
                   if (homeController.isLoadingMoreLatest.value) {
                     return const Padding(
@@ -245,7 +244,6 @@ AppBar _buildAppBar(ProfileController profileController) {
     return AppBar(
       elevation: 0,
       backgroundColor: ColorManager.lightGreenColor,
-
       automaticallyImplyLeading: false,
       titleSpacing: 25,
       title: Row(
@@ -263,7 +261,6 @@ AppBar _buildAppBar(ProfileController profileController) {
               radius: 22,
               backgroundColor: Colors.greenAccent,
               child: Icon(Icons.person, size: 22),
-
             );
           }
         }),
@@ -279,13 +276,6 @@ AppBar _buildAppBar(ProfileController profileController) {
                   color: Colors.black87,
               ),
             ),
-            // Text(
-            //   'Donated \$150K',
-            //   style: TextStyle(
-            //       color: Colors.black54,
-            //       fontSize: 13,
-            //     ),
-            //   ),
             ],
             )),
           ],
@@ -296,7 +286,6 @@ AppBar _buildAppBar(ProfileController profileController) {
           icon: const Icon(Icons.search, size: 28),
           color: Colors.black54,
         ),
-
         IconButton(
           onPressed: () {
             Get.to(() => const FavoritesScreen());
@@ -304,8 +293,6 @@ AppBar _buildAppBar(ProfileController profileController) {
           icon: const Icon(Icons.favorite_outline, size: 28),
           color: Colors.black54,
         ),
-
-
         const SizedBox(width: 8),
       ],
   );
@@ -386,8 +373,6 @@ Widget _buildFeatureCampaignTitle() {
   );
 }
 
-
-
 class CampaignCard extends StatelessWidget {
   final Campaign campaign;
   final bool isSelected;
@@ -398,12 +383,66 @@ class CampaignCard extends StatelessWidget {
     required this.isSelected,
   });
 
+  String _getFormattedEndTimeString(DateTime endTime) {
+    final now = DateTime.now();
+    final normalizedToday = DateTime(now.year, now.month, now.day);
+    final normalizedEndTime = DateTime(endTime.year, endTime.month, endTime.day);
+    final differenceInDays = normalizedEndTime.difference(normalizedToday).inDays;
+
+    if (differenceInDays == 0) {
+      return 'Today';
+    } else if (differenceInDays == 1) {
+      return 'Tomorrow';
+    } else if (differenceInDays > 1) {
+      return '$differenceInDays days';
+    } else if (differenceInDays == -1) {
+      return 'Yesterday';
+    } else {
+      return '${differenceInDays.abs()} days ago';
+    }
+  }
+
+  String _getEndTimeLabel(DateTime endTime) {
+    final now = DateTime.now();
+    final normalizedToday = DateTime(now.year, now.month, now.day);
+    final normalizedEndTime = DateTime(endTime.year, endTime.month, endTime.day);
+    if (normalizedEndTime.isBefore(normalizedToday)) {
+      return 'Ended';
+    } else {
+      return 'مُتبقى';
+    }
+  }
+
+  Color _getEndTimeColor(DateTime endTime, bool isSelected) {
+    final now = DateTime.now();
+    final normalizedToday = DateTime(now.year, now.month, now.day);
+    final normalizedEndTime = DateTime(endTime.year, endTime.month, endTime.day);
+    final differenceInDays = normalizedEndTime.difference(normalizedToday).inDays;
+
+  // Red ended or ends in less than 7 days
+  if (differenceInDays < 7) {
+      return Colors.red.shade700;
+  }
+  // Orange less than 30 days
+  else if (differenceInDays < 30) {
+      return isSelected ? Colors.orange.shade800 : Colors.orange.shade700;
+  }
+  // Green (30 days or more)
+  else {
+      return isSelected ? Colors.green.shade800 : Colors.green.shade700;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Color cardColor = isSelected ? const Color(0xFFE8F5E9) : const Color(0xFFE3F2FD);
     final Color borderColor = isSelected ? Colors.green : Colors.blue;
     final Color authorColor = isSelected ? Colors.green : Colors.blue;
     final double progress = campaign.progressPercentage / 100.0;
+    
+    final String endTimeString = _getFormattedEndTimeString(campaign.endTime ?? DateTime.now());
+    final String endTimeLabel = _getEndTimeLabel(campaign.endTime ?? DateTime.now());
+    final Color endTimeColor = _getEndTimeColor(campaign.endTime ?? DateTime.now(), isSelected);
 
     return GestureDetector(
       onTap: () => Get.to(() => CampaignDetailsScreen(campaignId: campaign.id)),
@@ -417,7 +456,6 @@ class CampaignCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            //Image
             ClipRRect(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
@@ -451,7 +489,6 @@ class CampaignCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 8),
-                  // verified by ( case sponsor )
                   Row(
                     children: [
                       const Text('By', style: TextStyle(color: Colors.grey)),
@@ -465,13 +502,12 @@ class CampaignCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  // targetAmount
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('مُتبقى', style: TextStyle(color: Colors.grey)),
                       Text(
-                        "${campaign.remainingAmount.toString()} ج.م " ?? '',
+                        "${campaign.remainingAmount.toString()} ج.م ",
                         style: const TextStyle(color: Colors.grey),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -479,8 +515,6 @@ class CampaignCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 12),
-
-                  // progress bar
                   Row(
                     children: [
                       Expanded(
@@ -500,7 +534,20 @@ class CampaignCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  // donors
+                  if (campaign.endTime != null )
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(endTimeLabel, style: const TextStyle(color: Colors.grey)),
+                      Text(
+                        endTimeString,
+                        style: TextStyle(color: endTimeColor, fontWeight: FontWeight.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
                   Row(
                     children: [
                       if (int.parse(campaign.donationsCount) > 0)
@@ -523,7 +570,6 @@ class CampaignCard extends StatelessWidget {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 8),
                   if(campaign.isPriority)
                   _buildInfoRow(Icons.flash_on, 'Emergencies'),
@@ -554,7 +600,6 @@ class CampaignCard extends StatelessWidget {
   }
 }
 
-
 class LatestCampaignCard extends StatelessWidget {
   final Campaign campaign;
 
@@ -575,7 +620,6 @@ class LatestCampaignCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
           children: [
-            // Image
             Expanded(
               flex: 3,
               child: Stack(
@@ -622,14 +666,12 @@ class LatestCampaignCard extends StatelessWidget {
                           : Colors.black54,
                       size: 18,
                     ),
-
                   ),
                   ),
                 ),
               ],
             ),
             ),
-            // Content
             Expanded(
               flex: 2,
       child: Padding(
@@ -725,7 +767,4 @@ class LatestCampaignCard extends StatelessWidget {
         ),
     );
   }
-
-
-
 }

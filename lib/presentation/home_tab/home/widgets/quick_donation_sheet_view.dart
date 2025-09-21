@@ -270,7 +270,9 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
       Image.asset('assets/images/master.png', height: 30, errorBuilder: (c, e, s) => const Text('Mastercard')),
       Image.asset('assets/images/visa.png', height: 25, errorBuilder: (c, e, s) => const Text('VISA')),
       Image.asset('assets/images/meeza.png', height: 25, errorBuilder: (c, e, s) => const Text('Mada')),
-      Image.asset('assets/apple_pay.png', height: 25, errorBuilder: (c, e, s) => const Text(' Pay')),
+      ColorFiltered(
+          colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+          child: Image.asset('assets/images/apple.png', height: 25, errorBuilder: (c, e, s) => const Text(' Pay'))),
     ];
 
     return Row(

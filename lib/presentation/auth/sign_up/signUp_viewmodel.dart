@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:life_pulse/presentation/resources/routes_manager.dart';
 import '../../../data/network/api.dart';
 import '../../resources/helpers/functions.dart';
+import '../../resources/helpers/storage.dart';
 
 class SignUpController extends GetxController{
   RxBool isLoading = false.obs;
@@ -30,7 +31,8 @@ class SignUpController extends GetxController{
         "mobile": mobileTextController.text,
         "email": emailTextController.text,
         "password": passwordTextController.text,
-        "password_confirmation": passwordConfirmationTextController.text
+        "password_confirmation": passwordConfirmationTextController.text,
+        "device_token": GetStorage().read('deviceToken'),
       };
 
       var response = await Api().post('register', data: data);
@@ -44,8 +46,10 @@ class SignUpController extends GetxController{
       String message = responseData['message'] ?? 'An unknown error occurred.';
 
       if (success) {
-        GetStorage storage = GetStorage();
-        storage.write('token', responseData['token']);
+        // GetStorage storage = GetStorage();
+        // storage.write('token', responseData['token']);
+        final secureStorage = TokenStorage();
+        await secureStorage.saveToken(responseData['token']);
         showSuccessSnackBar(message: message);
         Get.offAllNamed(Routes.mainRoute);
 

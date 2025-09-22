@@ -10,6 +10,7 @@ import 'package:life_pulse/presentation/resources/color_manager.dart';
 import '../../resources/helpers/functions.dart';
 import '../../resources/routes_manager.dart';
 import '../../resources/strings_manager.dart';
+import '../../resources/validation_manager.dart';
 import '../../widgets/dialog.dart';
 class ProfileController extends GetxController{
   RxBool isLoading = false.obs;
@@ -23,6 +24,7 @@ class ProfileController extends GetxController{
   @override
   Future<void> onInit() async {
     super.onInit();
+    if(!isGuest())
     try {
       user = await fetchUserProfile();
     } catch (e) {

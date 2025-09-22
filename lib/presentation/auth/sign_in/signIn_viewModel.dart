@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:life_pulse/data/network/api.dart';
+import 'package:life_pulse/presentation/resources/helpers/storage.dart';
 import 'package:life_pulse/presentation/resources/routes_manager.dart';
 import '../../resources/helpers/functions.dart';
 
 class SignInController extends GetxController {
-  GetStorage storage = GetStorage();
   RxBool isLoading = false.obs;
   RxBool isPasswordHidden = true.obs;
   RxBool isNewPasswordHidden = true.obs;
@@ -20,10 +20,11 @@ class SignInController extends GetxController {
   Future<void> signIn() async {
     try {
     isLoading.value = true;
-
+    final box = GetStorage();
       dynamic body = {
         'mobile': mobileTextController.text,
         'password': passwordTextController.text,
+        'device_token' : box.read('deviceToken'),
       };
 
       var response = await Api().post('login', data: body);
@@ -43,8 +44,10 @@ class SignInController extends GetxController {
       if (success) {
       String? token = responseData['token'];
         if (token != null) {
-          await storage.write("token", token);
-          debugPrint("Token+++++++++++++++++++++++++++++++++: ${storage.read("token")}");
+          final secureStorage = TokenStorage();
+
+          await secureStorage.saveToken(token);
+          debugPrint("Token+++++++++++++++++++++++++++++++++: ${secureStorage.getToken()}");
           Get.offAllNamed(Routes.mainRoute);
         } else {
           throw Exception("Login successful but no token was provided.");

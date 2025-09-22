@@ -69,6 +69,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/icons/bold/
+    - assets/icons/bold/donate-heart-filled.png
     - assets/icons/bulk/
     - assets/icons/bulk/pdf.png
     - assets/icons/curved/

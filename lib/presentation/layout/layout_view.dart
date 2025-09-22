@@ -5,6 +5,8 @@ import 'package:life_pulse/presentation/profile_tab/profile/profile_view.dart';
 import 'package:life_pulse/presentation/resources/index.dart';
 import 'package:life_pulse/presentation/transations_tab/transactions_view.dart';
 
+import '../donations_tab/donations_tab_view.dart';
+
 class LayoutView extends StatefulWidget {
   LayoutView({super.key});
   @override
@@ -15,7 +17,7 @@ class _LayoutViewState extends State<LayoutView> {
   List<Widget> screens = [
     const HomeView(),
     const TransactionsScreen(),
-    const TransactionsScreen(),
+    const DonationsScreen(),
     const ProfileView(),
   ];
   final profileController = Get.put(
@@ -74,7 +76,7 @@ class _LayoutViewState extends State<LayoutView> {
                 selectedIcon: ColorFiltered(
                   colorFilter: const ColorFilter.mode(Colors.green, BlendMode.srcIn),
                   child: Image.asset(
-                    ImageAssets.donateHeart,
+                    ImageAssets.selectedDonateHeart,
                     height: AppSize.s24,
                   ),
                 ),

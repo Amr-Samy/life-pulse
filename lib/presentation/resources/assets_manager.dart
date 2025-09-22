@@ -39,23 +39,11 @@ class ImageAssets {
 
 
   //Home Images
-  static const String  avatar1 = '$imagePath/home/avatar1.png';
-  static const String  avatar2 = '$imagePath/home/avatar2.png';
-  static const String  avatar3 = '$imagePath/home/avatar3.png';
-  static const String  avatar4 = '$imagePath/home/avatar4.png';
-  static const String  avatar5 = '$imagePath/home/avatar5.png';
-  static const String  avatar6 = '$imagePath/home/avatar6.png';
-  static const String  carouselBg = '$imagePath/home/carousel_bg.png';
-  static const String  svgCarouselBg = '$imagePath/home/carousel_bg.svg';
-  static const String  course1 = '$imagePath/home/course1.png';
-  static const String  course2 = '$imagePath/home/course2.png';
-  static const String  course3 = '$imagePath/home/course3.png';
   static const String  rating = '$imagePath/home/rating.png';
   static const String  payPal = '$imagePath/home/paypal.png';
   static const String  credit = '$imagePath/home/credit.png';
   static const String  promo = '$imagePath/home/promotion.png';
   static const String  iconContainer = '$imagePath/notifications/container.png';
-  static const String  courseDetails = '$imagePath/courseDetails.png';
   static const String  certificate = '$imagePath/certificate.png';
 
   //BoldIcons
@@ -83,6 +71,7 @@ class ImageAssets {
   static const String  i = '$boldIconPath/instgram.png';
   static const String  l = '$boldIconPath/linkedin.png';
   static const String  x = '$boldIconPath/x.png';
+  static const String  selectedDonateHeart = '$boldIconPath/donate-heart-filled.png';
 
   //BulkIcons
   static const String  star = '$bulkIconPath/star.png';

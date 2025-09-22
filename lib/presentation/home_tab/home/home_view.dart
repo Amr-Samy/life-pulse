@@ -118,7 +118,7 @@ class _HomeViewState extends State<HomeView> {
       }
 
     return SizedBox(
-    height: 480,
+    height: 490,
       child: PageView.builder(
           controller: homeController.pageController,
           onPageChanged: homeController.onPageChanged,
@@ -528,7 +528,7 @@ class CampaignCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '${campaign.progressPercentage}%',
+                        '${campaign.progressPercentage.toStringAsFixed(2)}%',
                         style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                       ),
                     ],

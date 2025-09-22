@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/resources/helpers/functions.dart';
+import '../../resources/validation_manager.dart';
 import '../models/donation.dart';
 
 class DonationsController extends GetxController {
@@ -14,7 +15,7 @@ class DonationsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchDonations();
+    if(!isGuest()) fetchDonations();
   }
 
   Future<void> fetchDonations() async {

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/resources/helpers/functions.dart';
+import '../../resources/validation_manager.dart';
 import '../model/transaction_model.dart';
 
 class TransactionsController extends GetxController {
@@ -14,7 +15,7 @@ class TransactionsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchTransactions();
+      if(!isGuest())  fetchTransactions();
   }
 
   Future<void> fetchTransactions() async {

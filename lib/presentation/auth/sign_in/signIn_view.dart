@@ -55,6 +55,9 @@ class _SignInViewState extends State<SignInView> {
                   keyboardType: TextInputType.text,
                   enableOptions: false,
                   isTextHidden: signInController.isPasswordHidden.value,
+                  onFieldSubmitted: (value){
+                    signInController.signIn();
+                  },
                   suffix: GestureDetector(
                       onTap: (){signInController.isPasswordHidden.value = !signInController.isPasswordHidden.value;},
                     child: Icon(

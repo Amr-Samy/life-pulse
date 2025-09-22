@@ -550,14 +550,14 @@ class CampaignCard extends StatelessWidget {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      if (int.parse(campaign.donationsCount) > 0)
+                      if (int.parse(campaign.donationsCount) > 3)
                       SizedBox(
                         width: 70,
                         child: Stack(
                           children: [
-                            _buildDonorAvatar('assets/images/boarding/boarding3.png'),
-                            Positioned(left: 20, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
-                            Positioned(left: 40, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
+                            _buildDonorAvatar(ImageAssets.profilePlaceholder),
+                            Positioned(left: 20, child: _buildDonorAvatar(ImageAssets.profilePlaceholder)),
+                            Positioned(left: 40, child: _buildDonorAvatar(ImageAssets.profilePlaceholder)),
                           ],
                         ),
                       ),
@@ -710,7 +710,7 @@ class LatestCampaignCard extends StatelessWidget {
                     children: [
                       const Text('Raised', style: TextStyle(color: Colors.grey, fontSize: 12)),
                       const Spacer(),
-                      Text('${campaign.progressPercentage}%',
+                      Text('${campaign.progressPercentage.toStringAsFixed(2)}%',
                           style:
                               const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey, fontSize: 12)),
                     ],
@@ -726,15 +726,15 @@ class LatestCampaignCard extends StatelessWidget {
             const SizedBox(height: 4),
                   Row(
                     children: [
-                      if (int.parse(campaign.donationsCount) > 0)
+                      if (int.parse(campaign.donationsCount) > 3)
                           SizedBox(
                           width: 50,
                           height: 20,
                             child: Stack(
                               children: [
-                                _buildDonorAvatar('assets/images/boarding/boarding3.png'),
-                                Positioned(left: 12, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
-                                Positioned(left: 24, child: _buildDonorAvatar('assets/images/boarding/boarding3.png')),
+                                _buildDonorAvatar(ImageAssets.profilePlaceholder),
+                                Positioned(left: 12, child: _buildDonorAvatar(ImageAssets.profilePlaceholder)),
+                                Positioned(left: 24, child: _buildDonorAvatar(ImageAssets.profilePlaceholder)),
                               ],
                             ),
                           ),

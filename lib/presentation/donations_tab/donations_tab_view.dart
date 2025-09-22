@@ -33,6 +33,8 @@ class DonationsScreen extends StatelessWidget {
       Scaffold(
       backgroundColor: const Color(0xFFF8FDF7),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        titleSpacing: 25,
         title: const Text(
           'My Donations',
           style: TextStyle(fontWeight: FontWeight.bold),

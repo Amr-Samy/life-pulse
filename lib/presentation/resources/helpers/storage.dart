@@ -7,17 +7,17 @@ class TokenStorage {
 
   static String? _cachedToken;
 
-  TokenStorage() {
-    initializeCache();
-  }
+ //TokenStorage() {
+ //  initializeCache();
+ //}
 
   static bool isGuest() {
     return _cachedToken == null || _cachedToken!.isEmpty;
   }
 
-  static void initializeCache() {
+  static Future<void> initializeCache() async {
     try {
-      _cachedToken = _storage.read(_tokenKey);
+      _cachedToken = await _storage.read(_tokenKey);
       debugPrint("Token cache initialized: $_cachedToken");
     } catch (e) {
       _cachedToken = null;

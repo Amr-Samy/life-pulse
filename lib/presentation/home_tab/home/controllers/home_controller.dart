@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:life_pulse/presentation/resources/helpers/functions.dart';
 import '../../../../data/network/api.dart';
+import '../../../resources/helpers/storage.dart';
 import '../../campaign_details/controllers/campaign_details_controller.dart';
 import '../../favorites/favorites_controller.dart';
 import '../models/campaign_model.dart';
@@ -60,6 +61,9 @@ class HomeController extends GetxController{
     latestCurrentPage.value = 1;
     hasMoreLatest.value = true;
     isLoadingLatest.value = true;
+    // final secureStorage = TokenStorage();
+    // debugPrint("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%${secureStorage.getToken()}");
+
     await Future.wait([
       _getCampaigns(
         campaignList: featuredCampaigns,

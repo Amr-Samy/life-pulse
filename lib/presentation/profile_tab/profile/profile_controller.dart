@@ -7,6 +7,7 @@ import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/profile_tab/profile/user_model.dart';
 import 'package:life_pulse/presentation/resources/assets_manager.dart';
 import 'package:life_pulse/presentation/resources/color_manager.dart';
+import 'package:life_pulse/presentation/resources/helpers/storage.dart';
 import '../../resources/helpers/functions.dart';
 import '../../resources/routes_manager.dart';
 import '../../resources/strings_manager.dart';
@@ -24,12 +25,12 @@ class ProfileController extends GetxController{
   @override
   Future<void> onInit() async {
     super.onInit();
-    if(!isGuest())
-    try {
+    if(!isGuest()) {
+      try {
       user = await fetchUserProfile();
     } catch (e) {
-      // Handle error in onInit if needed, e.g. show a general error message
       debugPrint("Failed to initialize profile: $e");
+    }
     }
   }
 
@@ -43,7 +44,7 @@ class ProfileController extends GetxController{
         userName.value = profileResponse.data.name;
         userImage.value = profileResponse.data.profileImage;
         walletBalance.value = profileResponse.data.walletBalance.toString();
-        debugPrint(profileResponse.data.profileImage.toString() + ":::::::::::::::::::::::::::");
+        // debugPrint(profileResponse.data.profileImage.toString() + ":::::::::::::::::::::::::::");
 
         if (profileResponse.success) {
           return profileResponse.data;
@@ -65,8 +66,8 @@ class ProfileController extends GetxController{
   void logout() async{
     var response = await Api().post('logout',);
     if(response.statusCode == 200){
-      final storage = GetStorage();
-      storage.remove("token");
+      final secureStorage = TokenStorage();
+      secureStorage.deleteToken();
       Get.deleteAll();
     }
 

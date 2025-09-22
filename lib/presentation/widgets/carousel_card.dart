@@ -16,10 +16,10 @@ class CarouselCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: cardColor,
-          image: const DecorationImage(
-            image: ExactAssetImage(ImageAssets.carouselBg),
-            fit: BoxFit.cover,
-          ),
+          // image: const DecorationImage(
+          //   image: ExactAssetImage(ImageAssets.carouselBg),
+          //   fit: BoxFit.cover,
+          // ),
         borderRadius: BorderRadius.all(Radius.circular(AppSize.s32)),
       ),
 

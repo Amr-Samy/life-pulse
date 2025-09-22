@@ -26,7 +26,7 @@ class TransactionListItemWidget extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                DateFormat('d MMM yyyy').format(transaction.date),
+                DateFormat('d MMM yyyy').format(transaction.createdAt),
                 style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 14.0,

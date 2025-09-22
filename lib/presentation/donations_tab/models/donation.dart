@@ -9,16 +9,19 @@ Donation donationFromJson(String str) => Donation.fromJson(json.decode(str));
 class DonationsResponse {
   final bool success;
   final List<Donation> data;
+  final Meta meta;
 
   DonationsResponse({
     required this.success,
     required this.data,
+    required this.meta,
   });
 
   factory DonationsResponse.fromJson(Map<String, dynamic> json) =>
       DonationsResponse(
         success: json["success"],
         data: List<Donation>.from(json["data"].map((x) => Donation.fromJson(x))),
+        meta: Meta.fromJson(json["meta"]),
       );
 }
 
@@ -29,8 +32,7 @@ class Donation {
   final String status;
   final String? paymentMethod;
   final String? transactionId;
-  // Step 1: Make user and campaign nullable
-  final Creator? user;
+  //final Creator? user;
   final Campaign campaign;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -42,7 +44,7 @@ class Donation {
     required this.status,
     this.paymentMethod,
     this.transactionId,
-    required this.user,
+    //required this.user,
     required this.campaign,
     required this.createdAt,
     required this.updatedAt,
@@ -55,9 +57,30 @@ class Donation {
     status: json["status"],
     paymentMethod: json["payment_method"],
     transactionId: json["transaction_id"],
-    user: Creator.fromJson(json["user"]),
+    //user: Creator.fromJson(json["user"]),
     campaign: Campaign.fromJson(json["campaign"]),
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
+  );
+}
+
+class Meta {
+  final int? currentPage;
+  final int? lastPage;
+  final int? perPage;
+  final int? total;
+
+  Meta({
+    this.currentPage,
+    this.lastPage,
+    this.perPage,
+    this.total,
+  });
+
+  factory Meta.fromJson(Map<String, dynamic> json) => Meta(
+    currentPage: json["current_page"],
+    lastPage: json["last_page"],
+    perPage: json["per_page"],
+    total: json["total"],
   );
 }

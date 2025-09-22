@@ -14,6 +14,7 @@ void main() async{
   await GetStorage.init();
   final storage = GetStorage();
   debugPrint(storage.read("deviceToken"));
+  await TokenStorage.initializeCache();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Future.delayed(const Duration(milliseconds: 150));
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);

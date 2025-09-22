@@ -21,12 +21,16 @@ class DonationsController extends GetxController {
     try {
       isLoading(true);
       final response = await Api().get('donations');
-
+      if (kDebugMode) {
+        print(response.data);
+      }
       if (response.statusCode == 200 && response.data['success'] == true) {
         final List<Donation> donations = (response.data['data'] as List)
             .map((item) => Donation.fromJson(item))
             .toList();
         _groupDonations(donations);
+        print("donations fetched successfully.");
+        print("donations: ${donations[0].amount}");
       } else {
         showErrorSnackBar(message: 'Failed to load donations.');
       }

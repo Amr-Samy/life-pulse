@@ -8,44 +8,35 @@ import '../../widgets/switch.dart';
 import '../partners/success_partners_screen.dart';
 import 'profile_controller.dart';
 
-class ProfileView extends StatefulWidget {
+class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
   @override
-  State<ProfileView> createState() => _ProfileViewState();
-}
-
-class _ProfileViewState extends State<ProfileView> {
+  Widget build(BuildContext context) {
+    // Get the controller instance
   final profileController = Get.find<ProfileController>(tag: "ProfileController");
 
-  bool isLightMode = false;
-  bool _isAnonymous = true;
-
-  @override
-  void initState() {
-    super.initState();
-    isLightMode = isDarkMode();
-  }
-  @override
-  Widget build(BuildContext context) {
-    return
-      isGuest() ?
-      Scaffold(
+  return isGuest()
+      ? Scaffold(
         body: GestureDetector(
           onTap: (){
             Navigator.pushNamed(context, Routes.letsInRoute);
           },
           child:  EmptyStateHolder(
               image: ImageAssets.profile,
-              description: AppStrings.logInHint.tr
+                description: AppStrings.logInHint.tr),
           ),
-        ),
-      ):
-      Scaffold(
-     body: SingleChildScrollView(
+        )
+      : Scaffold(
+          body: SingleChildScrollView(
       child: Column(
         children: [
-          _ProfileHeader(isAnonymous: _isAnonymous),
+
+                Obx(() => _ProfileHeader(
+                  isAnonymous: profileController.isAnonymous.value,
+                  userName: profileController.userName.value,
+                  walletBalance: profileController.walletBalance.value,
+                    )),
 
           const SizedBox(height: 24),
           const _DonationWalletCard(),
@@ -64,21 +55,18 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           ),
 
-          SettingTile(
+
+                Obx(() => SettingTile(
             icon: ImageAssets.anonymous,
             title: AppStrings.anonymous.tr,
             onTap: () {
-              // _isAnonymous = value;
+              profileController.toggleAnonymous(!profileController.isAnonymous.value);
             },
             trailing: StyledSwitch(
-              onToggled: (bool isToggled) {
-                setState(() {
-                  _isAnonymous = isToggled;
-                });
-              },
-              isToggled: _isAnonymous,
+                    onToggled: (value) => profileController.toggleAnonymous(value),
+                    isToggled: profileController.isAnonymous.value,
             ),
-          ),
+                    )),
 
           // Padding(
           //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -215,6 +203,7 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   void showConfirmationSheet(BuildContext context) {
+
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -290,6 +279,7 @@ class _ProfileViewState extends State<ProfileView> {
                       loading: false,
                       textButton: AppStrings.yesLogout.tr,
                       onTap: (){
+                        final profileController = Get.find<ProfileController>(tag: "ProfileController");
                         profileController.logout();
                         Navigator.of(context).popUntil((route) => false);
                         Navigator.push(
@@ -311,11 +301,18 @@ class _ProfileViewState extends State<ProfileView> {
 
 class _ProfileHeader extends StatelessWidget {
   final bool isAnonymous;
+  final String userName;
+  final String walletBalance;
 
-  const _ProfileHeader({required this.isAnonymous});
+  const _ProfileHeader({
+    required this.isAnonymous,
+    required this.userName,
+    required this.walletBalance,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final profileController = Get.find<ProfileController>(tag: "ProfileController");
     return ClipPath(
       clipper: WaveClipper(),
       child: Container(
@@ -337,32 +334,14 @@ class _ProfileHeader extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Stack(
-                      children: [
                          CircleAvatar(
                           radius: 35,
                            backgroundColor: Colors.white,
-                          backgroundImage: AssetImage(
-                            isAnonymous
-                                ? ImageAssets.anonymous
-                                : 'assets/images/profile_placeholder.png',
-                        ),
-                        ),
-                        if (!isAnonymous)
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Container(
-                            width: 15,
-                            height: 15,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: const Color(0xFFD7F0E3), width: 2),
-                            ),
-                          ),
-                        )
-                      ],
+                      backgroundImage: isAnonymous
+                          ? const AssetImage(ImageAssets.anonymous)
+                          : (profileController.userImage.value != null && profileController.userImage.value!.isNotEmpty)
+                              ? NetworkImage(profileController.userImage.value!)
+                              : const AssetImage('assets/images/profile_placeholder.png') as ImageProvider,
                     ),
                     const SizedBox(width: 15),
                     Column(
@@ -370,22 +349,22 @@ class _ProfileHeader extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          isAnonymous ? 'Hello, Anonymous' : 'Hello, Mr Dat',
+                          isAnonymous ? 'Hello, Anonymous' : 'Hello, $userName',
                           style: const TextStyle(
                             color: Color(0xFF1E2F38),
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 4),
-                        if (!isAnonymous)
-                        Text(
-                          'Donated \$150K',
-                          style: TextStyle(
-                            color: Colors.grey[700],
-                            fontSize: 14,
-                          ),
-                        ),
+                        // const SizedBox(height: 4),
+                        // if (!isAnonymous)
+                        // Text(
+                        //     'Donated \$$walletBalance',
+                        //   style: TextStyle(
+                        //     color: Colors.grey[700],
+                        //     fontSize: 14,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ],

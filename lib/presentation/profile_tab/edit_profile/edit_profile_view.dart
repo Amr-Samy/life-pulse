@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:life_pulse/presentation/profile_tab/profile/profile_controller.dart';
 import 'package:life_pulse/presentation/resources/index.dart';
@@ -19,8 +21,7 @@ class _EditProfileViewState extends State<EditProfileView> {
   @override
   void initState() {
     super.initState();
-    // profileController.loadProfileData();
-    // profileController.getLanguages();
+      profileController.loadProfileData();
   }
   @override
   Widget build(BuildContext context) {
@@ -42,20 +43,27 @@ class _EditProfileViewState extends State<EditProfileView> {
             SizedBox(height: AppMargin.m16,),
             // Avatar
             Center(
-              child: Stack(
+                child: Obx(() => Stack(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 60,
-                    backgroundColor: Color(0xFFF1F1F1),
-                    child: Icon(
-                      Icons.sync, // Placeholder icon similar to the image
-                      color: Colors.grey,
-                      size: 50,
-                    ),
+                      backgroundColor: const Color(0xFFF1F1F1),
+                      backgroundImage: profileController.selectedImage.value != null
+                          ?  FileImage(profileController.selectedImage.value as File)
+                          : (profileController.userImage.value != null && profileController.userImage.value!.isNotEmpty)
+                          ?  NetworkImage(profileController.userImage.value!)
+                          : null,
+                      child: (profileController.selectedImage.value == null && (profileController.userImage.value == null || profileController.userImage.value!.isEmpty))
+                          ? const Icon(Icons.person, color: Colors.grey, size: 50)
+                          : null,
                   ),
                   Positioned(
                     bottom: 0,
                     right: 0,
+                      child: GestureDetector(
+                        onTap: () {
+                          profileController.pickImage();
+                        },
                     child: Container(
                       width: 35,
                       height: 35,
@@ -71,12 +79,13 @@ class _EditProfileViewState extends State<EditProfileView> {
                       ),
                     ),
                   ),
+                    ),
                 ],
+                )),
               ),
-            ),
 
             SizedBox(height: AppMargin.m40,),
-              /// Full Name
+              /// Name
               CustomTextField(
                   hintText: AppStrings.fullName.tr,
                   keyboardType: TextInputType.name,
@@ -87,24 +96,23 @@ class _EditProfileViewState extends State<EditProfileView> {
               ),
 
               SizedBox(height: AppMargin.m16,),
-              /// Nickname
-              CustomTextField(
-                controller: profileController.nicknameTextController,
-                hintText: AppStrings.nickname.tr,
-                keyboardType: TextInputType.name,
-                onFieldSubmitted: (text){
+              // /// Nickname
+              // CustomTextField(
+              //   controller: profileController.nicknameTextController,
+              //   hintText: AppStrings.nickname.tr,
+              //   keyboardType: TextInputType.name,
+              //   onFieldSubmitted: (text){
+              //
+              //   },
+              // ),
+              // SizedBox(height: AppMargin.m16,),
 
-                },
-              ),
-
-              SizedBox(height: AppMargin.m16,),
               /// Email
               CustomTextField(
                 controller: profileController.emailTextController,
-                // hintText: AppStrings.email.tr,
-                hintText: "mail@example.com",
+                hintText: AppStrings.email.tr,
                 keyboardType: TextInputType.emailAddress,
-                enabled: false,
+                enabled: true,
                 onFieldSubmitted: (text){
 
                 },
@@ -117,6 +125,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                 controller: profileController.phoneTextController,
                 hintText: AppStrings.phoneNumber.tr,
                 keyboardType: TextInputType.phone,
+                enabled: false,
                 onFieldSubmitted: (text){
 
                 },
@@ -158,17 +167,16 @@ class _EditProfileViewState extends State<EditProfileView> {
         padding: EdgeInsets.only(
           left: AppPadding.p16,
           right: AppPadding.p16,
-          bottom: AppPadding.p16,
+          bottom: MediaQuery.of(context).viewInsets.bottom + AppPadding.p16,
         ),
-        child: CustomButton(
-          // loading: profileController.isLoading.value,
-          loading: false,
+        child: Obx(() => CustomButton(
+          loading: profileController.isLoading.value,
           onTap: (){
-            // profileController.editProfile();
+            profileController.editProfile();
           },
           textButton: AppStrings.update.tr,
           color: Colors.green,
-        ),
+        )),
       ),
     );
   }

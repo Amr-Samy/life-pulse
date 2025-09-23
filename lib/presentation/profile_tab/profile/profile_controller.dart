@@ -1,18 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide MultipartFile;
+import 'package:get/get_connect/http/src/multipart/multipart_file.dart' hide MultipartFile;
 import 'package:get_storage/get_storage.dart';
 import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/profile_tab/profile/user_model.dart';
-import 'package:life_pulse/presentation/resources/assets_manager.dart';
-import 'package:life_pulse/presentation/resources/color_manager.dart';
 import 'package:life_pulse/presentation/resources/helpers/storage.dart';
 import '../../resources/helpers/functions.dart';
-import '../../resources/routes_manager.dart';
-import '../../resources/strings_manager.dart';
 import '../../resources/validation_manager.dart';
-import '../../widgets/dialog.dart';
+import 'package:image_picker/image_picker.dart';
+
 class ProfileController extends GetxController{
   RxBool isLoading = false.obs;
   RxString userName = ''.obs;
@@ -22,15 +22,39 @@ class ProfileController extends GetxController{
   RxString? selectedFavLanguage= "".obs;
   int? favLangId ;
   UserModel? user ;
+
+  final _box = GetStorage();
+  RxBool isAnonymous = false.obs;
+
+
+  //? //////////////// Edit Profile Variables //////////////// //
+  final ImagePicker _picker = ImagePicker();
+  Rx<File?> selectedImage = Rx(null);
+
+  TextEditingController emailTextController = TextEditingController();
+  TextEditingController fullNameTextController = TextEditingController();
+  TextEditingController nicknameTextController = TextEditingController();
+  TextEditingController phoneTextController = TextEditingController();
+
   @override
   Future<void> onInit() async {
     super.onInit();
+    isAnonymous.value = _box.read('isAnonymous') ?? true;
     if(!isGuest()) {
       try {
       user = await fetchUserProfile();
     } catch (e) {
       debugPrint("Failed to initialize profile: $e");
     }
+    }
+  }
+
+  void loadProfileData() {
+    if (user != null) {
+      fullNameTextController.text = user!.name;
+      //nicknameTextController.text = user!.name;
+      phoneTextController.text = user!.mobile;
+      // emailTextController.text = user!.email ?? 'mail@example.com';
     }
   }
 
@@ -47,6 +71,7 @@ class ProfileController extends GetxController{
         // debugPrint(profileResponse.data.profileImage.toString() + ":::::::::::::::::::::::::::");
 
         if (profileResponse.success) {
+          user = profileResponse.data;
           return profileResponse.data;
         } else {
           throw Exception('API returned success: false');
@@ -70,90 +95,69 @@ class ProfileController extends GetxController{
       secureStorage.deleteToken();
       Get.deleteAll();
     }
-
   }
 
+  void toggleAnonymous(bool value) {
+    isAnonymous.value = value;
+    _box.write('isAnonymous', value);
+  }
 
-//? //////////////// Edit Profile //////////////// //
-  String error = '';
-  TextEditingController emailTextController = TextEditingController();
-  TextEditingController fullNameTextController = TextEditingController();
-  TextEditingController nicknameTextController = TextEditingController();
-  TextEditingController phoneTextController = TextEditingController();
-  TextEditingController dateTextController = TextEditingController();
+    Future<void> pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      selectedImage.value = File(image.path);
+    }
+  }
 
   Future<void> editProfile() async {
     isLoading.value = true ;
+    try {
+      if (selectedImage.value != null) {
+        await _updateProfileImage();
+      }
+
     dynamic body = {
-     'full_name': fullNameTextController.text,
-     'phone': phoneTextController.text,
+        'name': fullNameTextController.text,
+        'mobile': phoneTextController.text,
+        // "current_password": "oldpassword",
+        // "password": "newpassword",
+        // "password_confirmation": "newpassword"
     };
 
-    try {
-      var  req = await Api().post(
-        'update_account',
-        data: body,
-      );
+      var response = await Api().post('profile', data: body);
 
-      dynamic responseData = req.data;
-      if (responseData is String) {
-        // Handle the case where response is a String
-        responseData = json.decode(responseData);
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        await fetchUserProfile();
+        Get.back();
+        showSuccessSnackBar(message: response.data['message']);
+      } else {
+        showErrorSnackBar(message: response.data['message'] ?? 'Failed to update profile.');
       }
-      // Read values
-      String status = responseData['status'];
-      String message = responseData['message'];
-
-      if(status == "success")
-      {
-        isLoading.value = false ; // Consider moving this to finally block if there are multiple exit points before it.
-
-        showDialog<void>(
-            context: Get.context!,
-            builder: (context) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              content: SuccessDialog(
-                image: ImageAssets.congrats,
-                title: AppStrings.congratulations.tr,
-                subTitle: AppStrings.accountReady.tr,
-                actions: ColorFiltered(
-                  colorFilter: ColorFilter.mode(ColorManager.primary, BlendMode.srcIn),
-                  child: Image.asset(
-                    ImageAssets.loading,
-                    height: 60,
-                  ),
-                ),
-              ),
-            )
-        );
-
-        Timer(const Duration(seconds: 1), () {
-          Navigator.pop(Get.context!, true);
-          Navigator.pushNamedAndRemoveUntil(
-              Get.context!,
-              Routes.mainRoute,
-                  (Route<dynamic> route) => false
-          );
-        });
-
-      } else{
-        error = message ?? "";
-        showErrorSnackBar(message:  error.isNotEmpty ? error :"");
-        isLoading.value = false ; // Also consider moving this to finally.
-
-      }
-
-    } catch (err) {
-      showErrorSnackBar(message:  error.isNotEmpty ? error :  err.toString());
-      isLoading.value = false ; // This is good, but a finally block is more robust.
-      throw Exception(err.toString());
+    } catch (e) {
+      showErrorSnackBar(message: e.toString());
+      debugPrint('Error updating profile: $e');
     } finally {
-      // if isLoading was set to true at the start of editProfile unconditionally,
-      // then it should be set to false here unconditionally.
-      // However, the current logic sets isLoading = false in success/else/catch paths.
-      // For consistency, consider a single finally block for isLoading = false for editProfile too.
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> _updateProfileImage() async {
+    if (selectedImage.value == null) return;
+
+    try {
+      dynamic body = {
+        'image': await MultipartFile.fromFile(selectedImage.value!.path),
+      };
+
+      var response = await Api().postFormData('profile/image', data: body);
+
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        selectedImage.value = null;
+      } else {
+        throw Exception(response.data['message'] ?? 'Failed to update image.');
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 

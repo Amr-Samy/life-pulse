@@ -87,6 +87,10 @@ class InputField extends StatelessWidget {
               child: suffix
           ),
         ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.blueGrey.shade50)
+        ),
         suffixIconColor: MaterialStateColor.resolveWith((states) =>
         states.contains(MaterialState.focused)
             ? ColorManager.primary

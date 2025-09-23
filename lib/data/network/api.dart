@@ -110,6 +110,33 @@ class Api {
         onSendProgress: onSendProgress);
   }
 
+  ///[POST with FormData] We will use this method to process post requests with files.
+  Future<Response> postFormData(
+      String path, {
+        dynamic data,
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        CancelToken? cancelToken,
+        void Function(int, int)? onSendProgress,
+        void Function(int, int)? onReceiveProgress,
+        bool addRequestInterceptor = true,
+      }) async {
+    debugPrint("URL : ${dio.options.baseUrl + path}");
+    debugPrint("Request body : $data");
+    if (addRequestInterceptor) {
+      dio.interceptors
+          .add(RequestInterceptor(dio, apiKey: apiKey, token: token));
+    }
+    return await dio.post(dio.options.baseUrl + path,
+        data: FormData.fromMap(data), // Use FormData here
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress);
+  }
+
+
   ///[PUT] We will use this method inorder to process post requests
   Future<Response> put(
     String path, {

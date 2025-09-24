@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:life_pulse/presentation/resources/strings_manager.dart';
 import '../../resources/assets_manager.dart';
 import '../../resources/color_manager.dart';
 import '../controllers/wallet_controller.dart';
 import '../presentation/top_up_screen.dart';
-
 
 class WalletHeaderWidget extends StatelessWidget {
   const WalletHeaderWidget({super.key});
@@ -22,9 +22,9 @@ class WalletHeaderWidget extends StatelessWidget {
       }
 
       if (controller.wallet.value == null) {
-        return const SizedBox(
+        return SizedBox(
           height: 120,
-          child: Center(child: Text('Could not load wallet data.')),
+          child: Center(child: Text(AppStrings.couldNotLoadWalletData.tr)),
         );
       }
 
@@ -32,7 +32,6 @@ class WalletHeaderWidget extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
-
           color: ColorManager.lightGreenColor,
           borderRadius: BorderRadius.circular(20.0),
         ),
@@ -50,15 +49,15 @@ class WalletHeaderWidget extends StatelessWidget {
                       color: Colors.green,
                     ),
                     const SizedBox(width: 8),
-                    const Text(
-                      'Current Balance',
+                    Text(
+                      AppStrings.currentBalance.tr,
                       style: TextStyle(color: Colors.green, fontSize: 14),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "${controller.wallet.value!.balance.toStringAsFixed(2)} EGP",
+                  "${controller.wallet.value!.balance.toStringAsFixed(2)}${AppStrings.egpCurrency.tr}",
                   style: const TextStyle(
                     color: Colors.black87,
                     fontSize: 32,
@@ -67,7 +66,6 @@ class WalletHeaderWidget extends StatelessWidget {
                 ),
               ],
             ),
-
             ElevatedButton(
               onPressed: () {
                 Get.to(() => const TopUpScreen());
@@ -80,8 +78,8 @@ class WalletHeaderWidget extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
-              child: const Text(
-                'Top up',
+              child: Text(
+                AppStrings.topUp.tr,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
             ),

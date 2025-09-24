@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:life_pulse/presentation/resources/routes_manager.dart';
+import 'package:life_pulse/presentation/resources/strings_manager.dart';
 import '../../../data/network/api.dart';
 import '../../resources/helpers/functions.dart';
 import '../../resources/helpers/storage.dart';
 
-class SignUpController extends GetxController{
+class SignUpController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isPasswordHidden = true.obs;
   RxBool isPasswordConfirmationHidden = true.obs;
@@ -20,9 +21,9 @@ class SignUpController extends GetxController{
 
   Future<void> register() async {
     try {
-    isLoading.value = true ;
+      isLoading.value = true;
       if (passwordTextController.text != passwordConfirmationTextController.text) {
-        showErrorSnackBar(message: "Passwords do not match.");
+        showErrorSnackBar(message: AppStrings.passwordsDoNotMatch.tr);
         return;
       }
 
@@ -43,7 +44,7 @@ class SignUpController extends GetxController{
       }
 
       bool success = responseData['success'] ?? false;
-      String message = responseData['message'] ?? 'An unknown error occurred.';
+      String message = responseData['message'] ?? AppStrings.anUnknownErrorOccurred.tr;
 
       if (success) {
         // GetStorage storage = GetStorage();
@@ -52,8 +53,7 @@ class SignUpController extends GetxController{
         await secureStorage.saveToken(responseData['token']);
         showSuccessSnackBar(message: message);
         Get.offAllNamed(Routes.mainRoute);
-
-        } else{
+      } else {
         String errorMessage = message;
         if (responseData.containsKey('errors') && responseData['errors'] is Map) {
           final errors = responseData['errors'] as Map;
@@ -66,8 +66,7 @@ class SignUpController extends GetxController{
     } catch (e) {
       showErrorSnackBar(message: e.toString());
     } finally {
-        isLoading.value = false ;
-      }
+      isLoading.value = false;
     }
+  }
 }
-

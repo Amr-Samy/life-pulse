@@ -1,8 +1,10 @@
 // lib/pin_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:get/get.dart';
 
 import '../../../resources/values_manager.dart';
+import '../../../resources/strings_manager.dart';
 
 class PinScreen extends StatefulWidget {
   const PinScreen({super.key});
@@ -21,21 +23,20 @@ class _PinScreenState extends State<PinScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Enter PIN', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title: Text(AppStrings.enterPin.tr, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: const BackButton(color: Colors.black),
       ),
       body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-
-                children: [
-                  const Text(
-                    'Please Enter your PIN',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black54),
-                  ),
-                  const SizedBox(height: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          children: [
+            Text(
+              AppStrings.pleaseEnterYourPin.tr,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black54),
+            ),
+            const SizedBox(height: 40),
 
             // Using the flutter_verification_code widget
             VerificationCode(
@@ -49,7 +50,7 @@ class _PinScreenState extends State<PinScreen> {
               // Sizing
               itemSize: AppSize.s50,
               autofocus: true,
-               fullBorder: true,
+              fullBorder: true,
               // Fires when all digits are entered
               onCompleted: (String value) {
                 setState(() {
@@ -65,19 +66,18 @@ class _PinScreenState extends State<PinScreen> {
                   FocusScope.of(context).unfocus();
                 }
               },
-                digitsOnly: true,
-                // pasteStream:  signInController.pasteCode,
-                margin: EdgeInsets.symmetric(horizontal: AppMargin.m8),
+              digitsOnly: true,
+              // pasteStream:  signInController.pasteCode,
+              margin: EdgeInsets.symmetric(horizontal: AppMargin.m8),
 
-
-                fillColor: Theme.of(context).cardColor,
+              fillColor: Theme.of(context).cardColor,
             ),
 
-                  const SizedBox(height: 50),
-                  _buildConfirmButton(),
-                ],
-              ),
-            ),
+            const SizedBox(height: 50),
+            _buildConfirmButton(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -91,13 +91,13 @@ class _PinScreenState extends State<PinScreen> {
       child: ElevatedButton(
         onPressed: isEnabled
             ? () {
-          // TODO: Implement PIN confirmation logic
-          print('PIN Confirmed: $_pin');
+                // TODO: Implement PIN confirmation logic
+                print('PIN Confirmed: $_pin');
                 FocusScope.of(context).unfocus(); // Hide keyboard
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('PIN $_pin confirmed!')),
-          );
-        }
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(AppStrings.pinConfirmed.tr.replaceFirst('%s', _pin))),
+                );
+              }
             : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryColor,
@@ -108,8 +108,8 @@ class _PinScreenState extends State<PinScreen> {
           ),
           elevation: 0,
         ),
-        child: const Text(
-          'Confirm',
+        child: Text(
+          AppStrings.confirm.tr,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -119,5 +119,4 @@ class _PinScreenState extends State<PinScreen> {
       ),
     );
   }
-
 }

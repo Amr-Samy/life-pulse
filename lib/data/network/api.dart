@@ -20,23 +20,24 @@ class Api {
       _languageCode = value;
     }
   }
+
   static final _singleton = Api._internal();
 
   factory Api() => _singleton;
 
   static Dio createDio() {
     var dio = Dio(BaseOptions(
-      baseUrl: "https://nabd.kirellos.com/api/",
-      contentType: Headers.jsonContentType,
+        baseUrl: "https://nabd.kirellos.com/api/",
+        contentType: Headers.jsonContentType,
         validateStatus: (int? status) {
           return status != null;
         },
-      // connectTimeout: const Duration(milliseconds: 30000),
-      //30 secs
-      // receiveTimeout: const Duration(milliseconds: 30000),
-      //30 secs
-      sendTimeout: const Duration(milliseconds: 30000),
-      //20secs
+        // connectTimeout: const Duration(milliseconds: 30000),
+        //30 secs
+        // receiveTimeout: const Duration(milliseconds: 30000),
+        //30 secs
+        sendTimeout: const Duration(milliseconds: 30000),
+        //20secs
         maxRedirects: 2));
     dio.interceptors.addAll({ErrorInterceptor(dio)});
     return dio;
@@ -64,7 +65,8 @@ class Api {
   }
 
   ///[GET] We will use this method inorder to process get requests
-  Future<Response> get(String path, {
+  Future<Response> get(
+    String path, {
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
@@ -73,8 +75,7 @@ class Api {
   }) async {
     debugPrint("GETTING API FROM : ${dio.options.baseUrl + path}");
     if (addRequestInterceptor) {
-      dio.interceptors
-          .add(RequestInterceptor(dio, apiKey: apiKey, token: token));
+      dio.interceptors.add(RequestInterceptor(dio, apiKey: apiKey, token: token));
     }
     debugPrint("QUERY PARAMS=>$queryParameters");
     return await dio.get(dio.options.baseUrl + path,
@@ -85,7 +86,8 @@ class Api {
   }
 
   ///[POST] We will use this method inorder to process post requests
-  Future<Response> post(String path, {
+  Future<Response> post(
+    String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
@@ -98,8 +100,7 @@ class Api {
     debugPrint("Request body : $data");
     debugPrint("Request jsonEncode(data) : ${jsonEncode(data)}");
     if (addRequestInterceptor) {
-      dio.interceptors
-          .add(RequestInterceptor(dio, apiKey: apiKey, token: token));
+      dio.interceptors.add(RequestInterceptor(dio, apiKey: apiKey, token: token));
     }
     return await dio.post(dio.options.baseUrl + path,
         data: jsonEncode(data),
@@ -112,20 +113,19 @@ class Api {
 
   ///[POST with FormData] We will use this method to process post requests with files.
   Future<Response> postFormData(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-        void Function(int, int)? onSendProgress,
-        void Function(int, int)? onReceiveProgress,
-        bool addRequestInterceptor = true,
-      }) async {
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onReceiveProgress,
+    bool addRequestInterceptor = true,
+  }) async {
     debugPrint("URL : ${dio.options.baseUrl + path}");
     debugPrint("Request body : $data");
     if (addRequestInterceptor) {
-      dio.interceptors
-          .add(RequestInterceptor(dio, apiKey: apiKey, token: token));
+      dio.interceptors.add(RequestInterceptor(dio, apiKey: apiKey, token: token));
     }
     return await dio.post(dio.options.baseUrl + path,
         data: FormData.fromMap(data), // Use FormData here
@@ -135,7 +135,6 @@ class Api {
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress);
   }
-
 
   ///[PUT] We will use this method inorder to process post requests
   Future<Response> put(
@@ -151,8 +150,7 @@ class Api {
     debugPrint("URL : ${dio.options.baseUrl + path}");
     debugPrint("Request body : $data");
     if (addRequestInterceptor) {
-      dio.interceptors
-          .add(RequestInterceptor(dio, apiKey: apiKey, token: token));
+      dio.interceptors.add(RequestInterceptor(dio, apiKey: apiKey, token: token));
     }
     return await dio.put(dio.options.baseUrl + path,
         data: FormData.fromMap(data),
@@ -165,20 +163,19 @@ class Api {
 
   /// [PATCH] We will use this method to process patch requests
   Future<Response> patch(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-        void Function(int, int)? onSendProgress,
-        void Function(int, int)? onReceiveProgress,
-        bool addRequestInterceptor = true,
-      }) async {
-    debugPrint("URL : ${dio.options.baseUrl + path}");
-    debugPrint("Request body : $data");
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onReceiveProgress,
+    bool addRequestInterceptor = true,
+  }) async {
+    debugPrint("${AppStrings.url.tr} ${dio.options.baseUrl + path}");
+    debugPrint("${AppStrings.requestBody.tr} $data");
     if (addRequestInterceptor) {
-      dio.interceptors
-          .add(RequestInterceptor(dio, apiKey: apiKey, token: token));
+      dio.interceptors.add(RequestInterceptor(dio, apiKey: apiKey, token: token));
     }
     return await dio.patch(
       dio.options.baseUrl + path,
@@ -191,7 +188,6 @@ class Api {
     );
   }
 
-
   ///[DELETE] We will use this method inorder to process delete requests
   Future<Response> delete(
     String path, {
@@ -202,16 +198,12 @@ class Api {
   }) async {
     debugPrint("DELETING API FROM : ${dio.options.baseUrl + path}");
     if (addRequestInterceptor) {
-      dio.interceptors
-          .add(RequestInterceptor(dio, apiKey: apiKey, token: token));
+      dio.interceptors.add(RequestInterceptor(dio, apiKey: apiKey, token: token));
     }
     debugPrint("QUERY PARAMS=>$queryParameters");
     return await dio.delete(dio.options.baseUrl + path,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken);
+        queryParameters: queryParameters, options: options, cancelToken: cancelToken);
   }
-
 }
 
 class ErrorInterceptor extends Interceptor {
@@ -250,18 +242,17 @@ class ErrorInterceptor extends Interceptor {
         }
         break;
       case DioExceptionType.cancel:
-      // TODO: Handle this case.
+        // TODO: Handle this case.
         break;
       case DioExceptionType.unknown:
         debugPrint(err.message);
         throw UnKnownException(err.requestOptions);
       case DioExceptionType.badCertificate:
         debugPrint(err.message);
-        throw  CertificateException(err.message.toString());
+        throw CertificateException(err.message.toString());
       case DioExceptionType.connectionError:
         debugPrint(err.message);
         throw NoInternetConnectionException(err.requestOptions);
-
     }
     return handler.next(err);
   }
@@ -281,7 +272,7 @@ class RequestInterceptor extends Interceptor {
 
     options.headers = {
       'apiKey': apiKey,
-      'Authorization': "Bearer ${secureStorage.getToken()}" ??token,
+      'Authorization': "Bearer ${secureStorage.getToken()}" ?? token,
       "content-type": "application/json",
       "Accept-Language": api._languageCode,
     };
@@ -379,5 +370,4 @@ class UnKnownException extends DioException {
   String toString() {
     return AppStrings.unKnownError.tr;
   }
-
 }

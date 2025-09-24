@@ -2,11 +2,9 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:life_pulse/presentation/home_tab/campaign_details/campaign_details_screen.dart';
 import 'package:life_pulse/presentation/home_tab/home/widgets/quick_donation_sheet_view.dart';
-import '../../auth/sign_in/signIn_view.dart';
 import '../../layout/layout_controller.dart';
 import '../../profile_tab/profile/profile_controller.dart';
 import '../../resources/index.dart';
-import '../../transations_tab/presentation/top_up_screen.dart';
 import '../../transations_tab/widgets/wallet_header_widget.dart';
 import '../favorites/favorites_screen.dart';
 import 'controllers/home_controller.dart';
@@ -22,7 +20,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final profileController = Get.find<ProfileController>(tag: "ProfileController");
-  final homeController = Get.put(HomeController(),tag: "HomeController");
+  final homeController = Get.put(HomeController(), tag: "HomeController");
   final layoutController = Get.find<LayoutController>(tag: "LayoutController");
 
   final ScrollController _scrollController = ScrollController();
@@ -36,8 +34,7 @@ class _HomeViewState extends State<HomeView> {
   void _onScroll() {
     final shouldLoadMore = !homeController.isLoadingMoreLatest.value &&
         homeController.hasMoreLatest.value &&
-        _scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent - 300;
+        _scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 300;
 
     if (shouldLoadMore) {
       homeController.loadMoreLatest();
@@ -53,7 +50,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       appBar: _buildAppBar(profileController),
@@ -85,7 +81,7 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        tooltip: "Quick Donation",
+        tooltip: AppStrings.quickDonation.tr,
         onPressed: () {
           showQuickDonationSheet(context);
         },
@@ -104,8 +100,8 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildFeatureCampaignList() {
-  const double screenPadding = 0.0;
-  const double cardSpacing = 70.0;
+    const double screenPadding = 0.0;
+    const double cardSpacing = 70.0;
 
     return Obx(() {
       if (homeController.isLoadingFeatured.value && homeController.featuredCampaigns.isEmpty) {
@@ -117,64 +113,60 @@ class _HomeViewState extends State<HomeView> {
       if (homeController.featuredCampaigns.isEmpty) {
         return const SizedBox(
           height: 480,
-          child: Center(child: Text("No featured campaigns found.")),
+          child: Center(child: Text(AppStrings.noFeaturedCampaigns)),
         );
       }
 
-    return SizedBox(
-    height: 490,
-      child: PageView.builder(
+      return SizedBox(
+        height: 490,
+        child: PageView.builder(
           controller: homeController.pageController,
           onPageChanged: homeController.onPageChanged,
-          itemCount: homeController.featuredCampaigns.length +
-              (homeController.hasMoreFeatured.value ? 1 : 0),
+          itemCount: homeController.featuredCampaigns.length + (homeController.hasMoreFeatured.value ? 1 : 0),
           itemBuilder: (context, index) {
             if (index == homeController.featuredCampaigns.length) {
               return const Center(child: CircularProgressIndicator());
             }
 
             final campaign = homeController.featuredCampaigns[index];
-        final double leftPadding = (index == 0) ? screenPadding : (cardSpacing / 2);
+            final double leftPadding = (index == 0) ? screenPadding : (cardSpacing / 2);
             final double rightPadding =
-                (index == homeController.featuredCampaigns.length - 1)
-                    ? screenPadding
-                    : (cardSpacing / 2);
+                (index == homeController.featuredCampaigns.length - 1) ? screenPadding : (cardSpacing / 2);
 
-          return AnimatedBuilder(
+            return AnimatedBuilder(
               animation: homeController.pageController,
-            builder: (context, child) {
-              double value = 0.0;
+              builder: (context, child) {
+                double value = 0.0;
                 if (homeController.pageController.position.haveDimensions) {
                   value = index.toDouble() - (homeController.pageController.page ?? 0);
-      value = (value * 0.05).clamp(-1, 1);
-              }
+                  value = (value * 0.05).clamp(-1, 1);
+                }
 
-    double scale = 1.0 - (value.abs() * 0.15);
-    scale = scale.clamp(0.92, 1.0);
+                double scale = 1.0 - (value.abs() * 0.15);
+                scale = scale.clamp(0.92, 1.0);
 
-              return Transform.rotate(
-      angle: math.pi * value * 0.5,
+                return Transform.rotate(
+                  angle: math.pi * value * 0.5,
                   child: Transform.scale(scale: scale, child: child),
-              );
+                );
               },
-          child: Padding(
-    padding: EdgeInsets.only(
-      left: leftPadding,
-      right: rightPadding,
-      top: 40,
-      bottom: 40,
-    ),
-                child: Obx(
-                    () {
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: leftPadding,
+                  right: rightPadding,
+                  top: 40,
+                  bottom: 40,
+                ),
+                child: Obx(() {
                   bool isSelected = homeController.currentCampaignIndex.value == index;
 
                   return CampaignCard(campaign: campaign, isSelected: isSelected);
-            }),
+                }),
               ),
             );
           },
         ),
-    );
+      );
     });
   }
 
@@ -184,8 +176,8 @@ class _HomeViewState extends State<HomeView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Latest Campaign',
+          Text(
+            AppStrings.latestCampaign.tr,
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black87),
           ),
           const SizedBox(height: 16),
@@ -194,24 +186,24 @@ class _HomeViewState extends State<HomeView> {
               return const Center(child: CircularProgressIndicator());
             }
             if (homeController.latestCampaigns.isEmpty) {
-              return const Center(child: Text("No latest campaigns found."));
+              return const Center(child: Text(AppStrings.noLatestCampaigns));
             }
             return Column(
               children: [
                 GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: homeController.latestCampaigns.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-              childAspectRatio: 0.55,
-              ),
-              itemBuilder: (context, index) {
-                final campaign = homeController.latestCampaigns[index];
-                return LatestCampaignCard(campaign: campaign);
-              },
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: homeController.latestCampaigns.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    childAspectRatio: 0.55,
+                  ),
+                  itemBuilder: (context, index) {
+                    final campaign = homeController.latestCampaigns[index];
+                    return LatestCampaignCard(campaign: campaign);
+                  },
                 ),
                 Obx(() {
                   if (homeController.isLoadingMoreLatest.value) {
@@ -245,12 +237,12 @@ class _HomeViewState extends State<HomeView> {
 }
 
 AppBar _buildAppBar(ProfileController profileController) {
-    return AppBar(
-      elevation: 0,
-      backgroundColor: ColorManager.lightGreenColor,
-      automaticallyImplyLeading: false,
-      titleSpacing: 25,
-      title: Row(
+  return AppBar(
+    elevation: 0,
+    backgroundColor: ColorManager.lightGreenColor,
+    automaticallyImplyLeading: false,
+    titleSpacing: 25,
+    title: Row(
       children: [
         Obx(() {
           final imageUrl = profileController.userImage.value;
@@ -269,29 +261,28 @@ AppBar _buildAppBar(ProfileController profileController) {
           }
         }),
         const SizedBox(width: 12),
-         Obx(() => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Hello, ${profileController.userName.value}',
-              style: TextStyle(
-                  fontSize: 18,
-                fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-              ),
-            ),
-            ],
+        Obx(() => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${AppStrings.hello.tr} ${profileController.userName.value}',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+              ],
             )),
-          ],
-        ),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.search, size: 28),
-          color: Colors.black54,
-        ),
-
-        if(!isGuest())
+      ],
+    ),
+    actions: [
+      IconButton(
+        onPressed: () {},
+        icon: const Icon(Icons.search, size: 28),
+        color: Colors.black54,
+      ),
+      if (!isGuest())
         IconButton(
           onPressed: () {
             Get.to(() => const FavoritesScreen());
@@ -299,8 +290,8 @@ AppBar _buildAppBar(ProfileController profileController) {
           icon: const Icon(Icons.favorite_outline, size: 28),
           color: Colors.black54,
         ),
-        const SizedBox(width: 8),
-      ],
+      const SizedBox(width: 8),
+    ],
   );
 }
 
@@ -327,7 +318,7 @@ AppBar _buildAppBar(ProfileController profileController) {
 //                   ),
 //                   SizedBox(width: 8),
 //                   Text(
-//                     'Donation wallet',
+//                     AppStrings.donationWallet.tr,
 //                     style: TextStyle(color: Colors.black54, fontSize: 14),
 //                   ),
 //                 ],
@@ -360,7 +351,7 @@ AppBar _buildAppBar(ProfileController profileController) {
 //               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
 //             ),
 //             child: const Text(
-//               'Top up',
+//               AppStrings.topUp.tr,
 //               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
 //             ),
 //           ),
@@ -370,14 +361,14 @@ AppBar _buildAppBar(ProfileController profileController) {
 // }
 
 Widget _buildFeatureCampaignTitle() {
-  return const Padding(
+  return Padding(
     padding: EdgeInsets.symmetric(horizontal: 20.0),
     child: Text(
-      'Feature Campaign',
+      AppStrings.featureCampaign.tr,
       style: TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.bold,
-          color: Colors.black87,
+        color: Colors.black87,
       ),
     ),
   );
@@ -400,15 +391,15 @@ class CampaignCard extends StatelessWidget {
     final differenceInDays = normalizedEndTime.difference(normalizedToday).inDays;
 
     if (differenceInDays == 0) {
-      return 'اليوم';
+      return AppStrings.today.tr;
     } else if (differenceInDays == 1) {
-      return 'غداً';
+      return AppStrings.tomorrow.tr;
     } else if (differenceInDays > 1) {
-      return '$differenceInDays يوم ';
+      return '$differenceInDays ${AppStrings.day.tr}';
     } else if (differenceInDays == -1) {
-      return 'أمس';
+      return AppStrings.yesterday.tr;
     } else {
-      return '${differenceInDays.abs()} أيام مضت ';
+      return '${differenceInDays.abs()} ${AppStrings.daysAgo.tr}';
     }
   }
 
@@ -417,7 +408,7 @@ class CampaignCard extends StatelessWidget {
     final normalizedToday = DateTime(now.year, now.month, now.day);
     final normalizedEndTime = DateTime(endTime.year, endTime.month, endTime.day);
     if (normalizedEndTime.isBefore(normalizedToday)) {
-      return 'Ended';
+      return AppStrings.ended.tr;
     } else {
       return 'مُتبقى';
     }
@@ -429,16 +420,16 @@ class CampaignCard extends StatelessWidget {
     final normalizedEndTime = DateTime(endTime.year, endTime.month, endTime.day);
     final differenceInDays = normalizedEndTime.difference(normalizedToday).inDays;
 
-  // Red ended or ends in less than 7 days
-  if (differenceInDays < 7) {
+    // Red ended or ends in less than 7 days
+    if (differenceInDays < 7) {
       return Colors.red.shade700;
-  }
-  // Orange less than 30 days
-  else if (differenceInDays < 30) {
+    }
+    // Orange less than 30 days
+    else if (differenceInDays < 30) {
       return isSelected ? Colors.orange.shade800 : Colors.orange.shade700;
-  }
-  // Green (30 days or more)
-  else {
+    }
+    // Green (30 days or more)
+    else {
       return isSelected ? Colors.green.shade800 : Colors.green.shade700;
     }
   }
@@ -449,7 +440,7 @@ class CampaignCard extends StatelessWidget {
     final Color borderColor = isSelected ? Colors.green : Colors.blue;
     final Color authorColor = isSelected ? Colors.green : Colors.blue;
     final double progress = campaign.progressPercentage / 100.0;
-    
+
     final String endTimeString = _getFormattedEndTimeString(campaign.endTime ?? DateTime.now());
     final String endTimeLabel = _getEndTimeLabel(campaign.endTime ?? DateTime.now());
     final Color endTimeColor = _getEndTimeColor(campaign.endTime ?? DateTime.now(), isSelected);
@@ -477,15 +468,14 @@ class CampaignCard extends StatelessWidget {
                       height: 150,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const Icon(Icons.image_not_supported, size: 100),
+                      errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported, size: 100),
                     )
                   : Image.asset(
-                'assets/images/boarding/boarding1.png',
-                height: 150,
-                width: double.infinity,
-                fit: BoxFit.contain,
-              ),
+                      'assets/images/boarding/boarding1.png',
+                      height: 150,
+                      width: double.infinity,
+                      fit: BoxFit.contain,
+                    ),
             ),
             Padding(
               padding: const EdgeInsets.all(12.0),
@@ -501,21 +491,21 @@ class CampaignCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      const Text('By', style: TextStyle(color: Colors.grey)),
+                      Text(AppStrings.by.tr, style: TextStyle(color: Colors.grey)),
                       const SizedBox(width: 4),
-                        Text(
+                      Text(
                         campaign.creator.name,
-                          style: TextStyle(color: authorColor, fontWeight: FontWeight.bold),
-                        ),
+                        style: TextStyle(color: authorColor, fontWeight: FontWeight.bold),
+                      ),
                       const SizedBox(width: 4),
-                        Icon(Icons.check_circle, color: authorColor, size: 16),
+                      Icon(Icons.check_circle, color: authorColor, size: 16),
                     ],
                   ),
                   const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('مُتبقى', style: TextStyle(color: Colors.grey)),
+                      Text(AppStrings.remaining.tr, style: const TextStyle(color: Colors.grey)),
                       Text(
                         "${campaign.remainingAmount.toString()} ج.م ",
                         style: const TextStyle(color: Colors.grey),
@@ -531,7 +521,7 @@ class CampaignCard extends StatelessWidget {
                         child: LinearProgressIndicator(
                           value: progress,
                           backgroundColor: Colors.grey.shade300,
-                            color: authorColor,
+                          color: authorColor,
                           minHeight: 8,
                           borderRadius: BorderRadius.circular(4),
                         ),
@@ -544,36 +534,36 @@ class CampaignCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  if (campaign.endTime != null )
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(endTimeLabel, style: const TextStyle(color: Colors.grey)),
-                      Text(
-                        endTimeString,
-                        style: TextStyle(color: endTimeColor, fontWeight: FontWeight.bold),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
+                  if (campaign.endTime != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(endTimeLabel, style: const TextStyle(color: Colors.grey)),
+                        Text(
+                          endTimeString,
+                          style: TextStyle(color: endTimeColor, fontWeight: FontWeight.bold),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   const SizedBox(height: 12),
                   Row(
                     children: [
                       if (int.parse(campaign.donationsCount) > 3)
-                      SizedBox(
-                        width: 70,
-                        child: Stack(
-                          children: [
-                            _buildDonorAvatar(ImageAssets.profilePlaceholder),
-                            Positioned(left: 20, child: _buildDonorAvatar(ImageAssets.profilePlaceholder)),
-                            Positioned(left: 40, child: _buildDonorAvatar(ImageAssets.profilePlaceholder)),
-                          ],
+                        SizedBox(
+                          width: 70,
+                          child: Stack(
+                            children: [
+                              _buildDonorAvatar(ImageAssets.profilePlaceholder),
+                              Positioned(left: 20, child: _buildDonorAvatar(ImageAssets.profilePlaceholder)),
+                              Positioned(left: 40, child: _buildDonorAvatar(ImageAssets.profilePlaceholder)),
+                            ],
+                          ),
                         ),
-                      ),
                       Expanded(
                         child: Text(
-                          '+${campaign.donationsCount} people donated',
+                          '+${campaign.donationsCount} ${AppStrings.peopleDonated.tr}',
                           style: const TextStyle(color: Colors.grey, fontSize: 12),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -581,11 +571,10 @@ class CampaignCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  if(campaign.isPriority)
-                  _buildInfoRow(Icons.flash_on, 'Emergencies'),
+                  if (campaign.isPriority) _buildInfoRow(Icons.flash_on, AppStrings.emergencies.tr),
                 ],
               ),
-                ),
+            ),
           ],
         ),
       ),
@@ -628,120 +617,113 @@ class LatestCampaignCard extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
               flex: 3,
               child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
-                  child: campaign.firstImage != null
-                      ? Image.network(
-                          campaign.firstImage!,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Icon(Icons.image_not_supported, size: 80),
-                        )
-                      : Image.asset(
-                          'assets/images/boarding/boarding3.png',
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-
-                if(!isGuest())
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: GestureDetector(
-                    onTap: () {
-                      final homeController = Get.find<HomeController>(tag: "HomeController");
-                      homeController.toggleFavorite(campaign.id);
-                    },
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.8),
-                      shape: BoxShape.circle,
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
                     ),
-                    child: Icon(
-                      campaign.isFavorited
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                      color: campaign.isFavorited
-                          ? Colors.red
-                          : Colors.black54,
-                      size: 18,
+                    child: campaign.firstImage != null
+                        ? Image.network(
+                            campaign.firstImage!,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(Icons.image_not_supported, size: 80),
+                          )
+                        : Image.asset(
+                            'assets/images/boarding/boarding3.png',
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                  if (!isGuest())
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: GestureDetector(
+                        onTap: () {
+                          final homeController = Get.find<HomeController>(tag: "HomeController");
+                          homeController.toggleFavorite(campaign.id);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            campaign.isFavorited ? Icons.favorite : Icons.favorite_border,
+                            color: campaign.isFavorited ? Colors.red : Colors.black54,
+                            size: 18,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  ),
-                ),
-              ],
-            ),
+                ],
+              ),
             ),
             Expanded(
               flex: 2,
-      child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
-                children: [
+                  children: [
                     Flexible(
                       child: Text(
-                    campaign.title,
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                        campaign.title,
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                         maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      const Text('By', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                      const SizedBox(width: 4),
-                Flexible(
-                  child: Text(
-                    campaign.creator.name,
-                          style: const TextStyle(
-                        color: Colors.green, fontWeight: FontWeight.bold, fontSize: 12),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                      const SizedBox(width: 4),
-                      const Icon(Icons.check_circle, color: Colors.green, size: 14),
-                    ],
-                  ),
-            const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      const Text('Raised', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                      const Spacer(),
-                      Text('${campaign.progressPercentage.toStringAsFixed(2)}%',
-                          style:
-                              const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey, fontSize: 12)),
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  LinearProgressIndicator(
-                    value: progress,
-                    backgroundColor: Colors.grey.shade300,
-                    color: Colors.green,
-                    minHeight: 6,
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-            const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      if (int.parse(campaign.donationsCount) > 3)
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        const Text('By', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        const SizedBox(width: 4),
+                        Flexible(
+                          child: Text(
+                            campaign.creator.name,
+                            style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 12),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        const Icon(Icons.check_circle, color: Colors.green, size: 14),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Text(AppStrings.raised.tr, style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        const Spacer(),
+                        Text('${campaign.progressPercentage.toStringAsFixed(2)}%',
+                            style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey, fontSize: 12)),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    LinearProgressIndicator(
+                      value: progress,
+                      backgroundColor: Colors.grey.shade300,
+                      color: Colors.green,
+                      minHeight: 6,
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        if (int.parse(campaign.donationsCount) > 3)
                           SizedBox(
-                          width: 50,
-                          height: 20,
+                            width: 50,
+                            height: 20,
                             child: Stack(
                               children: [
                                 _buildDonorAvatar(ImageAssets.profilePlaceholder),
@@ -750,19 +732,19 @@ class LatestCampaignCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                      Expanded(
-                        child: Text(
-                          '+${campaign.donationsCount} مُتبرع',
-                          style: const TextStyle(color: Colors.grey, fontSize: 11, fontWeight: FontWeight.w500),
-                          overflow: TextOverflow.ellipsis,
+                        Expanded(
+                          child: Text(
+                            '+${campaign.donationsCount} ${AppStrings.donor.tr}',
+                            style: const TextStyle(color: Colors.grey, fontSize: 11, fontWeight: FontWeight.w500),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
-    ),
           ],
         ),
       ),
@@ -773,10 +755,10 @@ class LatestCampaignCard extends StatelessWidget {
     return CircleAvatar(
       radius: 10,
       backgroundColor: Colors.white,
-        child: CircleAvatar(
+      child: CircleAvatar(
         radius: 9,
-          backgroundImage: AssetImage(imagePath),
-        ),
+        backgroundImage: AssetImage(imagePath),
+      ),
     );
   }
 }

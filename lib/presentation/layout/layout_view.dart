@@ -8,36 +8,34 @@ import 'package:life_pulse/presentation/transations_tab/transactions_view.dart';
 import '../donations_tab/donations_tab_view.dart';
 
 class LayoutView extends StatefulWidget {
-  LayoutView({super.key});
+  const LayoutView({super.key});
   @override
   State<LayoutView> createState() => _LayoutViewState();
 }
+
 class _LayoutViewState extends State<LayoutView> {
-  final layoutController = Get.put(LayoutController(),tag: "LayoutController");
+  final layoutController = Get.put(LayoutController(), tag: "LayoutController");
   List<Widget> screens = [
     const HomeView(),
     const TransactionsScreen(),
     const DonationsScreen(),
     const ProfileView(),
   ];
-  final profileController = Get.put(
-      ProfileController(),
-      tag: "ProfileController"
-  );
+  final profileController = Get.put(ProfileController(), tag: "ProfileController");
   @override
   void initState() {
     super.initState();
-    isGuest() ?(){} : profileController.fetchUserProfile();
+    isGuest() ? () {} : profileController.fetchUserProfile();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  WillPopScope(
+    return WillPopScope(
       //?back button disabled
       onWillPop: () async => false,
       child: Scaffold(
         bottomNavigationBar: Obx(
-          ()=> NavigationBar(
+          () => NavigationBar(
             destinations: [
               NavigationDestination(
                 icon: Image.asset(
@@ -67,7 +65,6 @@ class _LayoutViewState extends State<LayoutView> {
                 ),
                 label: AppStrings.transactions.tr,
               ),
-
               NavigationDestination(
                 icon: Image.asset(
                   ImageAssets.donateHeart,
@@ -80,9 +77,8 @@ class _LayoutViewState extends State<LayoutView> {
                     height: AppSize.s24,
                   ),
                 ),
-                label: "Donations",
+                label: AppStrings.donations.tr,
               ),
-
               NavigationDestination(
                 icon: Image.asset(
                   ImageAssets.profile,
@@ -100,20 +96,17 @@ class _LayoutViewState extends State<LayoutView> {
             ],
             selectedIndex: layoutController.currentPageIndex.value,
             indicatorColor: Colors.transparent,
-
             onDestinationSelected: (int index) {
-                layoutController.currentPageIndex.value = index;
+              layoutController.currentPageIndex.value = index;
             },
           ),
         ),
         body: Obx(
-
-         ()=> IndexedStack(
+          () => IndexedStack(
             index: layoutController.currentPageIndex.value,
             children: screens,
           ),
         ),
-
       ),
     );
   }

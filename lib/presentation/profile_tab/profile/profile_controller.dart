@@ -9,23 +9,23 @@ import 'package:get_storage/get_storage.dart';
 import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/profile_tab/profile/user_model.dart';
 import 'package:life_pulse/presentation/resources/helpers/storage.dart';
+import 'package:life_pulse/presentation/resources/strings_manager.dart';
 import '../../resources/helpers/functions.dart';
 import '../../resources/validation_manager.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ProfileController extends GetxController{
+class ProfileController extends GetxController {
   RxBool isLoading = false.obs;
   RxString userName = ''.obs;
   RxString walletBalance = '00'.obs;
   RxString userEmail = ''.obs;
   RxnString userImage = RxnString('');
-  RxString? selectedFavLanguage= "".obs;
-  int? favLangId ;
-  UserModel? user ;
+  RxString? selectedFavLanguage = "".obs;
+  int? favLangId;
+  UserModel? user;
 
   final _box = GetStorage();
   RxBool isAnonymous = false.obs;
-
 
   //? //////////////// Edit Profile Variables //////////////// //
   final ImagePicker _picker = ImagePicker();
@@ -40,12 +40,12 @@ class ProfileController extends GetxController{
   Future<void> onInit() async {
     super.onInit();
     isAnonymous.value = _box.read('isAnonymous') ?? true;
-    if(!isGuest()) {
+    if (!isGuest()) {
       try {
-      user = await fetchUserProfile();
-    } catch (e) {
-      debugPrint("Failed to initialize profile: $e");
-    }
+        user = await fetchUserProfile();
+      } catch (e) {
+        debugPrint("${AppStrings.failedToInitializeProfile.tr} $e");
+      }
     }
   }
 
@@ -74,10 +74,10 @@ class ProfileController extends GetxController{
           user = profileResponse.data;
           return profileResponse.data;
         } else {
-          throw Exception('API returned success: false');
+          throw Exception(AppStrings.apiReturnedFalse.tr);
         }
       } else {
-        throw Exception('Failed to load user profile. Status code: ${response.statusCode}');
+        throw Exception('${AppStrings.failedToLoadUserProfile.tr} ${response.statusCode}');
       }
     } catch (e) {
       showErrorSnackBar(message: e.toString());
@@ -88,9 +88,11 @@ class ProfileController extends GetxController{
     }
   }
 
-  void logout() async{
-    var response = await Api().post('logout',);
-    if(response.statusCode == 200){
+  void logout() async {
+    var response = await Api().post(
+      'logout',
+    );
+    if (response.statusCode == 200) {
       final secureStorage = TokenStorage();
       secureStorage.deleteToken();
       Get.deleteAll();
@@ -102,7 +104,7 @@ class ProfileController extends GetxController{
     _box.write('isAnonymous', value);
   }
 
-    Future<void> pickImage() async {
+  Future<void> pickImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       selectedImage.value = File(image.path);
@@ -110,19 +112,19 @@ class ProfileController extends GetxController{
   }
 
   Future<void> editProfile() async {
-    isLoading.value = true ;
+    isLoading.value = true;
     try {
       if (selectedImage.value != null) {
         await _updateProfileImage();
       }
 
-    dynamic body = {
+      dynamic body = {
         'name': fullNameTextController.text,
         'mobile': phoneTextController.text,
         // "current_password": "oldpassword",
         // "password": "newpassword",
         // "password_confirmation": "newpassword"
-    };
+      };
 
       var response = await Api().post('profile', data: body);
 
@@ -131,7 +133,7 @@ class ProfileController extends GetxController{
         Get.back();
         showSuccessSnackBar(message: response.data['message']);
       } else {
-        showErrorSnackBar(message: response.data['message'] ?? 'Failed to update profile.');
+        showErrorSnackBar(message: response.data['message'] ?? AppStrings.failedToUpdateProfile.tr);
       }
     } catch (e) {
       showErrorSnackBar(message: e.toString());
@@ -154,17 +156,16 @@ class ProfileController extends GetxController{
       if (response.statusCode == 200 && response.data['success'] == true) {
         selectedImage.value = null;
       } else {
-        throw Exception(response.data['message'] ?? 'Failed to update image.');
+        throw Exception(response.data['message'] ?? AppStrings.failedToUpdateImage.tr);
       }
     } catch (e) {
       rethrow;
     }
   }
 
-
   RxInt selectedLanguage = 0.obs;
   onChanged(int value) {
-      selectedLanguage.value = value ;
+    selectedLanguage.value = value;
   }
 
   void changeLanguage(String languageCode) async {
@@ -177,19 +178,31 @@ class ProfileController extends GetxController{
 
   int getIndexFromLangCode(String code) {
     const mapping = {
-      'en': 0, 'ar': 6, 'fr': 7, 'es': 8, 'de': 9,
-      'ru': 10, 'ur': 11, 'cn': 12, 'id': 13, 'fa': 14,
-      'tr': 15, 'th': 16 , 'tl': 17, 'ha': 18
+      'en': 0,
+      'ar': 6,
+      'fr': 7,
+      'es': 8,
+      'de': 9,
+      'ru': 10,
+      'ur': 11,
+      'cn': 12,
+      'id': 13,
+      'fa': 14,
+      'tr': 15,
+      'th': 16,
+      'tl': 17,
+      'ha': 18
     };
     return mapping[code] ?? 6;
   }
+
   String getCurrentLanguageName(BuildContext context) {
     final locale = Get.locale ?? const Locale('ar');
     final languageCode = locale.languageCode;
 
     final languageNames = {
-      'en': 'English (US)',
-      'ar': 'العربية', // Arabic
+      'en': AppStrings.englishUS.tr,
+      'ar': AppStrings.arabic.tr, // Arabic
       'fr': 'Français', // French
       'es': 'Español', // Spanish
       'de': 'Deutsch', // German
@@ -204,7 +217,6 @@ class ProfileController extends GetxController{
       'th': 'ไทย', // Thai
     };
 
-    return languageNames[languageCode] ?? 'Arabic (EG)';
+    return languageNames[languageCode] ?? AppStrings.arabicEG.tr;
   }
-
 }

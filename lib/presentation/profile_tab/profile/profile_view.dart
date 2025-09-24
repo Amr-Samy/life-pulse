@@ -16,198 +16,188 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Get the controller instance
-  final profileController = Get.find<ProfileController>(tag: "ProfileController");
+    final profileController = Get.find<ProfileController>(tag: "ProfileController");
 
-  return isGuest()
-      ? Scaffold(
-        body: GestureDetector(
-          onTap: (){
-            Navigator.pushNamed(context, Routes.letsInRoute);
-          },
-          child:  EmptyStateHolder(
-              image: ImageAssets.profile,
-                description: AppStrings.logInHint.tr),
-          ),
-        )
-      : Scaffold(
-          body: SingleChildScrollView(
-      child: Column(
-        children: [
-
-                Obx(() => _ProfileHeader(
-                  isAnonymous: profileController.isAnonymous.value,
-                  userName: profileController.userName.value,
-                  walletBalance: profileController.walletBalance.value,
-                    )),
-
-          const SizedBox(height: 24),
-
-          const WalletHeaderWidget(),
-
-          const SizedBox(height: 24),
-
-          SettingTile(
-            icon: ImageAssets.editUsers,
-            title: AppStrings.editProfile.tr,
-            onTap: () {
-              Navigator.pushNamed(context, Routes.editProfileRoute);
-            },
-            trailing: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: Theme.of(context).textTheme.displayLarge!.color!,
-              size: AppSize.s20,
+    return isGuest()
+        ? Scaffold(
+            body: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, Routes.letsInRoute);
+              },
+              child: EmptyStateHolder(image: ImageAssets.profile, description: AppStrings.logInHint.tr),
             ),
-          ),
-
-
-                Obx(() => SettingTile(
-            icon: ImageAssets.anonymous,
-            title: AppStrings.anonymous.tr,
-            onTap: () {
-              profileController.toggleAnonymous(!profileController.isAnonymous.value);
-            },
-            trailing: StyledSwitch(
-                    onToggled: (value) => profileController.toggleAnonymous(value),
-                    isToggled: profileController.isAnonymous.value,
-            ),
-                    )),
-
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          //   child: _MenuList(
-          //     isAnonymous: _isAnonymous,
-          //     onAnonymousToggle: (value) {
-          //       setState(() {
-          //         _isAnonymous = value;
-          //       });
-          //     },
-          //   ),
-          // ),
-
-
-          /// Language
-          SettingTile(
-            icon: ImageAssets.language,
-            title: AppStrings.language.tr,
-            onTap: () {
-              Navigator.pushNamed(context, Routes.languageSettingsRoute);
-            },
-            trailing: IntrinsicWidth(
-              child: Row(
+          )
+        : Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
                 children: [
-                  Text(
-                    profileController.getCurrentLanguageName(context),
-                    style: getRegularStyle(
+                  Obx(() => _ProfileHeader(
+                        isAnonymous: profileController.isAnonymous.value,
+                        userName: profileController.userName.value,
+                        walletBalance: profileController.walletBalance.value,
+                      )),
+
+                  const SizedBox(height: 24),
+
+                  const WalletHeaderWidget(),
+
+                  const SizedBox(height: 24),
+
+                  SettingTile(
+                    icon: ImageAssets.editUsers,
+                    title: AppStrings.editProfile.tr,
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.editProfileRoute);
+                    },
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
                       color: Theme.of(context).textTheme.displayLarge!.color!,
-                      fontSize: FontSize.s16,
+                      size: AppSize.s20,
                     ),
                   ),
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Theme.of(context).textTheme.displayLarge!.color!,
-                    size: AppSize.s20,
+
+                  Obx(() => SettingTile(
+                        icon: ImageAssets.anonymous,
+                        title: AppStrings.donateAsAnonymous.tr,
+                        onTap: () {
+                          profileController.toggleAnonymous(!profileController.isAnonymous.value);
+                        },
+                        trailing: StyledSwitch(
+                          onToggled: (value) => profileController.toggleAnonymous(value),
+                          isToggled: profileController.isAnonymous.value,
+                        ),
+                      )),
+
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  //   child: _MenuList(
+                  //     isAnonymous: _isAnonymous,
+                  //     onAnonymousToggle: (value) {
+                  //       setState(() {
+                  //         _isAnonymous = value;
+                  //       });
+                  //     },
+                  //   ),
+                  // ),
+
+                  /// Language
+                  SettingTile(
+                    icon: ImageAssets.language,
+                    title: AppStrings.language.tr,
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.languageSettingsRoute);
+                    },
+                    trailing: IntrinsicWidth(
+                      child: Row(
+                        children: [
+                          Text(
+                            profileController.getCurrentLanguageName(context),
+                            style: getRegularStyle(
+                              color: Theme.of(context).textTheme.displayLarge!.color!,
+                              fontSize: FontSize.s16,
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Theme.of(context).textTheme.displayLarge!.color!,
+                            size: AppSize.s20,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  ///Theme
+                  // SettingTile(
+                  //   icon: ImageAssets.theme,
+                  //   title: AppStrings.darkMode.tr,
+                  //   onTap: () {
+                  //     ThemeService().switchTheme();
+                  //     isLightMode = !isLightMode;
+                  //   },
+                  //   trailing: StyledSwitch(
+                  //     onToggled: (bool isToggled) {
+                  //       ThemeService().switchTheme();
+                  //       isLightMode = !isLightMode;
+                  //     },
+                  //     isToggled: isLightMode,
+                  //   ),
+                  // ),
+                  /// Terms & Conditions
+                  SettingTile(
+                    icon: ImageAssets.locked,
+                    title: AppStrings.privacyPolicy.tr,
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.privacyPolicyRoute);
+                    },
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Theme.of(context).textTheme.displayLarge!.color!,
+                      size: AppSize.s20,
+                    ),
+                  ),
+
+                  /// Help Center
+                  SettingTile(
+                    icon: ImageAssets.info,
+                    title: AppStrings.helpCenter.tr,
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.helpCenterRoute);
+                    },
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Theme.of(context).textTheme.displayLarge!.color!,
+                      size: AppSize.s20,
+                    ),
+                  ),
+
+                  //Success partners ( Hidden on release )
+                  if (!kReleaseMode)
+                    SettingTile(
+                      icon: ImageAssets.donateHeartFlower,
+                      title: "شركاء النجاح",
+                      onTap: () {
+                        Get.to(SuccessPartnersScreen());
+                      },
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Theme.of(context).textTheme.displayLarge!.color!,
+                        size: AppSize.s20,
+                      ),
+                    ),
+
+                  SettingTile(
+                    icon: ImageAssets.users,
+                    title: AppStrings.inviteFriends.tr,
+                    onTap: () {
+                      //TODO : share app link
+                    },
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Theme.of(context).textTheme.displayLarge!.color!,
+                      size: AppSize.s20,
+                    ),
+                  ),
+
+                  ///Logout
+                  ColorFiltered(
+                    colorFilter: ColorFilter.mode(ColorManager.error, BlendMode.srcIn),
+                    child: SettingTile(
+                      icon: ImageAssets.logout,
+                      title: AppStrings.logout.tr,
+                      onTap: () {
+                        showConfirmationSheet(context);
+                      },
+                      trailing: const SizedBox.shrink(),
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-          ///Theme
-          // SettingTile(
-          //   icon: ImageAssets.theme,
-          //   title: AppStrings.darkMode.tr,
-          //   onTap: () {
-          //     ThemeService().switchTheme();
-          //     isLightMode = !isLightMode;
-          //   },
-          //   trailing: StyledSwitch(
-          //     onToggled: (bool isToggled) {
-          //       ThemeService().switchTheme();
-          //       isLightMode = !isLightMode;
-          //     },
-          //     isToggled: isLightMode,
-          //   ),
-          // ),
-          /// Terms & Conditions
-          SettingTile(
-            icon: ImageAssets.locked,
-            title: AppStrings.privacyPolicy.tr,
-            onTap: () {
-              Navigator.pushNamed(context, Routes.privacyPolicyRoute);
-            },
-            trailing: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: Theme.of(context).textTheme.displayLarge!.color!,
-              size: AppSize.s20,
-            ),
-          ),
-          /// Help Center
-          SettingTile(
-            icon: ImageAssets.info,
-            title: AppStrings.helpCenter.tr,
-            onTap: () {
-              Navigator.pushNamed(context, Routes.helpCenterRoute);
-            },
-            trailing: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: Theme.of(context).textTheme.displayLarge!.color!,
-              size: AppSize.s20,
-            ),
-          ),
-
-          //Success partners ( Hidden on release )
-          if (!kReleaseMode)
-            SettingTile(
-            icon: ImageAssets.donateHeartFlower,
-            title: "شركاء النجاح",
-            onTap: () {
-              Get.to(SuccessPartnersScreen());
-            },
-            trailing: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: Theme.of(context).textTheme.displayLarge!.color!,
-              size: AppSize.s20,
-            ),
-          ),
-
-          SettingTile(
-            icon: ImageAssets.users,
-            title: AppStrings.inviteFriends.tr,
-            onTap: () {
-              //TODO : share app link
-
-            },
-            trailing: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: Theme.of(context).textTheme.displayLarge!.color!,
-              size: AppSize.s20,
-            ),
-          ),
-          ///Logout
-          ColorFiltered(
-            colorFilter: ColorFilter.mode(
-                ColorManager.error,
-                BlendMode.srcIn
-            ),
-            child: SettingTile(
-              icon: ImageAssets.logout,
-              title: AppStrings.logout.tr,
-              onTap: () {
-                showConfirmationSheet(context);
-              },
-              trailing: const SizedBox.shrink(),
-            ),
-          ),
-
-
-        ],
-      ),
-    ),
-
-    );
+          );
   }
 
   void showConfirmationSheet(BuildContext context) {
-
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -217,16 +207,14 @@ class ProfileView extends StatelessWidget {
           topEnd: Radius.circular(AppSize.s32),
         ),
       ),
-
       builder: (context) => SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsetsDirectional.only(
             start: AppPadding.p16,
             end: AppPadding.p16,
             bottom: AppPadding.p32,
             top: AppPadding.p8,
           ),
-
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -235,35 +223,34 @@ class ProfileView extends StatelessWidget {
                 height: AppSize.s2,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSize.s12),
-                  color: isDarkMode()? ColorManager.dark3 : ColorManager.grey,
+                  color: isDarkMode() ? ColorManager.dark3 : ColorManager.grey,
                 ),
               ),
-
               SizedBox(height: AppPadding.p16),
-
-              Text(AppStrings.logout.tr,
+              Text(
+                AppStrings.logout.tr,
                 style: getSemiBoldStyle(
                   color: ColorManager.error,
                   fontSize: FontSize.s20,
                 ),
               ),
-
               Padding(
-                padding: EdgeInsets.symmetric(vertical: AppPadding.p16,),
+                padding: EdgeInsets.symmetric(
+                  vertical: AppPadding.p16,
+                ),
                 child: Divider(
-                  height: AppSize.s1,thickness: AppSize.s01,
+                  height: AppSize.s1,
+                  thickness: AppSize.s01,
                 ),
               ),
-
-              Text(AppStrings.confirmLogout.tr,
+              Text(
+                AppStrings.confirmLogout.tr,
                 style: getSemiBoldStyle(
                   color: Theme.of(context).textTheme.displayLarge!.color!,
                   fontSize: FontSize.s16,
                 ),
               ),
-
               SizedBox(height: AppPadding.p16),
-
               Row(
                 children: [
                   Expanded(
@@ -271,18 +258,17 @@ class ProfileView extends StatelessWidget {
                       loading: false,
                       textButton: AppStrings.cancel.tr,
                       textColor: ColorManager.primary,
-                      color:  isDarkMode() ? ColorManager.dark3 : ColorManager.blueTransparent.withOpacity(0.15),
-                      onTap: (){
+                      color: isDarkMode() ? ColorManager.dark3 : ColorManager.blueTransparent.withOpacity(0.15),
+                      onTap: () {
                         Navigator.pop(context);
                       },
                     ),
                   ),
-
                   Expanded(
                     child: CustomButton(
                       loading: false,
                       textButton: AppStrings.yesLogout.tr,
-                      onTap: (){
+                      onTap: () {
                         final profileController = Get.find<ProfileController>(tag: "ProfileController");
                         profileController.logout();
                         Navigator.of(context).popUntil((route) => false);
@@ -295,12 +281,10 @@ class ProfileView extends StatelessWidget {
                   ),
                 ],
               )
-
             ],
           )),
     );
   }
-
 }
 
 class _ProfileHeader extends StatelessWidget {
@@ -338,9 +322,9 @@ class _ProfileHeader extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                         CircleAvatar(
-                          radius: 35,
-                           backgroundColor: Colors.white,
+                    CircleAvatar(
+                      radius: 35,
+                      backgroundColor: Colors.white,
                       backgroundImage: isAnonymous
                           ? const AssetImage(ImageAssets.anonymous)
                           : (profileController.userImage.value != null && profileController.userImage.value!.isNotEmpty)
@@ -389,14 +373,11 @@ class WaveClipper extends CustomClipper<Path> {
     path.lineTo(0, size.height - 50);
     var firstControlPoint = Offset(size.width / 4, size.height);
     var firstEndPoint = Offset(size.width / 2, size.height - 30.0);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstEndPoint.dx, firstEndPoint.dy);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
 
-    var secondControlPoint =
-    Offset(size.width - (size.width / 4), size.height - 60);
+    var secondControlPoint = Offset(size.width - (size.width / 4), size.height - 60);
     var secondEndPoint = Offset(size.width, size.height - 80);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-        secondEndPoint.dx, secondEndPoint.dy);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
 
     path.lineTo(size.width, 0);
     path.close();
@@ -436,13 +417,13 @@ class _DonationWalletCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Obx(() => Text(
-                  'EGP ${profileController.walletBalance.value}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
+                      'EGP ${profileController.walletBalance.value}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
               ],
             ),
             ElevatedButton(

@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/resources/helpers/functions.dart';
+import 'package:life_pulse/presentation/resources/strings_manager.dart';
 import '../../profile_tab/profile/profile_controller.dart';
 import '../../resources/validation_manager.dart';
 import '../../transations_tab/controllers/transactions_controller.dart';
@@ -12,13 +13,12 @@ import '../models/donation.dart';
 class DonationsController extends GetxController {
   final RxBool isLoading = true.obs;
   final RxBool isDonating = false.obs;
-  final RxMap<String, List<Donation>> groupedDonations =
-      <String, List<Donation>>{}.obs;
+  final RxMap<String, List<Donation>> groupedDonations = <String, List<Donation>>{}.obs;
 
   @override
   void onInit() {
     super.onInit();
-    if(!isGuest()) fetchDonations();
+    if (!isGuest()) fetchDonations();
   }
 
   Future<void> fetchDonations() async {
@@ -29,20 +29,19 @@ class DonationsController extends GetxController {
         print(response.data);
       }
       if (response.statusCode == 200 && response.data['success'] == true) {
-        final List<Donation> donations = (response.data['data'] as List)
-            .map((item) => Donation.fromJson(item))
-            .toList();
+        final List<Donation> donations =
+            (response.data['data'] as List).map((item) => Donation.fromJson(item)).toList();
         _groupDonations(donations);
         print("donations fetched successfully.");
         print("donations: ${donations[0].amount}");
       } else {
-        showErrorSnackBar(message: 'Failed to load donations.');
+        showErrorSnackBar(message: AppStrings.failedToLoadDonations.tr);
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error fetching donations: $e');
+        print('${AppStrings.errorFetchingDonations.tr} $e');
       }
-      showErrorSnackBar(message: 'An error occurred while fetching donations.');
+      showErrorSnackBar(message: AppStrings.anErrorOccurredFetchingDonations.tr);
     } finally {
       isLoading(false);
     }
@@ -74,14 +73,14 @@ class DonationsController extends GetxController {
 
         return true;
       } else {
-        showErrorSnackBar(message: response.data['message'] ?? 'Failed to process donation.');
+        showErrorSnackBar(message: response.data['message'] ?? AppStrings.failedToProcessDonation.tr);
         return false;
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error making donation: $e');
+        print('${AppStrings.errorMakingDonation.tr} $e');
       }
-      showErrorSnackBar(message: 'An error occurred. Please try again.');
+      showErrorSnackBar(message: AppStrings.anErrorOccurredPleaseTryAgain.tr);
       return false;
     } finally {
       isDonating(false);
@@ -95,7 +94,7 @@ class DonationsController extends GetxController {
     for (var donation in donations) {
       String groupKey;
       if (donation.createdAt.year == now.year && donation.createdAt.month == now.month) {
-        groupKey = "This month";
+        groupKey = AppStrings.thisMonth.tr;
       } else {
         groupKey = DateFormat('MMM yyyy').format(donation.createdAt);
       }

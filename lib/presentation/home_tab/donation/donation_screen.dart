@@ -23,7 +23,6 @@ class _DonationScreenState extends State<DonationScreen> {
   final ProfileController _profileController = Get.find<ProfileController>(tag: "ProfileController");
   final DonationsController _donationsController = Get.find<DonationsController>();
 
-
   @override
   void initState() {
     super.initState();
@@ -42,12 +41,11 @@ class _DonationScreenState extends State<DonationScreen> {
     setState(() {
       final walletBalance = double.tryParse(_profileController.walletBalance.value) ?? 0.0;
       if (amount > _maxDonationAmount) {
-        _errorMessage =
-        'Maximum donation is EGP ${_maxDonationAmount.toStringAsFixed(0)}';
+        _errorMessage = '${AppStrings.maximumDonation.tr} ${_maxDonationAmount.toStringAsFixed(0)}';
       } else if (amount <= 0) {
-        _errorMessage = 'Please enter an amount greater than zero';
+        _errorMessage = AppStrings.enterAmountGreaterThanZero.tr;
       } else if (!isGuest() && amount > walletBalance) {
-        _errorMessage = 'Insufficient wallet balance';
+        _errorMessage = AppStrings.insufficientWalletBalance.tr;
       } else {
         _errorMessage = null;
       }
@@ -68,8 +66,8 @@ class _DonationScreenState extends State<DonationScreen> {
   Future<void> _handleDonation() async {
     if (isGuest()) {
       Get.snackbar(
-        "Login Required",
-        "Please log in to make a donation.",
+        AppStrings.loginRequired.tr,
+        AppStrings.pleaseLoginToDonate.tr,
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
@@ -95,7 +93,7 @@ class _DonationScreenState extends State<DonationScreen> {
     return Scaffold(
       backgroundColor: lightGreenBg,
       appBar: AppBar(
-        title: const Text('Donate', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title: Text(AppStrings.donate.tr, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: const BackButton(color: Colors.black),
@@ -113,8 +111,8 @@ class _DonationScreenState extends State<DonationScreen> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            const Text(
-              'Enter the Amount',
+            Text(
+              AppStrings.enterTheAmount.tr,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 20),
@@ -143,7 +141,7 @@ class _DonationScreenState extends State<DonationScreen> {
         color: primaryColor,
       ),
       decoration: InputDecoration(
-        prefixText: 'EGP ',
+        prefixText: AppStrings.egp.tr,
         prefixStyle: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
@@ -201,7 +199,7 @@ class _DonationScreenState extends State<DonationScreen> {
                   : [],
             ),
             child: Text(
-              'EGP $amount',
+              '${AppStrings.egp.tr}$amount',
               style: TextStyle(
                 color: isSelected ? Colors.white : Colors.black87,
                 fontSize: 16,
@@ -233,7 +231,8 @@ class _DonationScreenState extends State<DonationScreen> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             side: BorderSide(color: Colors.grey[400]!, width: 2),
           ),
-          const Text('Donate as anonymous', style: TextStyle(fontSize: 16, color: Colors.black54, fontWeight: FontWeight.w500)),
+          Text(AppStrings.donateAsAnonymous.tr,
+              style: TextStyle(fontSize: 16, color: Colors.black54, fontWeight: FontWeight.w500)),
         ],
       ),
     );
@@ -247,27 +246,27 @@ class _DonationScreenState extends State<DonationScreen> {
       child: Obx(
         () => ElevatedButton(
           onPressed: isButtonEnabled && !_donationsController.isDonating.value ? _handleDonation : null,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          disabledBackgroundColor: Colors.grey.withOpacity(0.6),
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-          elevation: 0,
-        ),
-          child: _donationsController.isDonating.value
-            ? const SizedBox(
-          height: 24,
-          width: 24,
-          child: CircularProgressIndicator(
-            color: Colors.white,
-            strokeWidth: 3,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: primaryColor,
+            disabledBackgroundColor: Colors.grey.withOpacity(0.6),
+            padding: const EdgeInsets.symmetric(vertical: 18),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+            elevation: 0,
           ),
-        )
-            : const Text(
-          'Continue',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          child: _donationsController.isDonating.value
+              ? const SizedBox(
+                  height: 24,
+                  width: 24,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 3,
+                  ),
+                )
+              : Text(
+                  AppStrings.continueOption.tr,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
         ),
-      ),
       ),
     );
   }

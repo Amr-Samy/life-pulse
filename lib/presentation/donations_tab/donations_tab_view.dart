@@ -17,74 +17,70 @@ class DonationsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final DonationsController controller = Get.put(DonationsController());
 
-    return
-      isGuest() ?
-      Scaffold(
-        body: GestureDetector(
-          onTap: (){
-            Navigator.pushNamed(context, Routes.letsInRoute);
-          },
-          child:  EmptyStateHolder(
-              image: ImageAssets.profile,
-              description: AppStrings.logInHint.tr
-          ),
-        ),
-      ):
-      Scaffold(
-      backgroundColor: const Color(0xFFF8FDF7),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        titleSpacing: 25,
-        title: const Text(
-          'My Donations',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: SafeArea(
-        child: Obx(() {
-          if (controller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (controller.groupedDonations.isEmpty) {
-            return const Center(child: Text("You haven't made any donations yet."));
-          }
-          return ListView.builder(
-            itemCount: controller.groupedDonations.keys.length,
-            itemBuilder: (context, index) {
-              final String month = controller.groupedDonations.keys.elementAt(index);
-              final donations = controller.groupedDonations[month]!;
+    return isGuest()
+        ? Scaffold(
+            body: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, Routes.letsInRoute);
+              },
+              child: EmptyStateHolder(image: ImageAssets.profile, description: AppStrings.logInHint.tr),
+            ),
+          )
+        : Scaffold(
+            backgroundColor: const Color(0xFFF8FDF7),
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              titleSpacing: 25,
+              title: Text(
+                AppStrings.myDonations.tr,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+            body: SafeArea(
+              child: Obx(() {
+                if (controller.isLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (controller.groupedDonations.isEmpty) {
+                  return Center(child: Text(AppStrings.noDonationsYet.tr));
+                }
+                return ListView.builder(
+                  itemCount: controller.groupedDonations.keys.length,
+                  itemBuilder: (context, index) {
+                    final String month = controller.groupedDonations.keys.elementAt(index);
+                    final donations = controller.groupedDonations[month]!;
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SectionHeaderWidget(title: month),
-                  ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: donations.length,
-                    itemBuilder: (context, itemIndex) {
-                      return DonationListItemWidget(
-                        donation: donations[itemIndex],
-                        onTap: () {
-                          Get.to(() => DonationDetailsScreen(donationId: donations[itemIndex].id));
-                          print("Tapped donation ID: ${donations[itemIndex].id}");
-                        },
-                      );
-                    },
-                    separatorBuilder: (context, index) => const Divider(
-                      height: 1,
-                      indent: 16,
-                      endIndent: 16,
-                    ),
-                  ),
-                ],
-              );
-            },
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SectionHeaderWidget(title: month),
+                        ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: donations.length,
+                          itemBuilder: (context, itemIndex) {
+                            return DonationListItemWidget(
+                              donation: donations[itemIndex],
+                              onTap: () {
+                                Get.to(() => DonationDetailsScreen(donationId: donations[itemIndex].id));
+                                print("Tapped donation ID: ${donations[itemIndex].id}");
+                              },
+                            );
+                          },
+                          separatorBuilder: (context, index) => const Divider(
+                            height: 1,
+                            indent: 16,
+                            endIndent: 16,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }),
+            ),
           );
-        }),
-      ),
-    );
   }
 }

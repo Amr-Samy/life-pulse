@@ -19,30 +19,30 @@ class SignInController extends GetxController {
 
   Future<void> signIn() async {
     try {
-    isLoading.value = true;
-    final box = GetStorage();
+      isLoading.value = true;
+      final box = GetStorage();
       dynamic body = {
         'mobile': mobileTextController.text,
         'password': passwordTextController.text,
-        'device_token' : box.read('deviceToken'),
+        'device_token': box.read('deviceToken'),
       };
 
       var response = await Api().post('login', data: body);
 
-    dynamic responseData = response.data;
-    if (responseData is String) {
-      debugPrint('Response data is a string, decoding manually.');
-      responseData = json.decode(responseData);
-    }
+      dynamic responseData = response.data;
+      if (responseData is String) {
+        debugPrint('Response data is a string, decoding manually.');
+        responseData = json.decode(responseData);
+      }
 
-    debugPrint('Server response: $responseData');
+      debugPrint('Server response: $responseData');
 
-    bool success = responseData['success'] ?? false;
-    String message = responseData['message'] ?? 'An unknown error occurred.';
-    debugPrint('token: ${responseData['token']}');
+      bool success = responseData['success'] ?? false;
+      String message = responseData['message'] ?? 'An unknown error occurred.';
+      debugPrint('token: ${responseData['token']}');
 
       if (success) {
-      String? token = responseData['token'];
+        String? token = responseData['token'];
         if (token != null) {
           final secureStorage = TokenStorage();
 
@@ -55,13 +55,12 @@ class SignInController extends GetxController {
       } else {
         showErrorSnackBar(message: message);
       }
-  } catch (e, s) {
-    debugPrint('Error during sign in: $e');
-    debugPrint('Stack trace: $s');
+    } catch (e, s) {
+      debugPrint('Error during sign in: $e');
+      debugPrint('Stack trace: $s');
       showErrorSnackBar(message: e.toString());
     } finally {
-        isLoading.value = false;
-      }
+      isLoading.value = false;
     }
-
+  }
 }

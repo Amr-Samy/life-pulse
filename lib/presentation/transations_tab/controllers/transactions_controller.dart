@@ -6,16 +6,16 @@ import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/resources/helpers/functions.dart';
 import '../../resources/validation_manager.dart';
 import '../model/transaction_model.dart';
+import 'package:life_pulse/presentation/resources/strings_manager.dart';
 
 class TransactionsController extends GetxController {
   final RxBool isLoading = true.obs;
-  final RxMap<String, List<TransactionModel>> groupedTransactions =
-      <String, List<TransactionModel>>{}.obs;
+  final RxMap<String, List<TransactionModel>> groupedTransactions = <String, List<TransactionModel>>{}.obs;
 
   @override
   void onInit() {
     super.onInit();
-      if(!isGuest())  fetchTransactions();
+    if (!isGuest()) fetchTransactions();
   }
 
   Future<void> fetchTransactions() async {
@@ -24,17 +24,16 @@ class TransactionsController extends GetxController {
       final response = await Api().get('wallet/transactions');
 
       if (response.statusCode == 200 && response.data['success'] == true) {
-        final transactions =
-            transactionsResponseFromJson(response.toString()).data;
+        final transactions = transactionsResponseFromJson(response.toString()).data;
         _groupTransactions(transactions);
       } else {
-        showErrorSnackBar(message: 'Failed to load transactions.');
+        showErrorSnackBar(message: AppStrings.failedToLoadTransactions.tr);
       }
     } catch (e) {
       if (kDebugMode) {
         print('Error fetching transactions: $e');
       }
-      showErrorSnackBar(message: 'An error occurred fetching transactions.');
+      showErrorSnackBar(message: AppStrings.errorFetchingTransactions.tr);
     } finally {
       isLoading(false);
     }
@@ -46,9 +45,8 @@ class TransactionsController extends GetxController {
 
     for (var transaction in transactions) {
       String groupKey;
-      if (transaction.createdAt.year == now.year &&
-          transaction.createdAt.month == now.month) {
-        groupKey = "This month";
+      if (transaction.createdAt.year == now.year && transaction.createdAt.month == now.month) {
+        groupKey = AppStrings.thisMonth.tr;
       } else {
         groupKey = DateFormat('MMM yyyy').format(transaction.createdAt);
       }

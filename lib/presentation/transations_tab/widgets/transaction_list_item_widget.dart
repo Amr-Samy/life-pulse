@@ -18,7 +18,7 @@ class TransactionListItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                transaction.title,
+                transaction.description ?? transaction.title,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16.0,
@@ -34,13 +34,21 @@ class TransactionListItemWidget extends StatelessWidget {
               ),
             ],
           ),
-          Text(
-            '${transaction.sign}\$${transaction.amount.toStringAsFixed(2)}',
-            style: TextStyle(
-              color: transaction.color,
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
-            ),
+          Row(
+            children: [
+              Icon(
+                transaction.status == 'completed' ? Icons.check : Icons.close,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                '${transaction.sign}\$${transaction.amount.toStringAsFixed(2)}',
+                style: TextStyle(
+                  color: transaction.color,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
+              ),
+            ],
           ),
         ],
       ),

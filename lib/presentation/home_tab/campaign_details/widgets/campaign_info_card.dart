@@ -35,7 +35,7 @@ class CampaignInfoCard extends StatelessWidget {
           const SizedBox(height: 20),
           _buildTags(),
           const SizedBox(height: 20),
-          _buildDonateButton(),
+          _buildDonateButton(campaign.id),
         ],
       ),
     );
@@ -171,12 +171,12 @@ class CampaignInfoCard extends StatelessWidget {
     );
   }
 
-  Widget _buildDonateButton() {
+  Widget _buildDonateButton(int campaignId) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          Get.to(() => const DonationScreen());
+          Get.to(() => DonationScreen(campaignId: campaignId,));
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF1DE9B6),

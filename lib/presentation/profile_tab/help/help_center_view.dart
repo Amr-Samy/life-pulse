@@ -20,9 +20,6 @@ class _HelpCenterViewState extends State<HelpCenterView> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    contactUsController.getContacts();
-    contactUsController.getFaqCategories();
-    contactUsController.getFAQs(category: "");
     _controller = TabController(length: 2, vsync: this);
     _controller?.addListener(() {
       setState(() {
@@ -61,7 +58,6 @@ class _HelpCenterViewState extends State<HelpCenterView> with SingleTickerProvid
                     child: TabBar(
                         controller: _controller,
                         onTap: (index) {
-                          //TODO never does that
                           setState(() {});
                         },
                         labelPadding: const EdgeInsets.all(0),
@@ -128,54 +124,29 @@ class FaqTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final contactUsController = Get.find<ContactUsController>(tag: "ContactUsController");
-    final scrollController = ScrollController();
-    // void setupScrollListener() {
-    //   scrollController.addListener(() {
-    //     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-    //       if (contactUsController.hasMoreData.value &&
-    //           !contactUsController.isLoadMoreLoading.value) { //isPageLoading
-    //         contactUsController.getFAQs(
-    //           category: "",
-    //           items: 5,
-    //           isLoadMore: true,
-    //         );
-    //       }
-    //     }
-    //   });
-    // }
-    // setupScrollListener();
-
     return
-      // contactUsController.isPageLoading.value
-      //     ? SizedBox(
-      //         height: MediaQuery.of(context).size.height / 1.3,
-      //         child: const Center(
-      //           child: CircularProgressIndicator(),
-      //         ))
-      //     :
       ListView(
         padding: const EdgeInsets.all(16.0),
         children: const [
           FaqTile(
-            question: 'What is Dona?',
-            answer: 'In the bustling city of Dentropolis, Sharky, the tooth-brushing shark superhero, patrolled the streets with a toothbrush in hand and a fin-toothed grin.',
+            question: 'What is this app about?',
+            answer: 'It is a global donation platform that connects donors with verified medical cases, allowing them to contribute securely and track the impact of their donations',
           ),
           FaqTile(
-            question: 'How to use Dona?',
-            answer: 'Detailed instructions on how to use the Dona app.',
+            question: 'How do I know the cases are real?',
+            answer: 'Every campaign undergoes a strict verification process. Medical documents, bills, and beneficiary identities are reviewed before approval. Verified cases display a verification badge.',
           ),
           FaqTile(
-            question: 'Dona is Free?',
-            answer: 'Information about the pricing and free features of Dona.',
+            question: 'Can I donate from anywhere in the world?',
+            answer: 'Yes. The app supports multiple international payment methods including credit/debit cards, PayPal, Apple Pay, Google Pay, and local Egyptian wallets.',
           ),
           FaqTile(
-            question: 'Why use Dona?',
-            answer: 'Explanation of the benefits and key features of using Dona.',
+            question: 'Can I remain anonymous when donating?',
+            answer: 'Absolutely. You can choose to hide your name and donate anonymously while still receiving a receipt.',
           ),
           FaqTile(
-            question: 'How I can delete all Dona?',
-            answer: 'Instructions on how to delete your data from Dona will be provided here.',
+            question: 'What happens if a campaign is not fully funded before the deadline?',
+            answer: 'Funds collected are transferred to the beneficiary for partial support. In rare cases where the campaign is canceled, donations are refunded to the original payment method.',
           ),
         ],
       ) ;

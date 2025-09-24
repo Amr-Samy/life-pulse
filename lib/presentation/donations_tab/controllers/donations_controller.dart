@@ -4,11 +4,14 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/resources/helpers/functions.dart';
+import '../../profile_tab/profile/profile_controller.dart';
 import '../../resources/validation_manager.dart';
+import '../../transations_tab/controllers/transactions_controller.dart';
 import '../models/donation.dart';
 
 class DonationsController extends GetxController {
   final RxBool isLoading = true.obs;
+  final RxBool isDonating = false.obs;
   final RxMap<String, List<Donation>> groupedDonations =
       <String, List<Donation>>{}.obs;
 
@@ -42,6 +45,46 @@ class DonationsController extends GetxController {
       showErrorSnackBar(message: 'An error occurred while fetching donations.');
     } finally {
       isLoading(false);
+    }
+  }
+
+  Future<bool> makeDonation({
+    required int campaignId,
+    required int amount,
+    required bool isAnonymous,
+  }) async {
+    isDonating(true);
+    try {
+      final response = await Api().post(
+        'campaigns/$campaignId/donate',
+        data: {
+          "amount": amount,
+          "is_anonymous": isAnonymous ? 1 : 0,
+        },
+      );
+
+      if (response.statusCode == 201 && response.data['success'] == true) {
+        final profileController = Get.find<ProfileController>(tag: "ProfileController");
+        final transactionsController = Get.find<TransactionsController>();
+
+        fetchDonations();
+        profileController.fetchUserProfile();
+        transactionsController.fetchTransactions();
+        // Get.back();
+
+        return true;
+      } else {
+        showErrorSnackBar(message: response.data['message'] ?? 'Failed to process donation.');
+        return false;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error making donation: $e');
+      }
+      showErrorSnackBar(message: 'An error occurred. Please try again.');
+      return false;
+    } finally {
+      isDonating(false);
     }
   }
 

@@ -25,6 +25,7 @@ class CampaignHeader extends StatelessWidget {
 
         const SizedBox(width: 8),
 
+        if(!isGuest())
         GestureDetector(
           onTap: onFavoriteTap,
           child: _buildCircularButton(

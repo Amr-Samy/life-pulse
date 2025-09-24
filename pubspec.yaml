@@ -30,9 +30,8 @@ dependencies:
   image_picker: ^1.0.7
   url_launcher: ^6.2.4
   permission_handler: ^11.0.1 #To handle file downloads
-  omni_video_player: ^2.1.1
   cached_network_image: ^3.4.1
-  webview_flutter: ^4.13.0 # for privacy policy
+  webview_flutter: ^4.13.0 # for privacy policy and payment
   dotted_border: ^2.1.0 #dropzone border
   flutter_launcher_icons: ^0.14.4
   flutter_local_notifications: ^19.4.2

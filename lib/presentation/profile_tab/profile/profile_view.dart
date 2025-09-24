@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:life_pulse/presentation/layout/layout_view.dart';
 import 'package:life_pulse/presentation/resources/index.dart';
 import 'package:life_pulse/presentation/widgets/button.dart';
+import '../../transations_tab/presentation/top_up_screen.dart';
+import '../../transations_tab/widgets/wallet_header_widget.dart';
 import '../../widgets/empty_state_place_holder.dart';
 import '../../widgets/setting_tile.dart';
 import '../../widgets/switch.dart';
@@ -39,7 +41,9 @@ class ProfileView extends StatelessWidget {
                     )),
 
           const SizedBox(height: 24),
-          const _DonationWalletCard(),
+
+          const WalletHeaderWidget(),
+
           const SizedBox(height: 24),
 
           SettingTile(
@@ -408,6 +412,7 @@ class _DonationWalletCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profileController = Get.find<ProfileController>(tag: "ProfileController");
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Container(
@@ -421,27 +426,29 @@ class _DonationWalletCard extends StatelessWidget {
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
+              children: [
+                const Text(
                   'Donation wallet',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(height: 8),
-                Text(
-                  '\$500.00',
-                  style: TextStyle(
+                const SizedBox(height: 8),
+                Obx(() => Text(
+                  'EGP ${profileController.walletBalance.value}',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
-                ),
+                )),
               ],
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(() => const TopUpScreen());
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,

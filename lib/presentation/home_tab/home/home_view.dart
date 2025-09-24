@@ -2,9 +2,12 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:life_pulse/presentation/home_tab/campaign_details/campaign_details_screen.dart';
 import 'package:life_pulse/presentation/home_tab/home/widgets/quick_donation_sheet_view.dart';
+import '../../auth/sign_in/signIn_view.dart';
 import '../../layout/layout_controller.dart';
 import '../../profile_tab/profile/profile_controller.dart';
 import '../../resources/index.dart';
+import '../../transations_tab/presentation/top_up_screen.dart';
+import '../../transations_tab/widgets/wallet_header_widget.dart';
 import '../favorites/favorites_screen.dart';
 import 'controllers/home_controller.dart';
 import 'models/campaign_model.dart';
@@ -67,7 +70,8 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildDonationWalletCard(profileController),
+                const WalletHeaderWidget(),
+                // _buildDonationWalletCard(profileController),
                 const SizedBox(height: 24),
                 _buildFeatureCampaignTitle(),
                 const SizedBox(height: 16),
@@ -286,6 +290,8 @@ AppBar _buildAppBar(ProfileController profileController) {
           icon: const Icon(Icons.search, size: 28),
           color: Colors.black54,
         ),
+
+        if(!isGuest())
         IconButton(
           onPressed: () {
             Get.to(() => const FavoritesScreen());
@@ -298,66 +304,70 @@ AppBar _buildAppBar(ProfileController profileController) {
   );
 }
 
-Widget _buildDonationWalletCard(ProfileController profileController) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
-      padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: ColorManager.lightGreenColor,
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Image.asset(
-                    ImageAssets.wallet,
-                    width: AppSize.s24,
-                    color: Colors.green,
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    'Donation wallet',
-                    style: TextStyle(color: Colors.black54, fontSize: 14),
-                  ),
-                ],
-              ),
-              SizedBox(height: 8),
-              Obx(
-                  ()=> Text(
-                  "${profileController.walletBalance.value } EGP",
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            child: const Text(
-              'Top up',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-          ),
-        ],
-      ),
-  );
-}
+// Widget _buildDonationWalletCard(ProfileController profileController) {
+//     return Container(
+//       margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+//       padding: const EdgeInsets.all(20.0),
+//       decoration: BoxDecoration(
+//         color: ColorManager.lightGreenColor,
+//         borderRadius: BorderRadius.circular(20.0),
+//       ),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//         children: [
+//            Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Row(
+//                 children: [
+//                   Image.asset(
+//                     ImageAssets.wallet,
+//                     width: AppSize.s24,
+//                     color: Colors.green,
+//                   ),
+//                   SizedBox(width: 8),
+//                   Text(
+//                     'Donation wallet',
+//                     style: TextStyle(color: Colors.black54, fontSize: 14),
+//                   ),
+//                 ],
+//               ),
+//               SizedBox(height: 8),
+//               Obx(
+//                   ()=> Text(
+//                   "${profileController.walletBalance.value } EGP",
+//                   style: TextStyle(
+//                     color: Colors.black87,
+//                     fontSize: 32,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//           ElevatedButton(
+//             onPressed: () {
+//               !isGuest() ?
+//               Get.to(() => const TopUpScreen()) :
+//               Get.to(() => const SignInView());
+//             },
+//             style: ElevatedButton.styleFrom(
+//               backgroundColor: Colors.green,
+//               foregroundColor: Colors.white,
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(12),
+//               ),
+//               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+//             ),
+//             child: const Text(
+//               'Top up',
+//               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+//             ),
+//           ),
+//         ],
+//       ),
+//   );
+// }
 
 Widget _buildFeatureCampaignTitle() {
   return const Padding(
@@ -643,6 +653,8 @@ class LatestCampaignCard extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
+
+                if(!isGuest())
                 Positioned(
                   top: 8,
                   right: 8,

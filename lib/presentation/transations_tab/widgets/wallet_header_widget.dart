@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../resources/assets_manager.dart';
+import '../../resources/color_manager.dart';
 import '../controllers/wallet_controller.dart';
+import '../presentation/top_up_screen.dart';
 
 
 class WalletHeaderWidget extends StatelessWidget {
@@ -31,7 +33,7 @@ class WalletHeaderWidget extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
 
-          color: const Color(0xFFF1F8E9),
+          color: ColorManager.lightGreenColor,
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Row(
@@ -45,12 +47,12 @@ class WalletHeaderWidget extends StatelessWidget {
                     Image.asset(
                       ImageAssets.wallet,
                       width: 24,
-                      color: Colors.green.shade700,
+                      color: Colors.green,
                     ),
                     const SizedBox(width: 8),
                     const Text(
                       'Current Balance',
-                      style: TextStyle(color: Colors.black54, fontSize: 14),
+                      style: TextStyle(color: Colors.green, fontSize: 14),
                     ),
                   ],
                 ),
@@ -68,7 +70,7 @@ class WalletHeaderWidget extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () {
-
+                Get.to(() => const TopUpScreen());
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,

@@ -155,7 +155,7 @@ class ProfileView extends StatelessWidget {
                   if (!kReleaseMode)
                     SettingTile(
                       icon: ImageAssets.donateHeartFlower,
-                      title: "شركاء النجاح",
+                      title: AppStrings.successPartners.tr,
                       onTap: () {
                         Get.to(SuccessPartnersScreen());
                       },
@@ -166,18 +166,18 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
 
-                  SettingTile(
-                    icon: ImageAssets.users,
-                    title: AppStrings.inviteFriends.tr,
-                    onTap: () {
-                      //TODO : share app link
-                    },
-                    trailing: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: Theme.of(context).textTheme.displayLarge!.color!,
-                      size: AppSize.s20,
-                    ),
-                  ),
+                  // SettingTile(
+                  //   icon: ImageAssets.users,
+                  //   title: AppStrings.inviteFriends.tr,
+                  //   onTap: () {
+                  //     //TODO : share app link
+                  //   },
+                  //   trailing: Icon(
+                  //     Icons.arrow_forward_ios_rounded,
+                  //     color: Theme.of(context).textTheme.displayLarge!.color!,
+                  //     size: AppSize.s20,
+                  //   ),
+                  // ),
 
                   ///Logout
                   ColorFiltered(

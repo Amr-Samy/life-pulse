@@ -1,38 +1,25 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class Partner {
   final String name;
-  final String description;
-  final String logoUrl;
-  final Color logoBgColor;
+  final IconData logo;
 
-  const Partner({
-    required this.name,
-    required this.description,
-    required this.logoUrl,
-    this.logoBgColor = Colors.black,
-  });
+  const Partner({required this.name, required this.logo});
 }
 
-final List<Partner> privatePartners = [
-  const Partner(name: 'Innovate Corp', description: 'Technology & AI Solutions', logoUrl: 'https://i.imgur.com/example-logo-1.png', logoBgColor: Color(0xFF2d3436)),
-  const Partner(name: 'EcoBuild Ventures', description: 'Sustainable Construction', logoUrl: 'https://i.imgur.com/example-logo-2.png', logoBgColor: Color(0xFF00b894)),
-  const Partner(name: 'HealthFirst Pharma', description: 'Medical Research & Development', logoUrl: 'https://i.imgur.com/example-logo-3.png', logoBgColor: Color(0xFF0984e3)),
-  const Partner(name: 'Quantum Fintech', description: 'Financial Services Partner', logoUrl: 'https://i.imgur.com/example-logo-4.png', logoBgColor: Color(0xFFd63031)),
+final List<Partner> allPartners = [
+  const Partner(name: 'Innovate Corp', logo: Icons.computer),
+  const Partner(name: 'EcoBuild', logo: Icons.eco),
+  const Partner(name: 'HealthFirst', logo: Icons.local_hospital),
+  const Partner(name: 'Quantum Fintech', logo: Icons.insights),
+  const Partner(name: 'Ministry of Education', logo: Icons.school),
+  const Partner(name: 'Health Service', logo: Icons.health_and_safety),
+  const Partner(name: 'UNICEF', logo: Icons.child_friendly),
+  const Partner(name: 'World Health Org.', logo: Icons.public),
+  const Partner(name: 'Food Program', logo: Icons.restaurant),
+  const Partner(name: 'EPA', logo: Icons.landscape),
 ];
-
-final List<Partner> governmentPartners = [
-  const Partner(name: 'Ministry of Education', description: 'Educational Program Partner', logoUrl: 'https://i.imgur.com/example-gov-1.png', logoBgColor: Color(0xFF6c5ce7)),
-  const Partner(name: 'National Health Service', description: 'Public Health Initiatives', logoUrl: 'https://i.imgur.com/example-gov-2.png', logoBgColor: Color(0xFF00cec9)),
-  const Partner(name: 'Environmental Protection Agency', description: 'Conservation & Sustainability', logoUrl: 'https://i.imgur.com/example-gov-3.png', logoBgColor: Color(0xFF2d3436)),
-];
-
-final List<Partner> globalPartners = [
-  const Partner(name: 'World Health Org.', description: 'Global Health & Safety', logoUrl: 'https://i.imgur.com/example-global-1.png', logoBgColor: Color(0xFF0984e3)),
-  const Partner(name: 'UNICEF', description: 'Children\'s Rights & Aid', logoUrl: 'https://i.imgur.com/example-global-2.png', logoBgColor: Color(0xFF2d3436)),
-  const Partner(name: 'Global Food Program', description: 'Humanitarian Food Assistance', logoUrl: 'https://i.imgur.com/example-global-3.png', logoBgColor: Color(0xFF6c5ce7)),
-];
-
 
 class SuccessPartnersScreen extends StatefulWidget {
   const SuccessPartnersScreen({super.key});
@@ -41,119 +28,116 @@ class SuccessPartnersScreen extends StatefulWidget {
   State<SuccessPartnersScreen> createState() => _SuccessPartnersScreenState();
 }
 
-class _SuccessPartnersScreenState extends State<SuccessPartnersScreen>
-    with SingleTickerProviderStateMixin {
-  late final TabController _tabController;
+class _SuccessPartnersScreenState extends State<SuccessPartnersScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  // positions
+  final List<Map<String, double>> bubbleProperties = [
+    {'size': 120, 'top': 40, 'left': 20},
+    {'size': 90, 'top': 80, 'right': 30},
+    {'size': 110, 'top': 180, 'left': 100},
+    {'size': 80, 'top': 200, 'right': 110},
+    {'size': 130, 'top': 300, 'left': 25},
+    {'size': 100, 'top': 320, 'right': 50},
+    {'size': 85, 'top': 450, 'left': 150},
+    {'size': 115, 'top': 480, 'right': 20},
+    {'size': 95, 'top': 580, 'left': 40},
+    {'size': 105, 'top': 620, 'right': 140},
+  ];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    )..forward();
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFF1DB954);
+    final List<Color> bubbleColors = [
+      Colors.green.shade200,
+      Colors.green.shade400,
+      const Color(0xFF1DB954),
+      Colors.green.shade700,
+    ];
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
-        title: const Text('Success Partners', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title: const Text('Our Partners', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 1,
         shadowColor: Colors.grey.withOpacity(0.1),
         leading: const BackButton(color: Colors.black),
-        bottom: TabBar(
-          controller: _tabController,
-          indicatorColor: primaryColor,
-          indicatorWeight: 3,
-          labelColor: primaryColor,
-          unselectedLabelColor: Colors.grey[600],
-          labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-          tabs: const [
-            Tab(text: 'Private Sector'),
-            Tab(text: 'Government'),
-            Tab(text: 'Global Orgs'),
-          ],
-        ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildPartnerList(privatePartners),
-          _buildPartnerList(governmentPartners),
-          _buildPartnerList(globalPartners),
-        ],
-      ),
-    );
-  }
+      body: Stack(
+        children: List.generate(allPartners.length, (index) {
+          final properties = bubbleProperties[index % bubbleProperties.length];
+          final color = bubbleColors[index % bubbleColors.length];
+          final partner = allPartners[index];
 
-  Widget _buildPartnerList(List<Partner> partners) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(16.0),
-      itemCount: partners.length,
-      itemBuilder: (context, index) {
-        return _buildPartnerCard(partners[index]);
-      },
-      separatorBuilder: (context, index) => const SizedBox(height: 12),
-    );
-  }
-
-  Widget _buildPartnerCard(Partner partner) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: Colors.grey[200]!),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.05),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: partner.logoBgColor,
-            child: const Icon(Icons.location_city, color: Colors.white, size: 28),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  partner.name,
-                  style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
+          return Positioned(
+            top: properties['top'],
+            left: properties['left'],
+            right: properties['right'],
+            child: FadeTransition(
+              opacity: CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+              child: ScaleTransition(
+                scale: CurvedAnimation(parent: _controller, curve: Curves.elasticOut),
+                child: _buildPartnerBubble(
+                  size: properties['size']!,
+                  color: color,
+                  partner: partner,
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  partner.description,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+          );
+        }),
       ),
+    );
+  }
+
+  Widget _buildPartnerBubble({
+    required double size,
+    required Color color,
+    required Partner partner,
+  }) {
+    return Column(
+      children: [
+        Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 10,
+                spreadRadius: 2,
+              )
+            ],
+          ),
+          child: Icon(partner.logo, color: Colors.white, size: size * 0.5),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          partner.name,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+            color: Colors.black54,
+          ),
+        ),
+      ],
     );
   }
 }

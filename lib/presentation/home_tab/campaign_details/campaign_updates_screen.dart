@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:life_pulse/presentation/home_tab/campaign_details/controllers/campaign_updates_controller.dart';
 import 'package:life_pulse/presentation/home_tab/campaign_details/widgets/updates_section.dart';
 
+import '../../resources/strings_manager.dart';
+
 class CampaignUpdatesScreen extends StatefulWidget {
   final int campaignId;
   const CampaignUpdatesScreen({super.key, required this.campaignId});
@@ -40,7 +42,7 @@ class _CampaignUpdatesScreenState extends State<CampaignUpdatesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Campaign Updates'),
+        title:  Text(AppStrings.campaignUpdates.tr),
       ),
       body: Obx(() {
         if (controller.isLoading.value) {

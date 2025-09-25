@@ -411,4 +411,34 @@ Map<String, String> en = {
   AppStrings.pleaseEnterYourPin: "Please Enter your PIN",
   AppStrings.pinConfirmed: "PIN %s confirmed!",
   AppStrings.promoCodeSuccess: "Promo code applied successfully",
+
+  //Donation
+  AppStrings.donationDetails: "Donation Details",
+  AppStrings.donationNotFound: "Donation not found or failed to load.",
+  AppStrings.details: "DETAILS",
+  AppStrings.amount: "Amount:",
+  AppStrings.statusLabel: "Status:",
+  AppStrings.paymentMethodLabel: "Payment Method:",
+  AppStrings.transactionIdLabel: "Transaction ID:",
+  AppStrings.dateLabel: "Date:",
+
+  // FAQ
+  AppStrings.faqQ1: "What is this app about?",
+  AppStrings.faqA1: "It is a global donation platform that connects donors with verified medical cases, allowing them to contribute securely and track the impact of their donations",
+  AppStrings.faqQ2: "How do I know the cases are real?",
+  AppStrings.faqA2: "Every campaign undergoes a strict verification process. Medical documents, bills, and beneficiary identities are reviewed before approval. Verified cases display a verification badge.",
+  AppStrings.faqQ3: "Can I donate from anywhere in the world?",
+  AppStrings.faqA3: "Yes. The app supports multiple international payment methods including credit/debit cards, PayPal, Apple Pay, Google Pay, and local Egyptian wallets.",
+  AppStrings.faqQ4: "Can I remain anonymous when donating?",
+  AppStrings.faqA4: "Absolutely. You can choose to hide your name and donate anonymously while still receiving a receipt.",
+  AppStrings.faqQ5: "What happens if a campaign is not fully funded before the deadline?",
+  AppStrings.faqA5: "Funds collected are transferred to the beneficiary for partial support. In rare cases where the campaign is canceled, donations are refunded to the original payment method.",
+
+  AppStrings.donateNow: "Donate Now",
+  AppStrings.updates: "Updates",
+  AppStrings.showAllUpdates: "Show all updates",
+  AppStrings.campaignUpdates: "Campaign Updates",
+  AppStrings.fundRaisedFrom: "Fund raised from",
+  AppStrings.collected: "Collected",
+  AppStrings.successPartners: "Success Partners",
 };

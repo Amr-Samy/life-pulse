@@ -27,6 +27,10 @@ class CampaignInfoCard extends StatelessWidget {
         children: [
           _buildTitleAndOrganizer(),
           const SizedBox(height: 16),
+          Text(
+            '${AppStrings.collected.tr} ${campaign.currentAmount} ${AppStrings.egp.tr}',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           _buildProgressIndicator(),
           const SizedBox(height: 8),
           _buildFundingDetails(),
@@ -56,7 +60,9 @@ class CampaignInfoCard extends StatelessWidget {
         const SizedBox(height: 8),
         Row(
           children: [
-            Text('By ', style: TextStyle(color: Colors.grey[600])),
+            Text(AppStrings.by.tr, style: TextStyle(color: Colors.grey[600])),
+            const SizedBox(width: 4),
+
             Text(
               campaign.creator.name,
               style: const TextStyle(
@@ -91,18 +97,7 @@ class CampaignInfoCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        RichText(
-          text: TextSpan(
-            style: const TextStyle(fontSize: 14, color: Colors.black87),
-            children: [
-              TextSpan(
-                text: '\$${campaign.currentAmount} ',
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              TextSpan(text: 'fund raised from \$${campaign.targetAmount}'),
-            ],
-          ),
-        ),
+        Text( '${AppStrings.fundRaisedFrom.tr}  ${campaign.targetAmount} ${AppStrings.egp.tr}'),
         //!TODO : HANDLE NULL
         Text(
           daysLeftText,
@@ -146,7 +141,7 @@ class CampaignInfoCard extends StatelessWidget {
   Widget _buildTags() {
     return Row(
       children: [
-        if (campaign.isPriority) _buildTag('Emergencies', Icons.flash_on),
+        if (campaign.isPriority) _buildTag(AppStrings.emergencies.tr, Icons.flash_on),
       ],
     );
   }
@@ -187,7 +182,7 @@ class CampaignInfoCard extends StatelessWidget {
           elevation: 0,
         ),
         child: Text(
-          'Donate Now',
+          AppStrings.donateNow.tr,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,

@@ -410,7 +410,7 @@ class CampaignCard extends StatelessWidget {
     if (normalizedEndTime.isBefore(normalizedToday)) {
       return AppStrings.ended.tr;
     } else {
-      return 'مُتبقى';
+      return AppStrings.remaining.tr;
     }
   }
 
@@ -507,7 +507,7 @@ class CampaignCard extends StatelessWidget {
                     children: [
                       Text(AppStrings.remaining.tr, style: const TextStyle(color: Colors.grey)),
                       Text(
-                        "${campaign.remainingAmount.toString()} ج.م ",
+                        "${campaign.remainingAmount.toString()} ${AppStrings.egp.tr} ",
                         style: const TextStyle(color: Colors.grey),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

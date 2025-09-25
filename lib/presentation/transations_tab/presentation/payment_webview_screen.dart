@@ -4,6 +4,8 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../resources/index.dart';
+
 class PaymentWebViewScreen extends StatefulWidget {
   final String paymentUrl;
 
@@ -40,6 +42,11 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
           },
           onPageFinished: (String url) {
             debugPrint('Page finished loading======================================: $url');
+            if(url == "https://nabd.kirellos.com/login"){
+              Get.back();
+              Get.back();
+              showSuccessSnackBar(message:"تم الدفع بنجاح");
+            }
             setState(() {
               _loadingPercentage = 100;
             });

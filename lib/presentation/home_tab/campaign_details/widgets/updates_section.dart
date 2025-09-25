@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import '../../../resources/strings_manager.dart';
 import '../../home/models/campaign_model.dart';
 import '../campaign_updates_screen.dart';
 import '../models/campaign_update_model.dart';
@@ -23,8 +24,8 @@ class UpdatesSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
-          'Updates',
+         Text(
+           AppStrings.updates.tr,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -44,7 +45,7 @@ class UpdatesSection extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    const Text('Show all updates',style: TextStyle(color: Colors.black87),),
+                     Text(AppStrings.showAllUpdates.tr,style: TextStyle(color: Colors.black87),),
                     const SizedBox(width: 4),
                     const Icon(Icons.arrow_forward_ios, size: 12),
                   ],

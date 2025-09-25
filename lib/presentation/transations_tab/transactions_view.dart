@@ -17,7 +17,6 @@ class TransactionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TransactionsController transactionsController = Get.put(TransactionsController());
-    Get.put(WalletController());
 
     return isGuest()
         ? Scaffold(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:life_pulse/presentation/resources/strings_manager.dart';
 import 'controllers/donation_details_controller.dart';
 
 class DonationDetailsScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class DonationDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Donation Details'),
+        title: Text(AppStrings.donationDetails.tr),
       ),
       body: SafeArea(
         child: Obx(() {
@@ -24,10 +25,10 @@ class DonationDetailsScreen extends StatelessWidget {
           }
 
           if (controller.donation.value == null) {
-            return const Center(
+            return Center(
               child: Text(
-                'Donation not found or failed to load.',
-                style: TextStyle(fontSize: 16),
+                AppStrings.donationNotFound.tr,
+                style: const TextStyle(fontSize: 16),
               ),
             );
           }
@@ -77,8 +78,8 @@ class DonationDetailsScreen extends StatelessWidget {
                 const SizedBox(height: 24),
 
                 // Donation Details Section
-                const Text(
-                  'DETAILS',
+                 Text(
+                  AppStrings.details.tr,
                   style: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w500,
@@ -86,15 +87,15 @@ class DonationDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 const Divider(height: 20),
-                _buildDetailRow('Amount:',
+                _buildDetailRow(AppStrings.amount.tr,
                     '\$${donation.amount.toStringAsFixed(2)}',
                     valueColor: Colors.green),
-                _buildDetailRow('Status:', donation.status.capitalizeFirst ?? donation.status),
+                _buildDetailRow(AppStrings.statusLabel.tr, donation.status.capitalizeFirst ?? donation.status),
                 if (donation.paymentMethod != null)
-                _buildDetailRow('Payment Method:', donation.paymentMethod!.capitalizeFirst ?? donation.paymentMethod!),
+                _buildDetailRow(AppStrings.paymentMethodLabel.tr, donation.paymentMethod!.capitalizeFirst ?? donation.paymentMethod!),
                 if (donation.transactionId != null)
-                  _buildDetailRow('Transaction ID:', donation.transactionId!),
-                _buildDetailRow('Date:',
+                  _buildDetailRow(AppStrings.transactionIdLabel.tr, donation.transactionId!),
+                _buildDetailRow(AppStrings.dateLabel.tr,
                     DateFormat('d MMMM yyyy, hh:mm a').format(donation.createdAt)),
               ],
             ),
@@ -104,7 +105,6 @@ class DonationDetailsScreen extends StatelessWidget {
     );
   }
 
-  // Helper widget for displaying detail rows
   Widget _buildDetailRow(String title, String value, {Color? valueColor}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),

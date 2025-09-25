@@ -103,185 +103,185 @@ class _LanguageSettingsViewState extends State<LanguageSettingsView> {
               ),
             ),
 
-            /// Other Languages
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppPadding.p16,vertical: AppPadding.p16),
-              child: Text(
-                AppStrings.otherLanguages.tr,
-                style: getSemiBoldStyle(
-                    color: Theme.of(context).textTheme.displayLarge!.color!,
-                    fontSize: FontSize.s20),
-              ),
-            ),
-
-            SettingTile(
-              title: 'Français',
-              onTap: () {profileController.changeLanguage("fr");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
-                ),
-                value: 7,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
-              ),
-            ),
-            SettingTile(
-              title: 'Español',
-              onTap: () {profileController.changeLanguage("es");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
-                ),
-                value: 8,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
-              ),
-            ),
-            SettingTile(
-              title: 'Deutsch',
-              onTap: () {profileController.changeLanguage("de");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
-                ),
-                value: 9,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
-              ),
-            ),
-            SettingTile(
-              title: 'Русский',
-              onTap: () {profileController.changeLanguage("ru");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
-                ),
-                value: 10,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
-              ),
-            ),
-            SettingTile(
-              title: 'اردو',
-              onTap: () {profileController.changeLanguage("ur");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
-                ),
-                value: 11,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
-              ),
-            ),
-            SettingTile(
-              title: '中文',
-              onTap: () {profileController.changeLanguage("cn");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
-                ),
-                value: 12,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
-              ),
-            ),
-            SettingTile(
-              title: 'Bahasa Indonesia',
-              onTap: () {profileController.changeLanguage("id");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
-                ),
-                value: 13,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
-              ),
-            ),
-            SettingTile(
-              title: 'فارسی',
-              onTap: () {profileController.changeLanguage("fa");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
-                ),
-                value: 14,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
-              ),
-            ),
-            SettingTile(
-              title: 'Türkçe',
-              onTap: () {profileController.changeLanguage("tr");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
-                ),
-                value: 15,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
-              ),
-            ),
-            SettingTile(
-              title: 'Tagalog',
-              onTap: () {profileController.changeLanguage("tl");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
-                ),
-                value: 17,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
-              ),
-            ),
-            SettingTile(
-              title: 'Hausa',
-              onTap: () {profileController.changeLanguage("ha");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
-                ),
-                value: 18,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
-              ),
-            ),
-            SettingTile(
-              title: 'ไทย',
-              onTap: () {profileController.changeLanguage("th");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
-                ),
-                value: 16,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
-              ),
-            ),
+            // /// Other Languages
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: AppPadding.p16,vertical: AppPadding.p16),
+            //   child: Text(
+            //     AppStrings.otherLanguages.tr,
+            //     style: getSemiBoldStyle(
+            //         color: Theme.of(context).textTheme.displayLarge!.color!,
+            //         fontSize: FontSize.s20),
+            //   ),
+            // ),
+            //
+            // SettingTile(
+            //   title: 'Français',
+            //   onTap: () {profileController.changeLanguage("fr");},
+            //   trailing: Radio(
+            //     fillColor: MaterialStateColor.resolveWith((states) =>
+            //     states.contains(MaterialState.selected)
+            //         ? ColorManager.primary
+            //         : ColorManager.primary
+            //     ),
+            //     value: 7,
+            //     groupValue: profileController.selectedLanguage.value,
+            //     onChanged: (value) => profileController.onChanged(value!),
+            //   ),
+            // ),
+            // SettingTile(
+            //   title: 'Español',
+            //   onTap: () {profileController.changeLanguage("es");},
+            //   trailing: Radio(
+            //     fillColor: MaterialStateColor.resolveWith((states) =>
+            //     states.contains(MaterialState.selected)
+            //         ? ColorManager.primary
+            //         : ColorManager.primary
+            //     ),
+            //     value: 8,
+            //     groupValue: profileController.selectedLanguage.value,
+            //     onChanged: (value) => profileController.onChanged(value!),
+            //   ),
+            // ),
+            // SettingTile(
+            //   title: 'Deutsch',
+            //   onTap: () {profileController.changeLanguage("de");},
+            //   trailing: Radio(
+            //     fillColor: MaterialStateColor.resolveWith((states) =>
+            //     states.contains(MaterialState.selected)
+            //         ? ColorManager.primary
+            //         : ColorManager.primary
+            //     ),
+            //     value: 9,
+            //     groupValue: profileController.selectedLanguage.value,
+            //     onChanged: (value) => profileController.onChanged(value!),
+            //   ),
+            // ),
+            // SettingTile(
+            //   title: 'Русский',
+            //   onTap: () {profileController.changeLanguage("ru");},
+            //   trailing: Radio(
+            //     fillColor: MaterialStateColor.resolveWith((states) =>
+            //     states.contains(MaterialState.selected)
+            //         ? ColorManager.primary
+            //         : ColorManager.primary
+            //     ),
+            //     value: 10,
+            //     groupValue: profileController.selectedLanguage.value,
+            //     onChanged: (value) => profileController.onChanged(value!),
+            //   ),
+            // ),
+            // SettingTile(
+            //   title: 'اردو',
+            //   onTap: () {profileController.changeLanguage("ur");},
+            //   trailing: Radio(
+            //     fillColor: MaterialStateColor.resolveWith((states) =>
+            //     states.contains(MaterialState.selected)
+            //         ? ColorManager.primary
+            //         : ColorManager.primary
+            //     ),
+            //     value: 11,
+            //     groupValue: profileController.selectedLanguage.value,
+            //     onChanged: (value) => profileController.onChanged(value!),
+            //   ),
+            // ),
+            // SettingTile(
+            //   title: '中文',
+            //   onTap: () {profileController.changeLanguage("cn");},
+            //   trailing: Radio(
+            //     fillColor: MaterialStateColor.resolveWith((states) =>
+            //     states.contains(MaterialState.selected)
+            //         ? ColorManager.primary
+            //         : ColorManager.primary
+            //     ),
+            //     value: 12,
+            //     groupValue: profileController.selectedLanguage.value,
+            //     onChanged: (value) => profileController.onChanged(value!),
+            //   ),
+            // ),
+            // SettingTile(
+            //   title: 'Bahasa Indonesia',
+            //   onTap: () {profileController.changeLanguage("id");},
+            //   trailing: Radio(
+            //     fillColor: MaterialStateColor.resolveWith((states) =>
+            //     states.contains(MaterialState.selected)
+            //         ? ColorManager.primary
+            //         : ColorManager.primary
+            //     ),
+            //     value: 13,
+            //     groupValue: profileController.selectedLanguage.value,
+            //     onChanged: (value) => profileController.onChanged(value!),
+            //   ),
+            // ),
+            // SettingTile(
+            //   title: 'فارسی',
+            //   onTap: () {profileController.changeLanguage("fa");},
+            //   trailing: Radio(
+            //     fillColor: MaterialStateColor.resolveWith((states) =>
+            //     states.contains(MaterialState.selected)
+            //         ? ColorManager.primary
+            //         : ColorManager.primary
+            //     ),
+            //     value: 14,
+            //     groupValue: profileController.selectedLanguage.value,
+            //     onChanged: (value) => profileController.onChanged(value!),
+            //   ),
+            // ),
+            // SettingTile(
+            //   title: 'Türkçe',
+            //   onTap: () {profileController.changeLanguage("tr");},
+            //   trailing: Radio(
+            //     fillColor: MaterialStateColor.resolveWith((states) =>
+            //     states.contains(MaterialState.selected)
+            //         ? ColorManager.primary
+            //         : ColorManager.primary
+            //     ),
+            //     value: 15,
+            //     groupValue: profileController.selectedLanguage.value,
+            //     onChanged: (value) => profileController.onChanged(value!),
+            //   ),
+            // ),
+            // SettingTile(
+            //   title: 'Tagalog',
+            //   onTap: () {profileController.changeLanguage("tl");},
+            //   trailing: Radio(
+            //     fillColor: MaterialStateColor.resolveWith((states) =>
+            //     states.contains(MaterialState.selected)
+            //         ? ColorManager.primary
+            //         : ColorManager.primary
+            //     ),
+            //     value: 17,
+            //     groupValue: profileController.selectedLanguage.value,
+            //     onChanged: (value) => profileController.onChanged(value!),
+            //   ),
+            // ),
+            // SettingTile(
+            //   title: 'Hausa',
+            //   onTap: () {profileController.changeLanguage("ha");},
+            //   trailing: Radio(
+            //     fillColor: MaterialStateColor.resolveWith((states) =>
+            //     states.contains(MaterialState.selected)
+            //         ? ColorManager.primary
+            //         : ColorManager.primary
+            //     ),
+            //     value: 18,
+            //     groupValue: profileController.selectedLanguage.value,
+            //     onChanged: (value) => profileController.onChanged(value!),
+            //   ),
+            // ),
+            // SettingTile(
+            //   title: 'ไทย',
+            //   onTap: () {profileController.changeLanguage("th");},
+            //   trailing: Radio(
+            //     fillColor: MaterialStateColor.resolveWith((states) =>
+            //     states.contains(MaterialState.selected)
+            //         ? ColorManager.primary
+            //         : ColorManager.primary
+            //     ),
+            //     value: 16,
+            //     groupValue: profileController.selectedLanguage.value,
+            //     onChanged: (value) => profileController.onChanged(value!),
+            //   ),
+            // ),
 
           ],
         ),

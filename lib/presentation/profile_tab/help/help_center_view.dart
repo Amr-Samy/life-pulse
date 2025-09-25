@@ -127,26 +127,26 @@ class FaqTab extends StatelessWidget {
     return
       ListView(
         padding: const EdgeInsets.all(16.0),
-        children: const [
+        children: [
           FaqTile(
-            question: 'What is this app about?',
-            answer: 'It is a global donation platform that connects donors with verified medical cases, allowing them to contribute securely and track the impact of their donations',
+            question: AppStrings.faqQ1.tr,
+            answer: AppStrings.faqA1.tr,
           ),
           FaqTile(
-            question: 'How do I know the cases are real?',
-            answer: 'Every campaign undergoes a strict verification process. Medical documents, bills, and beneficiary identities are reviewed before approval. Verified cases display a verification badge.',
+            question: AppStrings.faqQ2.tr,
+            answer: AppStrings.faqA2.tr,
           ),
           FaqTile(
-            question: 'Can I donate from anywhere in the world?',
-            answer: 'Yes. The app supports multiple international payment methods including credit/debit cards, PayPal, Apple Pay, Google Pay, and local Egyptian wallets.',
+            question: AppStrings.faqQ3.tr,
+            answer: AppStrings.faqA3.tr,
           ),
           FaqTile(
-            question: 'Can I remain anonymous when donating?',
-            answer: 'Absolutely. You can choose to hide your name and donate anonymously while still receiving a receipt.',
+            question: AppStrings.faqQ4.tr,
+            answer: AppStrings.faqA4.tr,
           ),
           FaqTile(
-            question: 'What happens if a campaign is not fully funded before the deadline?',
-            answer: 'Funds collected are transferred to the beneficiary for partial support. In rare cases where the campaign is canceled, donations are refunded to the original payment method.',
+            question: AppStrings.faqQ5.tr,
+            answer: AppStrings.faqA5.tr,
           ),
         ],
       ) ;

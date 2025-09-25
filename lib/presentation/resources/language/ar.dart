@@ -348,7 +348,7 @@ Map<String, String> ar = {
   AppStrings.by: "بواسطة",
   AppStrings.ended: "انتهت",
   AppStrings.peopleDonated: "شخص تبرع",
-  AppStrings.emergencies: "حالات الطوارئ",
+  AppStrings.emergencies: "حالات طارئة",
   AppStrings.raised: "تم جمع",
   AppStrings.noTransactionsFound: "لا توجد معاملات.",
   AppStrings.failedToLoadTransactions: "فشل تحميل المعاملات.",
@@ -414,4 +414,36 @@ Map<String, String> ar = {
   AppStrings.enterPin: "أدخل رمز الـ PIN",
   AppStrings.pleaseEnterYourPin: "يرجى إدخال رمز الـ PIN الخاص بك",
   AppStrings.pinConfirmed: "تم تأكيد رمز الـ PIN %s!",
+
+  //Donation
+  AppStrings.donationDetails: "تفاصيل التبرع",
+  AppStrings.donationNotFound: "لم يتم العثور على التبرع أو فشل تحميله.",
+  AppStrings.details: "التفاصيل",
+  AppStrings.amount: "المبلغ:",
+  AppStrings.statusLabel: "الحالة:",
+  AppStrings.paymentMethodLabel: "طريقة الدفع:",
+  AppStrings.transactionIdLabel: "رقم المعاملة:",
+  AppStrings.dateLabel: "التاريخ:",
+
+  // FAQ
+  AppStrings.faqQ1: "ما هى نبض الحياة؟",
+  AppStrings.faqA1: " نبض الحياة منصة تبرع عالمية تربط المتبرعين بالحالات الطبية التي تم التحقق منها ، مما يسمح لهم بالمساهمة بشكل آمن وتتبع تأثير تبرعاتهم بكل شفافية ",
+  AppStrings.faqQ2: "كيف أعرف أن الحالات حقيقية؟",
+  AppStrings.faqA2: "تخضع كل حملة لعملية تحقق صارمة. تتم مراجعة المستندات الطبية والفواتير وهويات المستفيدين قبل الموافقة. تعرض الحالات التي تم التحقق منها شارة تحقق.",
+  AppStrings.faqQ3: "هل يمكنني التبرع من أي مكان في العالم؟",
+  AppStrings.faqA3: "نعم. يدعم التطبيق طرق دفع دولية متعددة بما في ذلك بطاقات الائتمان / الخصم و PayPal و Apple Pay و Google Pay والمحافظ المصرية المحلية.",
+  AppStrings.faqQ4: "هل يمكنني عدم الكشف عن هويتي عند التبرع؟",
+  AppStrings.faqA4: "بالتأكيد. يمكنك اختيار إخفاء اسمك والتبرع دون الكشف عن هويتك مع استمرار تلقي إيصال.",
+  AppStrings.faqQ5: "ماذا يحدث إذا لم يتم تمويل الحملة بالكامل قبل الموعد النهائي؟",
+  AppStrings.faqA5: "يتم تحويل الأموال التي تم جمعها إلى المستفيد للحصول على دعم جزئي. في الحالات النادرة التي يتم فيها إلغاء الحملة ، يتم رد التبرعات إلى طريقة الدفع الأصلية.",
+
+  AppStrings.donateNow: "تبرع الآن",
+  AppStrings.updates: "التحديثات",
+  AppStrings.showAllUpdates: "عرض كل التحديثات",
+  AppStrings.campaignUpdates: "تحديثات الحملة",
+
+  AppStrings.fundRaisedFrom: "تم جمعها من",
+  AppStrings.collected: "المبلغ المجموع",
+  AppStrings.successPartners: "شركاء النجاح",
+
 };

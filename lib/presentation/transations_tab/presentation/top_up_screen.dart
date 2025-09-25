@@ -5,6 +5,8 @@ import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/resources/helpers/functions.dart';
 import 'package:life_pulse/presentation/transations_tab/presentation/payment_webview_screen.dart';
 
+import '../../resources/strings_manager.dart';
+
 class TopUpScreen extends StatefulWidget {
   const TopUpScreen({super.key});
 
@@ -95,7 +97,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
     return Scaffold(
       backgroundColor: lightGreenBg,
       appBar: AppBar(
-        title: const Text('Top Up Wallet', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title:  Text(AppStrings.topUp.tr, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: const BackButton(color: Colors.black),
@@ -113,8 +115,8 @@ class _TopUpScreenState extends State<TopUpScreen> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            const Text(
-              'Enter the Amount',
+             Text(
+              AppStrings.enterTheAmount.tr,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 20),
@@ -236,8 +238,8 @@ class _TopUpScreenState extends State<TopUpScreen> {
             strokeWidth: 3,
           ),
         )
-            : const Text(
-          'Continue',
+            :  Text(
+          AppStrings.continueOption.tr,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),

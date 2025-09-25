@@ -6,6 +6,7 @@ import 'package:life_pulse/presentation/home_tab/campaign_details/widgets/conten
 import 'package:life_pulse/presentation/home_tab/campaign_details/widgets/summary_stats_section.dart';
 import 'package:life_pulse/presentation/home_tab/campaign_details/widgets/updates_section.dart';
 
+import '../../resources/strings_manager.dart';
 import 'controllers/campaign_details_controller.dart';
 
 class CampaignDetailsScreen extends StatelessWidget {
@@ -48,7 +49,7 @@ class CampaignDetailsScreen extends StatelessWidget {
                     if (campaign.description != null &&
                         campaign.description!.isNotEmpty) ...[
                   ContentSection(
-                    title: 'Story',
+                    title: AppStrings.story.tr,
                         content: campaign.description!,
                   ),
                       const SizedBox(height: 24),

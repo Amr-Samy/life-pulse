@@ -6,6 +6,7 @@ import 'package:life_pulse/presentation/resources/index.dart';
 import 'package:life_pulse/presentation/transations_tab/transactions_view.dart';
 
 import '../donations_tab/donations_tab_view.dart';
+import '../transations_tab/controllers/wallet_controller.dart';
 
 class LayoutView extends StatefulWidget {
   const LayoutView({super.key});
@@ -15,6 +16,7 @@ class LayoutView extends StatefulWidget {
 
 class _LayoutViewState extends State<LayoutView> {
   final layoutController = Get.put(LayoutController(), tag: "LayoutController");
+
   List<Widget> screens = [
     const HomeView(),
     const TransactionsScreen(),
@@ -24,6 +26,7 @@ class _LayoutViewState extends State<LayoutView> {
   final profileController = Get.put(ProfileController(), tag: "ProfileController");
   @override
   void initState() {
+    Get.put(WalletController());
     super.initState();
     isGuest() ? () {} : profileController.fetchUserProfile();
   }

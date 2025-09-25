@@ -66,7 +66,7 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (isGuset()) const WalletHeaderWidget(),
+                if (isGuest()) const WalletHeaderWidget(),
                 // _buildDonationWalletCard(profileController),
                 const SizedBox(height: 24),
                 _buildFeatureCampaignTitle(),

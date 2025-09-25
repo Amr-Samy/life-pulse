@@ -1,67 +1,33 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'package:life_pulse/presentation/resources/index.dart';
+import 'package:life_pulse/presentation/resources/strings_manager.dart';
 
 class Partner {
   final String name;
-  final IconData logo;
+  final String logo;
 
   const Partner({required this.name, required this.logo});
 }
 
 final List<Partner> allPartners = [
-  const Partner(name: 'Innovate Corp', logo: Icons.computer),
-  const Partner(name: 'EcoBuild', logo: Icons.eco),
-  const Partner(name: 'HealthFirst', logo: Icons.local_hospital),
-  const Partner(name: 'Quantum Fintech', logo: Icons.insights),
-  const Partner(name: 'Ministry of Education', logo: Icons.school),
-  const Partner(name: 'Health Service', logo: Icons.health_and_safety),
-  const Partner(name: 'UNICEF', logo: Icons.child_friendly),
-  const Partner(name: 'World Health Org.', logo: Icons.public),
-  const Partner(name: 'Food Program', logo: Icons.restaurant),
-  const Partner(name: 'EPA', logo: Icons.landscape),
+  const Partner(name: 'الشريك الاستراتيجي', logo: 'assets/images/un.png'),
+  const Partner(name: 'الشريك التكنولوجي', logo: 'assets/images/cisco.png'),
+  const Partner(name: 'الشريك التكنولوجي', logo: 'assets/images/huawai.png'),
+  const Partner(name: 'الشريك التكنولوجي', logo: 'assets/images/it.png'),
+  const Partner(name: '', logo: 'assets/images/orange.png'),
+  const Partner(name: '', logo: 'assets/images/voda.png'),
+  const Partner(name: '', logo: 'assets/images/we.png'),
 ];
 
-class SuccessPartnersScreen extends StatefulWidget {
+class SuccessPartnersScreen extends StatelessWidget {
   const SuccessPartnersScreen({super.key});
 
   @override
-  State<SuccessPartnersScreen> createState() => _SuccessPartnersScreenState();
-}
-
-class _SuccessPartnersScreenState extends State<SuccessPartnersScreen> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  // positions
-  final List<Map<String, double>> bubbleProperties = [
-    {'size': 120, 'top': 40, 'left': 20},
-    {'size': 90, 'top': 80, 'right': 30},
-    {'size': 110, 'top': 180, 'left': 100},
-    {'size': 80, 'top': 200, 'right': 110},
-    {'size': 130, 'top': 300, 'left': 25},
-    {'size': 100, 'top': 320, 'right': 50},
-    {'size': 85, 'top': 450, 'left': 150},
-    {'size': 115, 'top': 480, 'right': 20},
-    {'size': 95, 'top': 580, 'left': 40},
-    {'size': 105, 'top': 620, 'right': 140},
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 800),
-      vsync: this,
-    )..forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final mainPartner = allPartners.first;
+    final row1 = allPartners.sublist(1, 4); // 3 elements
+    final row2 = allPartners.sublist(4, 7); // 3 elements
+
     final List<Color> bubbleColors = [
       Colors.green.shade200,
       Colors.green.shade400,
@@ -72,35 +38,59 @@ class _SuccessPartnersScreenState extends State<SuccessPartnersScreen> with Sing
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
-        title: const Text('Our Partners', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title: Text(
+          AppStrings.successPartners.tr,
+          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.white,
         elevation: 1,
         shadowColor: Colors.grey.withOpacity(0.1),
         leading: const BackButton(color: Colors.black),
       ),
-      body: Stack(
-        children: List.generate(allPartners.length, (index) {
-          final properties = bubbleProperties[index % bubbleProperties.length];
-          final color = bubbleColors[index % bubbleColors.length];
-          final partner = allPartners[index];
-
-          return Positioned(
-            top: properties['top'],
-            left: properties['left'],
-            right: properties['right'],
-            child: FadeTransition(
-              opacity: CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-              child: ScaleTransition(
-                scale: CurvedAnimation(parent: _controller, curve: Curves.elasticOut),
-                child: _buildPartnerBubble(
-                  size: properties['size']!,
-                  color: color,
-                  partner: partner,
-                ),
-              ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // main partner in center
+            _buildPartnerBubble(
+              size: 200,
+              color: bubbleColors[0],
+              partner: mainPartner,
             ),
-          );
-        }),
+            const SizedBox(height: 40),
+
+            // first row with 3
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(row1.length, (i) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: _buildPartnerBubble(
+                    size: 100,
+                    color: bubbleColors[(i + 1) % bubbleColors.length],
+                    partner: row1[i],
+                  ),
+                );
+              }),
+            ),
+            const SizedBox(height: 30),
+
+            // second row with 3
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(row2.length, (i) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: _buildPartnerBubble(
+                    size: 100,
+                    color: Colors.white,
+                    partner: row2[i],
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -116,7 +106,7 @@ class _SuccessPartnersScreenState extends State<SuccessPartnersScreen> with Sing
           width: size,
           height: size,
           decoration: BoxDecoration(
-            color: color,
+            color: Colors.white,
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
@@ -126,17 +116,26 @@ class _SuccessPartnersScreenState extends State<SuccessPartnersScreen> with Sing
               )
             ],
           ),
-          child: Icon(partner.logo, color: Colors.white, size: size * 0.5),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          partner.name,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-            color: Colors.black54,
+          child: Center(
+            child: Image.asset(
+              partner.logo,
+              width: size * 0.7,
+              height: size * 0.7,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
+        if (partner.name.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          Text(
+            partner.name,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: Colors.black54,
+            ),
+          ),
+        ],
       ],
     );
   }

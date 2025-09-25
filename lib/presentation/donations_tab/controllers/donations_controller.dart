@@ -87,6 +87,45 @@ class DonationsController extends GetxController {
     }
   }
 
+  Future<bool> quickDonation({
+    required int amount,
+    required bool isAnonymous,
+  }) async {
+    isDonating(true);
+    try {
+      final response = await Api().post(
+        'quick-donate',
+        data: {
+          "amount": amount,
+          "is_anonymous": isAnonymous ? 1 : 0,
+        },
+      );
+
+      if (response.statusCode == 201 && response.data['success'] == true) {
+        final profileController = Get.find<ProfileController>(tag: "ProfileController");
+        final transactionsController = Get.find<TransactionsController>();
+
+        fetchDonations();
+        profileController.fetchUserProfile();
+        transactionsController.fetchTransactions();
+        Get.back();
+
+        return true;
+      } else {
+        showSuccessSnackBar(message: response.data['message'] ?? AppStrings.failedToProcessDonation.tr);
+        return false;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('${AppStrings.errorMakingDonation.tr} $e');
+      }
+      showErrorSnackBar(message: AppStrings.anErrorOccurredPleaseTryAgain.tr);
+      return false;
+    } finally {
+      isDonating(false);
+    }
+  }
+
   void _groupDonations(List<Donation> donations) {
     final data = SplayTreeMap<String, List<Donation>>();
     final now = DateTime.now();

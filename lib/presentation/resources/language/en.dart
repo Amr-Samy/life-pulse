@@ -424,15 +424,20 @@ Map<String, String> en = {
 
   // FAQ
   AppStrings.faqQ1: "What is this app about?",
-  AppStrings.faqA1: "It is a global donation platform that connects donors with verified medical cases, allowing them to contribute securely and track the impact of their donations",
+  AppStrings.faqA1:
+      "It is a global donation platform that connects donors with verified medical cases, allowing them to contribute securely and track the impact of their donations",
   AppStrings.faqQ2: "How do I know the cases are real?",
-  AppStrings.faqA2: "Every campaign undergoes a strict verification process. Medical documents, bills, and beneficiary identities are reviewed before approval. Verified cases display a verification badge.",
+  AppStrings.faqA2:
+      "Every campaign undergoes a strict verification process. Medical documents, bills, and beneficiary identities are reviewed before approval. Verified cases display a verification badge.",
   AppStrings.faqQ3: "Can I donate from anywhere in the world?",
-  AppStrings.faqA3: "Yes. The app supports multiple international payment methods including credit/debit cards, PayPal, Apple Pay, Google Pay, and local Egyptian wallets.",
+  AppStrings.faqA3:
+      "Yes. The app supports multiple international payment methods including credit/debit cards, PayPal, Apple Pay, Google Pay, and local Egyptian wallets.",
   AppStrings.faqQ4: "Can I remain anonymous when donating?",
-  AppStrings.faqA4: "Absolutely. You can choose to hide your name and donate anonymously while still receiving a receipt.",
+  AppStrings.faqA4:
+      "Absolutely. You can choose to hide your name and donate anonymously while still receiving a receipt.",
   AppStrings.faqQ5: "What happens if a campaign is not fully funded before the deadline?",
-  AppStrings.faqA5: "Funds collected are transferred to the beneficiary for partial support. In rare cases where the campaign is canceled, donations are refunded to the original payment method.",
+  AppStrings.faqA5:
+      "Funds collected are transferred to the beneficiary for partial support. In rare cases where the campaign is canceled, donations are refunded to the original payment method.",
 
   AppStrings.donateNow: "Donate Now",
   AppStrings.updates: "Updates",
@@ -441,4 +446,6 @@ Map<String, String> en = {
   AppStrings.fundRaisedFrom: "Fund raised from",
   AppStrings.collected: "Collected",
   AppStrings.successPartners: "Success Partners",
+  AppStrings.startSearch: "Start typing to find campaigns",
+  AppStrings.noResultFound: "No results found for ",
 };

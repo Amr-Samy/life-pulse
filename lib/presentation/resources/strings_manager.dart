@@ -437,15 +437,20 @@ class AppStrings {
 
   // FAQ
   static const faqQ1 = "What is this app about?";
-  static const faqA1 = "It is a global donation platform that connects donors with verified medical cases, allowing them to contribute securely and track the impact of their donations";
+  static const faqA1 =
+      "It is a global donation platform that connects donors with verified medical cases, allowing them to contribute securely and track the impact of their donations";
   static const faqQ2 = "How do I know the cases are real?";
-  static const faqA2 = "Every campaign undergoes a strict verification process. Medical documents, bills, and beneficiary identities are reviewed before approval. Verified cases display a verification badge.";
+  static const faqA2 =
+      "Every campaign undergoes a strict verification process. Medical documents, bills, and beneficiary identities are reviewed before approval. Verified cases display a verification badge.";
   static const faqQ3 = "Can I donate from anywhere in the world?";
-  static const faqA3 = "Yes. The app supports multiple international payment methods including credit/debit cards, PayPal, Apple Pay, Google Pay, and local Egyptian wallets.";
+  static const faqA3 =
+      "Yes. The app supports multiple international payment methods including credit/debit cards, PayPal, Apple Pay, Google Pay, and local Egyptian wallets.";
   static const faqQ4 = "Can I remain anonymous when donating?";
-  static const faqA4 = "Absolutely. You can choose to hide your name and donate anonymously while still receiving a receipt.";
+  static const faqA4 =
+      "Absolutely. You can choose to hide your name and donate anonymously while still receiving a receipt.";
   static const faqQ5 = "What happens if a campaign is not fully funded before the deadline?";
-  static const faqA5 = "Funds collected are transferred to the beneficiary for partial support. In rare cases where the campaign is canceled, donations are refunded to the original payment method.";
+  static const faqA5 =
+      "Funds collected are transferred to the beneficiary for partial support. In rare cases where the campaign is canceled, donations are refunded to the original payment method.";
 
   static const donateNow = "Donate Now";
   static const updates = "Updates";
@@ -455,11 +460,8 @@ class AppStrings {
   static const fundRaisedFrom = "fund raised from";
   static const collected = "Collected";
   static const successPartners = "Success Partners";
-
-
-
-
-
+  static const startSearch = "Start typing to find campaigns";
+  static const noResultFound = "No results found for";
 }
 
 String ene = 'en';

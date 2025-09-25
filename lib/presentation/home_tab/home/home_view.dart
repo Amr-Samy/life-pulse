@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:life_pulse/presentation/home_tab/campaign_details/campaign_details_screen.dart';
 import 'package:life_pulse/presentation/home_tab/home/widgets/quick_donation_sheet_view.dart';
+import 'package:life_pulse/presentation/home_tab/home/widgets/search_view.dart';
 import '../../layout/layout_controller.dart';
 import '../../profile_tab/profile/profile_controller.dart';
 import '../../resources/index.dart';
@@ -244,41 +245,45 @@ AppBar _buildAppBar(ProfileController profileController) {
     titleSpacing: 25,
     title: Row(
       children: [
-        Obx(() {
-          final imageUrl = profileController.userImage.value;
-          if (imageUrl != null && imageUrl.isNotEmpty) {
-            return CircleAvatar(
-              radius: 22,
-              backgroundImage: NetworkImage(imageUrl),
-              backgroundColor: Colors.green,
-            );
-          } else {
-            return const CircleAvatar(
-              radius: 22,
-              backgroundColor: Colors.greenAccent,
-              child: Icon(Icons.person, size: 22),
-            );
-          }
-        }),
-        const SizedBox(width: 12),
-        Obx(() => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${AppStrings.hello.tr} ${profileController.userName.value}',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+        if (!isGuest()) ...[
+          Obx(() {
+            final imageUrl = profileController.userImage.value;
+            if (imageUrl != null && imageUrl.isNotEmpty) {
+              return CircleAvatar(
+                radius: 22,
+                backgroundImage: NetworkImage(imageUrl),
+                backgroundColor: Colors.green,
+              );
+            } else {
+              return const CircleAvatar(
+                radius: 22,
+                backgroundColor: Colors.greenAccent,
+                child: Icon(Icons.person, size: 22),
+              );
+            }
+          }),
+          const SizedBox(width: 12),
+          Obx(() => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${AppStrings.hello.tr} ${profileController.userName.value}',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
                   ),
-                ),
-              ],
-            )),
+                ],
+              )),
+        ]
       ],
     ),
     actions: [
       IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.to(() => const SearchView());
+        },
         icon: const Icon(Icons.search, size: 28),
         color: Colors.black54,
       ),

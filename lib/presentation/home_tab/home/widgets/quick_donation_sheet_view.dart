@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:life_pulse/presentation/donations_tab/controllers/donations_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -76,7 +78,6 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
   final TextEditingController _customAmountController = TextEditingController();
   final FocusNode _customAmountFocusNode = FocusNode();
 
-
   @override
   void initState() {
     super.initState();
@@ -103,7 +104,6 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
       _customAmountFocusNode.unfocus();
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +134,12 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
           // Donate Now
           ElevatedButton(
             onPressed: () {
-              Navigator.pop(context);
+              Get.find<DonationsController>().quickDonation(
+                amount: _selectedAmountIndex != -1
+                    ? _presetAmounts[_selectedAmountIndex].toInt()
+                    : int.parse(_customAmountController.text),
+                isAnonymous: false,
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,
@@ -220,7 +225,6 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
     return TextFormField(
       controller: _customAmountController,
       focusNode: _customAmountFocusNode,
-
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       textAlign: TextAlign.right,
       decoration: InputDecoration(
@@ -247,7 +251,7 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color:  Colors.white,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(8),
       ),
       child: ListTile(
@@ -264,7 +268,6 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
     );
   }
 
-
   Widget _buildPaymentMethods() {
     List<Widget> paymentIcons = [
       Image.asset('assets/images/master.png', height: 30, errorBuilder: (c, e, s) => const Text('Mastercard')),
@@ -277,17 +280,17 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: paymentIcons.map((icon) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: Colors.grey.shade300)
-          ),
-          child: icon,
-        ),
-      )).toList(),
+      children: paymentIcons
+          .map((icon) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6), border: Border.all(color: Colors.grey.shade300)),
+                  child: icon,
+                ),
+              ))
+          .toList(),
     );
   }
 }

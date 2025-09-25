@@ -7,7 +7,6 @@ import '../campaign_updates_screen.dart';
 import '../models/campaign_update_model.dart';
 import 'package:intl/intl.dart';
 
-
 class UpdatesSection extends StatelessWidget {
   final Campaign campaign;
   const UpdatesSection({super.key, required this.campaign});
@@ -23,15 +22,15 @@ class UpdatesSection extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-         Text(
-           AppStrings.updates.tr,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
-          ),
-        ),
+          children: [
+            Text(
+              AppStrings.updates.tr,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
             if (campaign.updatesCount != null && campaign.updatesCount! > 1)
               TextButton(
                 style: TextButton.styleFrom(
@@ -45,7 +44,10 @@ class UpdatesSection extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                     Text(AppStrings.showAllUpdates.tr,style: TextStyle(color: Colors.black87),),
+                    Text(
+                      AppStrings.showAllUpdates.tr,
+                      style: TextStyle(color: Colors.black87),
+                    ),
                     const SizedBox(width: 4),
                     const Icon(Icons.arrow_forward_ios, size: 12),
                   ],
@@ -98,11 +100,11 @@ class _UpdateCardState extends State<UpdateCard> {
                 },
                 itemBuilder: (context, index) {
                   return ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.network(
                       widget.update.images[index],
-                width: double.infinity,
-                fit: BoxFit.cover,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) =>
                           const Icon(Icons.broken_image, size: 60, color: Colors.grey),
                     ),
@@ -121,9 +123,7 @@ class _UpdateCardState extends State<UpdateCard> {
                     width: _currentImageIndex == index ? 12.0 : 8.0,
                     height: 8.0,
                     decoration: BoxDecoration(
-                      color: _currentImageIndex == index
-                          ? Theme.of(context).primaryColor
-                          : Colors.grey.shade400,
+                      color: _currentImageIndex == index ? Theme.of(context).primaryColor : Colors.grey.shade400,
                       borderRadius: BorderRadius.circular(12),
                     ),
                   );

@@ -448,4 +448,6 @@ Map<String, String> en = {
   AppStrings.successPartners: "Success Partners",
   AppStrings.startSearch: "Start typing to find campaigns",
   AppStrings.noResultFound: "No results found for ",
+  AppStrings.enterVerificationCode: "Please enter the 6-digit code Wallet Password.",
+  AppStrings.walletPassword: "Wallet Password",
 };

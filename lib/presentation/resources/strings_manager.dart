@@ -462,6 +462,8 @@ class AppStrings {
   static const successPartners = "Success Partners";
   static const startSearch = "Start typing to find campaigns";
   static const noResultFound = "No results found for";
+  static const enterVerificationCode = "Enter Verification Code";
+  static const walletPassword = "Wallet Password";
 }
 
 String ene = 'en';

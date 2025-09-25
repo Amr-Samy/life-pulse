@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:life_pulse/presentation/resources/strings_manager.dart';
+import 'package:life_pulse/presentation/transations_tab/presentation/pin_code_view.dart';
 import '../../resources/assets_manager.dart';
 import '../../resources/color_manager.dart';
 import '../controllers/wallet_controller.dart';
@@ -60,7 +61,7 @@ class WalletHeaderWidget extends StatelessWidget {
                   "${controller.wallet.value!.balance.toStringAsFixed(2)}${AppStrings.egpCurrency.tr}",
                   style: const TextStyle(
                     color: Colors.black87,
-                    fontSize: 32,
+                    fontSize: 23,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -68,7 +69,7 @@ class WalletHeaderWidget extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Get.to(() => const TopUpScreen());
+                Get.to(() => const VerificationScreen());
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,

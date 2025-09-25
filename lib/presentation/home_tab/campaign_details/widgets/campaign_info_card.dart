@@ -39,7 +39,7 @@ class CampaignInfoCard extends StatelessWidget {
           const SizedBox(height: 20),
           _buildTags(),
           const SizedBox(height: 20),
-          _buildDonateButton(campaign.id),
+          if (campaign.endTime!.isAfter(DateTime.now())) _buildDonateButton(campaign.id),
         ],
       ),
     );
@@ -62,7 +62,6 @@ class CampaignInfoCard extends StatelessWidget {
           children: [
             Text(AppStrings.by.tr, style: TextStyle(color: Colors.grey[600])),
             const SizedBox(width: 4),
-
             Text(
               campaign.creator.name,
               style: const TextStyle(
@@ -91,21 +90,21 @@ class CampaignInfoCard extends StatelessWidget {
   }
 
   Widget _buildFundingDetails() {
-    final daysLeft = campaign.updatedAt.difference(DateTime.now()).inDays;
+    final daysLeft = campaign.endTime!.difference(DateTime.now()).inDays;
     final daysLeftText = daysLeft > 0 ? '$daysLeft days left' : 'Ended';
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text( '${AppStrings.fundRaisedFrom.tr}  ${campaign.targetAmount} ${AppStrings.egp.tr}'),
+        Text('${AppStrings.fundRaisedFrom.tr}  ${campaign.targetAmount} ${AppStrings.egp.tr}'),
         //!TODO : HANDLE NULL
+
         Text(
           daysLeftText,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            color:
-                daysLeft > 0 ? Colors.deepOrangeAccent : Colors.grey.shade600,
+            color: daysLeft > 0 ? Colors.deepOrangeAccent : Colors.grey.shade600,
           ),
         ),
       ],
@@ -116,24 +115,24 @@ class CampaignInfoCard extends StatelessWidget {
     return Row(
       children: [
         if (int.parse(campaign.donationsCount) > 0)
-        Stack(
-          children: List.generate(
-            3,
-                (index) => Padding(
-              padding: EdgeInsets.only(left: index * 20.0),
-              child: CircleAvatar(
-                radius: 16,
-                backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=${index + 1}'),
+          Stack(
+            children: List.generate(
+              3,
+              (index) => Padding(
+                padding: EdgeInsets.only(left: index * 20.0),
+                child: CircleAvatar(
+                  radius: 16,
+                  backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=${index + 1}'),
+                ),
               ),
             ),
           ),
-        ),
         const SizedBox(width: 80),
         if (int.parse(campaign.donationsCount) > 0)
-        Text(
+          Text(
             '+${campaign.donationsCount} people donated',
-          style: TextStyle(color: Colors.grey[600]),
-        ),
+            style: TextStyle(color: Colors.grey[600]),
+          ),
       ],
     );
   }
@@ -171,7 +170,9 @@ class CampaignInfoCard extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          Get.to(() => DonationScreen(campaignId: campaignId,));
+          Get.to(() => DonationScreen(
+                campaignId: campaignId,
+              ));
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF1DE9B6),

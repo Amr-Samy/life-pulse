@@ -451,4 +451,6 @@ Map<String, String> ar = {
   AppStrings.successPartners: "شركاء النجاح",
   AppStrings.startSearch: "ابدأ الكتابة للعثور على الحالات",
   AppStrings.noResultFound: "لا يوجد نتايج ل",
+  AppStrings.enterVerificationCode: "يرجى ادخال الكود 6 رقم المحفظة.",
+  AppStrings.walletPassword: "رقم سر المحفظة",
 };

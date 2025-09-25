@@ -1,11 +1,11 @@
 name: life_pulse
 description: An E-Learning Platform
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.26+6
 
 environment:
-  sdk: '>=3.5.0 <4.0.0'
+  sdk: ">=3.5.0 <4.0.0"
 
 # dependencies can be manually updated by changing the version numbers below to
 dependencies:
@@ -19,9 +19,9 @@ dependencies:
   get_storage: ^2.1.1
   flutter_verification_code: ^1.1.7
   country_code_picker:
-   git:
-    url: https://github.com/Amr-Samy/CountryCodePicker.git
-    ref: main
+    git:
+      url: https://github.com/Amr-Samy/CountryCodePicker.git
+      ref: main
 
   flutter_screenutil: ^5.9.3
   flutter_native_splash: ^2.4.3
@@ -38,7 +38,7 @@ dependencies:
   firebase_core: ^3.14.0
   firebase_messaging: ^15.2.7
   get_it: ^8.0.3
-
+  screen_protector: ^1.4.1
 
 dev_dependencies:
   flutter_test:
@@ -56,13 +56,11 @@ flutter_launcher_icons:
   ios: true
   image_path: "assets/images/logo.png"
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   uses-material-design: true
 
   assets:
@@ -94,7 +92,7 @@ flutter:
     - assets/images/splash/dark_splash_logo_12.png
     - assets/images/splash/light_splash_logo_12.png
     - assets/images/visa.png
-#    - assets/audio/
+  #    - assets/audio/
 
   fonts:
     - family: Cairo-Black

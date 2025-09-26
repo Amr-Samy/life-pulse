@@ -26,6 +26,8 @@ class _SignUpViewState extends State<SignUpView> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppPadding.p16),
         child: SingleChildScrollView(
+          child: Form(
+            key: signUpController.formKey,
           child: Column(
             children: [
                SizedBox(height: AppMargin.m20),
@@ -39,6 +41,7 @@ class _SignUpViewState extends State<SignUpView> {
                 hintText: AppStrings.name.tr,
                 keyboardType: TextInputType.name,
                 inputAction: TextInputAction.next,
+                  validator: signUpController.validateName,
               ),
                SizedBox(height: AppMargin.m16),
 
@@ -49,6 +52,7 @@ class _SignUpViewState extends State<SignUpView> {
                 hintText: AppStrings.email.tr,
                 keyboardType: TextInputType.emailAddress,
                 inputAction: TextInputAction.next,
+                  validator: signUpController.validateEmail,
               ),
                SizedBox(height: AppMargin.m16),
 
@@ -58,6 +62,7 @@ class _SignUpViewState extends State<SignUpView> {
                 hintText: AppStrings.phoneNumber.tr,
                 keyboardType: TextInputType.phone,
                 inputAction: TextInputAction.next,
+                  validator: signUpController.validateMobile,
               ),
 
               SizedBox(height: AppMargin.m16,),
@@ -79,6 +84,7 @@ class _SignUpViewState extends State<SignUpView> {
                       size: AppSize.s20,
                     ),
                   ),
+                    validator: signUpController.validatePassword,
                 ),
               ),
                SizedBox(height: AppMargin.m16),
@@ -101,12 +107,10 @@ class _SignUpViewState extends State<SignUpView> {
                       size: AppSize.s20,
                   ),
                 ),
+                    validator: signUpController.validateConfirmPassword,
               ),
               ),
-
-              SizedBox(height: AppMargin.m40,),
-
-
+                SizedBox(height: AppMargin.m40),
               Obx(
                     () => CustomButton(
                   onTap: () {
@@ -116,9 +120,7 @@ class _SignUpViewState extends State<SignUpView> {
                   loading: signUpController.isLoading.value,
                 ),
               ),
-
-              SizedBox(height: AppMargin.m40,),
-
+                SizedBox(height: AppMargin.m40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -129,8 +131,7 @@ class _SignUpViewState extends State<SignUpView> {
                         fontSize: FontSize.s14
                     ),
                   ),
-                  SizedBox(width: AppPadding.p8,),
-
+                    SizedBox(width: AppPadding.p8),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacementNamed(context, Routes.signInRoute);
@@ -148,6 +149,7 @@ class _SignUpViewState extends State<SignUpView> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

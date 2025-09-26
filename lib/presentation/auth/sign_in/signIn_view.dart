@@ -29,20 +29,20 @@ class _SignInViewState extends State<SignInView> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppPadding.p16),
         child: SingleChildScrollView(
+          child: Form(
+            key: signInController.formKey,
           child: Column(
             children: [
-              SizedBox(height: AppMargin.m20,),
-
-              Text(AppStrings.ltya.tr,style: Theme.of(context).textTheme.displayLarge,),
-
-              SizedBox(height: AppMargin.m40,),
-
+                SizedBox(height: AppMargin.m20),
+                Text(AppStrings.ltya.tr, style: Theme.of(context).textTheme.displayLarge),
+                SizedBox(height: AppMargin.m40),
               InputField(
                 controller: signInController.mobileTextController,
                 prefix: Icon(Icons.phone_android_rounded, size: AppSize.s20),
                 hintText: AppStrings.phoneNumber.tr,
                 keyboardType: TextInputType.phone,
                 inputAction: TextInputAction.next,
+                  validator: signInController.validateMobile,
               ),
 
               SizedBox(height: AppMargin.m16,),
@@ -65,6 +65,7 @@ class _SignInViewState extends State<SignInView> {
                       size: AppSize.s20,
                   ),
                 ),
+                    validator: signInController.validatePassword,
               ),
               ),
 
@@ -110,6 +111,7 @@ class _SignInViewState extends State<SignInView> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

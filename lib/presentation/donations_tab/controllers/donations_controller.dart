@@ -33,7 +33,6 @@ class DonationsController extends GetxController {
             (response.data['data'] as List).map((item) => Donation.fromJson(item)).toList();
         _groupDonations(donations);
         print("donations fetched successfully.");
-        print("donations: ${donations[0].amount}");
       } else {
         showErrorSnackBar(message: AppStrings.failedToLoadDonations.tr);
       }

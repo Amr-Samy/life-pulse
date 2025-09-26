@@ -447,10 +447,26 @@ Map<String, String> ar = {
   AppStrings.campaignUpdates: "تحديثات الحملة",
 
   AppStrings.fundRaisedFrom: "تم جمعها من",
+  AppStrings.fundRaised: "تم جمعها",
   AppStrings.collected: "المبلغ المجموع",
   AppStrings.successPartners: "شركاء النجاح",
   AppStrings.startSearch: "ابدأ الكتابة للعثور على الحالات",
   AppStrings.noResultFound: "لا يوجد نتايج ل",
   AppStrings.enterVerificationCode: "يرجى ادخال الكود 6 رقم المحفظة.",
   AppStrings.walletPassword: "رقم سر المحفظة",
+
+  AppStrings.setYourWalletPinTitle: "قم بتعيين رمز PIN لمحفظتك",
+  AppStrings.setYourWalletPinSubtitle: "أنشئ رمز PIN مكونًا من 6 أرقام لأمان محفظتك.",
+  AppStrings.confirmYourPinTitle: "تأكيد رمز PIN الخاص بك",
+  AppStrings.confirmYourPinSubtitle: "من فضلك أعد إدخال رمز PIN المكون من 6 أرقام للتأكيد.",
+  AppStrings.enterYourPinTitle: "أدخل رمز PIN الخاص بك",
+  AppStrings.enterYourPinSubtitle: "أدخل رمز PIN الخاص بمحفظتك المكون من 6 أرقام للمتابعة.",
+
+  AppStrings.phoneNumberIsRequired: "رقم الهاتف مطلوب.",
+  AppStrings.passwordIsRequired: "كلمة المرور مطلوبة.",
+  AppStrings.passwordLengthError: "يجب أن تتكون كلمة المرور من ٨ أحرف على الأقل.",
+  AppStrings.nameIsRequired: "الاسم مطلوب.",
+  AppStrings.emailIsRequired: "البريد الإلكتروني مطلوب.",
+  AppStrings.invalidEmailFormat: "صيغة البريد الإلكتروني غير صالحة.",
+
 };

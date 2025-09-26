@@ -444,10 +444,26 @@ Map<String, String> en = {
   AppStrings.showAllUpdates: "Show all updates",
   AppStrings.campaignUpdates: "Campaign Updates",
   AppStrings.fundRaisedFrom: "Fund raised from",
+  AppStrings.fundRaised: "Fund raised",
   AppStrings.collected: "Collected",
   AppStrings.successPartners: "Success Partners",
   AppStrings.startSearch: "Start typing to find campaigns",
   AppStrings.noResultFound: "No results found for ",
   AppStrings.enterVerificationCode: "Please enter the 6-digit code Wallet Password.",
   AppStrings.walletPassword: "Wallet Password",
+
+  AppStrings.setYourWalletPinTitle: "Set Your Wallet PIN",
+  AppStrings.setYourWalletPinSubtitle: "Create a 6-digit PIN for your wallet security.",
+  AppStrings.confirmYourPinTitle: "Confirm Your PIN",
+  AppStrings.confirmYourPinSubtitle: "Please re-enter your 6-digit PIN to confirm.",
+  AppStrings.enterYourPinTitle: "Enter Your PIN",
+  AppStrings.enterYourPinSubtitle: "Enter your 6-digit wallet PIN to proceed.",
+
+  AppStrings.phoneNumberIsRequired: "Phone number is required.",
+  AppStrings.passwordIsRequired: "Password is required.",
+  AppStrings.passwordLengthError: "Password must be at least 8 characters.",
+  AppStrings.nameIsRequired: "Name is required.",
+  AppStrings.emailIsRequired: "Email is required.",
+  AppStrings.invalidEmailFormat: "Invalid email format.",
+
 };

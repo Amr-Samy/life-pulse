@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../../resources/strings_manager.dart';
 import '../../home/models/campaign_model.dart';
 
 class SummaryStatsSection extends StatelessWidget {
@@ -7,22 +9,25 @@ class SummaryStatsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
           child: _StatCard(
-            label: 'Fund Raised',
+            label: AppStrings.fundRaisedFrom.tr,
             value: '${campaign.currentAmount} ج.م',
           ),
         ),
         const SizedBox(width: 16),
         Expanded(
           child: _StatCard(
-            label: 'People donated',
+            label: AppStrings.peopleDonated.tr,
             value: '${campaign.donationsCount}',
           ),
         ),
       ],
+      ),
     );
   }
 }
@@ -42,7 +47,7 @@ class _StatCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,

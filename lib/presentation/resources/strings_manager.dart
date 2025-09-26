@@ -458,12 +458,30 @@ class AppStrings {
   static const campaignUpdates = "Campaign Updates";
 
   static const fundRaisedFrom = "fund raised from";
+  static const fundRaised = "fund raised";
   static const collected = "Collected";
   static const successPartners = "Success Partners";
   static const startSearch = "Start typing to find campaigns";
   static const noResultFound = "No results found for";
   static const enterVerificationCode = "Enter Verification Code";
   static const walletPassword = "Wallet Password";
+
+  static const setYourWalletPinTitle = "Set Your Wallet PIN";
+  static const setYourWalletPinSubtitle = "Create a 6-digit PIN for your wallet security.";
+  static const confirmYourPinTitle = "Confirm Your PIN";
+  static const confirmYourPinSubtitle = "Please re-enter your 6-digit PIN to confirm.";
+  static const enterYourPinTitle = "Enter Your PIN";
+  static const enterYourPinSubtitle = "Enter your 6-digit wallet PIN to proceed.";
+
+  static const String phoneNumberIsRequired = "Phone number is required.";
+  static const String passwordIsRequired = "Password is required.";
+  static const String passwordLengthError = "Password must be at least 8 characters.";
+
+  static const String nameIsRequired = "Name is required.";
+  static const String emailIsRequired = "Email is required.";
+  static const String invalidEmailFormat = "Invalid email format.";
+  static const String passwordMustBe8Chars = "Password must be at least 8 characters.";
+
 }
 
 String ene = 'en';

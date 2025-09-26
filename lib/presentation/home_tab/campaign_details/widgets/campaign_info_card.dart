@@ -39,7 +39,7 @@ class CampaignInfoCard extends StatelessWidget {
           const SizedBox(height: 20),
           _buildTags(),
           const SizedBox(height: 20),
-          if (campaign.endTime!.isAfter(DateTime.now())) _buildDonateButton(campaign.id),
+          if (campaign.endTime!.isAfter(DateTime.now()) && campaign.currentAmount < campaign.targetAmount) _buildDonateButton(campaign.id),
         ],
       ),
     );

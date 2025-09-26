@@ -322,14 +322,16 @@ class _ProfileHeader extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 35,
-                      backgroundColor: Colors.white,
-                      backgroundImage: isAnonymous
-                          ? const AssetImage(ImageAssets.anonymous)
-                          : (profileController.userImage.value != null && profileController.userImage.value!.isNotEmpty)
-                              ? NetworkImage(profileController.userImage.value!)
-                              : const AssetImage('assets/images/profile_placeholder.png') as ImageProvider,
+                    Obx(
+                    ()=> CircleAvatar(
+                        radius: 35,
+                        backgroundColor: Colors.white,
+                        backgroundImage: isAnonymous
+                            ? const AssetImage(ImageAssets.anonymous)
+                            : (profileController.userImage.value != null && profileController.userImage.value!.isNotEmpty)
+                                ? NetworkImage(profileController.userImage.value!)
+                                :  AssetImage('assets/images/profile_placeholder.png'),
+                      ),
                     ),
                     const SizedBox(width: 15),
                     Column(
@@ -337,7 +339,7 @@ class _ProfileHeader extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          isAnonymous ? 'Hello, Anonymous' : 'Hello, $userName',
+                          isAnonymous ? 'Hello, Anonymous' : '${AppStrings.hello.tr} $userName',
                           style: const TextStyle(
                             color: Color(0xFF1E2F38),
                             fontSize: 22,

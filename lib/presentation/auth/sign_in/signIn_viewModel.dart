@@ -7,8 +7,12 @@ import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/resources/helpers/storage.dart';
 import 'package:life_pulse/presentation/resources/routes_manager.dart';
 import '../../resources/helpers/functions.dart';
+import '../../resources/strings_manager.dart';
 
 class SignInController extends GetxController {
+  // Add a FormKey to manage the Form state
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   RxBool isLoading = false.obs;
   RxBool isPasswordHidden = true.obs;
   RxBool isNewPasswordHidden = true.obs;
@@ -17,7 +21,28 @@ class SignInController extends GetxController {
   TextEditingController mobileTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
 
+  String? validateMobile(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return AppStrings.phoneNumberIsRequired.tr;
+    }
+    return null;
+    }
+
+  String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return AppStrings.passwordIsRequired.tr;
+    }
+    if (value.length < 8) {
+      return AppStrings.passwordLengthError.tr;
+    }
+    return null;
+  }
+
   Future<void> signIn() async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
     try {
       isLoading.value = true;
       final box = GetStorage();
@@ -39,7 +64,7 @@ class SignInController extends GetxController {
 
       bool success = responseData['success'] ?? false;
       String message = responseData['message'] ?? 'An unknown error occurred.';
-      debugPrint('token: ${responseData['token']}');
+      //debugPrint('token: ${responseData['token']}');
 
       if (success) {
         String? token = responseData['token'];
@@ -47,7 +72,7 @@ class SignInController extends GetxController {
           final secureStorage = TokenStorage();
 
           await secureStorage.saveToken(token);
-          debugPrint("Token+++++++++++++++++++++++++++++++++: ${secureStorage.getToken()}");
+
           Get.offAllNamed(Routes.mainRoute);
         } else {
           throw Exception("Login successful but no token was provided.");

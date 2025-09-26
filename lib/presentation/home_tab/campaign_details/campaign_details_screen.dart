@@ -35,6 +35,7 @@ class CampaignDetailsScreen extends StatelessWidget {
           CampaignHeader(
             imageUrl: campaign.firstImage,
             isFavorited: campaign.isFavorited,
+            campaignId: campaign.id,
             onFavoriteTap: () => controller.toggleFavorite(),
           ),
 

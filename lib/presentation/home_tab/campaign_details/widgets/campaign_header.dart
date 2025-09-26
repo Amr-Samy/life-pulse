@@ -1,11 +1,19 @@
+import 'package:share_plus/share_plus.dart';
+
 import '../../../resources/index.dart';
 
 class CampaignHeader extends StatelessWidget {
+  final int campaignId;
   final String? imageUrl;
   final bool isFavorited;
   final VoidCallback? onFavoriteTap;
-  const CampaignHeader(
-      {super.key, this.imageUrl, this.isFavorited = false, this.onFavoriteTap,});
+  const CampaignHeader({
+    super.key,
+    required this.campaignId,
+    this.imageUrl,
+    this.isFavorited = false,
+    this.onFavoriteTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +29,14 @@ class CampaignHeader extends StatelessWidget {
         ),
       ),
       actions: [
-        _buildCircularButton(Icons.share_outlined),
+        GestureDetector(
+          onTap: () {
+            final String campaignUrl =
+                'https://nabd.kirellos.com/campaigns/$campaignId';
+            SharePlus.instance.share(ShareParams(uri: Uri(path: campaignUrl)));
+          },
+          child: _buildCircularButton(Icons.share_outlined),
+        ),
 
         const SizedBox(width: 8),
 

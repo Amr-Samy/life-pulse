@@ -1,66 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:life_pulse/presentation/donations_tab/controllers/donations_controller.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        fontFamily: 'Cairo',
-      ),
-      home: const Directionality(
-        textDirection: TextDirection.rtl,
-        child: HomeScreen(),
-      ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  void _showDonationSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return const DonationBottomSheet();
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('نموذج التبرع'),
-        backgroundColor: const Color(0xFF16a085),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () => _showDonationSheet(context),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF16a085),
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-          ),
-          child: const Text('افتح شاشة التبرع'),
-        ),
-      ),
-    );
-  }
-}
+import 'package:life_pulse/presentation/resources/helpers/functions.dart';
 
 class DonationBottomSheet extends StatefulWidget {
   const DonationBottomSheet({super.key});
@@ -70,8 +11,6 @@ class DonationBottomSheet extends StatefulWidget {
 }
 
 class _DonationBottomSheetState extends State<DonationBottomSheet> {
-  final List<bool> _categorySelection = [true, false, false, false];
-
   int _selectedAmountIndex = -1;
   final List<int> _presetAmounts = [10, 50, 100];
 
@@ -108,7 +47,6 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
   @override
   Widget build(BuildContext context) {
     const Color primaryColor = Color(0xFF16a085);
-    const Color lightGreyColor = Color(0xFFF0F0F0);
     const Color darkGreyColor = Color(0xFF757575);
 
     return Padding(
@@ -131,15 +69,29 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
           _buildPaymentMethods(),
           const SizedBox(height: 24),
 
-          // Donate Now
+          // Donate Now Button
           ElevatedButton(
-            onPressed: () {
-              Get.find<DonationsController>().quickDonation(
-                amount: _selectedAmountIndex != -1
-                    ? _presetAmounts[_selectedAmountIndex].toInt()
-                    : int.parse(_customAmountController.text),
+            onPressed: () async {
+              int? amountToDonate;
+              if (_selectedAmountIndex != -1) {
+                amountToDonate = _presetAmounts[_selectedAmountIndex];
+              } else if (_customAmountController.text.isNotEmpty) {
+                amountToDonate = int.tryParse(_customAmountController.text);
+              }
+              if (amountToDonate == null || amountToDonate <= 0) {
+                showErrorSnackBar(message:  'الرجاء اختيار أو إدخال مبلغ صحيح للتبرع',);
+                return;
+              }
+              final controller = Get.find<DonationsController>();
+              final bool success = await controller.quickDonation(
+                amount: amountToDonate,
                 isAnonymous: false,
               );
+
+              if (success) {
+                Get.back();
+                showSuccessSnackBar(message: "تم التبرع بنجاح!");
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,
@@ -154,35 +106,6 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
             ),
           ),
           const SizedBox(height: 20),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCategorySelector(Color primaryColor) {
-    return SizedBox(
-      height: 40,
-      child: ToggleButtons(
-        isSelected: _categorySelection,
-        onPressed: (index) {
-          setState(() {
-            for (int i = 0; i < _categorySelection.length; i++) {
-              _categorySelection[i] = i == index;
-            }
-          });
-        },
-        borderRadius: BorderRadius.circular(8),
-        selectedColor: Colors.white,
-        fillColor: primaryColor,
-        color: primaryColor,
-        borderColor: primaryColor,
-        selectedBorderColor: primaryColor,
-        constraints: BoxConstraints(minWidth: (MediaQuery.of(context).size.width - 40) / 4, minHeight: 40),
-        children: const [
-          Text('تبرع عام'),
-          Text('أورام'),
-          Text('أطفال'),
-          Text('كبار سن'),
         ],
       ),
     );

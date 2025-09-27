@@ -36,8 +36,12 @@ class TransactionsScreen extends StatelessWidget {
                 'Transactions',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              backgroundColor: Colors.transparent,
+              backgroundColor: const Color(0xFFD7F0E3),
               elevation: 0,
+              flexibleSpace: Image.asset(
+                'assets/images/background_pattern.png',
+                fit: BoxFit.cover,
+              ),
             ),
             body: SafeArea(
               child: Column(

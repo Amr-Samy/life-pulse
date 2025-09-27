@@ -99,19 +99,23 @@ class DonationsController extends GetxController {
           "is_anonymous": isAnonymous ? 1 : 0,
         },
       );
+      if (kDebugMode) {
+        print('API Status Code: ${response.statusCode}');
+        print('API Response Body: ${response.data}');
+      }
 
-      if (response.statusCode == 201 && response.data['success'] == true) {
-        final profileController = Get.find<ProfileController>(tag: "ProfileController");
-        final transactionsController = Get.find<TransactionsController>();
-
-        fetchDonations();
-        profileController.fetchUserProfile();
-        transactionsController.fetchTransactions();
-        Get.back();
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        await Future.wait([
+          fetchDonations(),
+          Get.find<ProfileController>(tag: "ProfileController").fetchUserProfile(),
+          Get.find<TransactionsController>().fetchTransactions(),
+        ]);
+        // Get.back();
+        // showSuccessSnackBar(message: "تم التبرع بنجاح!");
 
         return true;
       } else {
-        showSuccessSnackBar(message: response.data['message'] ?? AppStrings.failedToProcessDonation.tr);
+        // showErrorSnackBar(message: response.data['message'] ?? AppStrings.failedToProcessDonation.tr);
         return false;
       }
     } catch (e) {

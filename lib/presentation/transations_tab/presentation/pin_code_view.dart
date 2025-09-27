@@ -8,6 +8,7 @@ import '../controllers/pin_code_controller.dart';
 class VerificationScreen extends GetView<PinCodeController> {
   const VerificationScreen({super.key});
 
+
     @override
   Widget build(BuildContext context) {
     Get.put(PinCodeController());
@@ -16,13 +17,10 @@ class VerificationScreen extends GetView<PinCodeController> {
       appBar: AppBar(
         title: Text(AppStrings.walletPassword.tr),
       ),
-      body: SensitiveContent(
-        sensitivity: ContentSensitivity.sensitive,
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: Obx(() => _buildBody(context)),
-          ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
+          child: Obx(() => _buildBody(context)),
         ),
       ),
     );

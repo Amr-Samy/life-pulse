@@ -33,7 +33,7 @@ class ProfileView extends StatelessWidget {
               child: Column(
                 children: [
                   Obx(() => _ProfileHeader(
-                        isAnonymous: profileController.isAnonymous.value,
+                        isAnonymous: profileController.isAnonymous,
                         userName: profileController.userName.value,
                         walletBalance: profileController.walletBalance.value,
                       )),
@@ -302,7 +302,7 @@ class ProfileView extends StatelessWidget {
 }
 
 class _ProfileHeader extends StatelessWidget {
-  final bool isAnonymous;
+  final RxBool isAnonymous;
   final String userName;
   final String walletBalance;
 
@@ -340,39 +340,30 @@ class _ProfileHeader extends StatelessWidget {
                     ()=> CircleAvatar(
                         radius: 35,
                         backgroundColor: Colors.white,
-                        backgroundImage: isAnonymous
+                        backgroundImage: isAnonymous.value
                             ? const AssetImage(ImageAssets.anonymous)
                             : (profileController.userImage.value != null && profileController.userImage.value!.isNotEmpty)
                                 ? NetworkImage(profileController.userImage.value!)
-                                :  AssetImage('assets/images/profile_placeholder.png'),
+                : const AssetImage('assets/images/profile_placeholder.png'),
                       ),
                     ),
                     const SizedBox(width: 15),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          isAnonymous ? 'Hello, Anonymous' : '${AppStrings.hello.tr} $userName',
-                          style: const TextStyle(
-                            color: Color(0xFF1E2F38),
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
+    Expanded(
+      child: Obx(
+                      ()=> Text(
+                        isAnonymous.value ? '${AppStrings.hello.tr} Anonymous' : '${AppStrings.hello.tr} $userName',
+                        style: const TextStyle(
+                          color: Color(0xFF1E2F38),
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
                         ),
-                        // const SizedBox(height: 4),
-                        // if (!isAnonymous)
-                        // Text(
-                        //     'Donated \$$walletBalance',
-                        //   style: TextStyle(
-                        //     color: Colors.grey[700],
-                        //     fontSize: 14,
-                        //   ),
-                        // ),
-                      ],
+          maxLines: 1,
+          overflow: TextOverflow.fade,
+        ),
+                      ),
                     ),
                   ],
-                ),
+)
               ),
             ),
           ],

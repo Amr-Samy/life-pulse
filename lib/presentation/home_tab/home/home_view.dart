@@ -244,7 +244,11 @@ class _HomeViewState extends State<HomeView> {
 AppBar _buildAppBar(ProfileController profileController) {
   return AppBar(
     elevation: 0,
-    backgroundColor: ColorManager.lightGreenColor,
+    backgroundColor: const Color(0xFFD7F0E3),
+    flexibleSpace: Image.asset(
+      'assets/images/background_pattern.png',
+      fit: BoxFit.cover,
+    ),
     automaticallyImplyLeading: false,
     titleSpacing: 25,
     title: Row(
@@ -266,20 +270,30 @@ AppBar _buildAppBar(ProfileController profileController) {
               );
             }
           }),
-          const SizedBox(width: 12),
-          Obx(() => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${AppStrings.hello.tr} ${profileController.userName.value}',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
-                  ),
-                ],
-              )),
+
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsetsGeometry.directional(start: 12),
+              child: Obx(() {
+                String fullName = profileController.userName.value;
+                List<String> nameParts = fullName.split(' ');
+                String displayName = nameParts.length > 2
+                    ? '${nameParts[0]} ${nameParts[1]}'
+                    : fullName;
+
+                return Text(
+                  '${AppStrings.hello.tr} $displayName',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                );
+              }),
+            ),
+          ),
         ]
       ],
     ),

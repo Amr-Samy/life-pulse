@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:life_pulse/presentation/donations_tab/widgets/donation_list_item_widget.dart';
 import 'package:life_pulse/presentation/transations_tab/widgets/section_header_widget.dart';
 import '../resources/assets_manager.dart';
+import '../resources/color_manager.dart';
 import '../resources/routes_manager.dart';
 import '../resources/strings_manager.dart';
 import '../resources/validation_manager.dart';
@@ -40,13 +41,31 @@ class DonationsScreen extends StatelessWidget {
             ),
             body: SafeArea(
               child: Obx(() {
-                if (controller.isLoading.value) {
+
+                if (controller.isLoading.value && controller.groupedDonations.isEmpty) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (controller.groupedDonations.isEmpty) {
-                  return Center(child: Text(AppStrings.noDonationsYet.tr));
+                  return RefreshIndicator(
+                    onRefresh: controller.fetchDonations,
+                    color: ColorManager.primary,
+                    backgroundColor: Theme.of(context).cardColor,
+
+                    child: Stack(
+                      children: [
+                        ListView(),
+                        Center(child: Text(AppStrings.noDonationsYet.tr)),
+                      ],
+                    ),
+                  );
                 }
-                return ListView.builder(
+
+                return RefreshIndicator(
+                  onRefresh: controller.fetchDonations,
+                  color: Colors.green,
+
+                  child: ListView.builder(
+
                   itemCount: controller.groupedDonations.keys.length,
                   itemBuilder: (context, index) {
                     final String month = controller.groupedDonations.keys.elementAt(index);
@@ -78,6 +97,7 @@ class DonationsScreen extends StatelessWidget {
                       ],
                     );
                   },
+                  ),
                 );
               }),
             ),

@@ -32,8 +32,9 @@ class _SearchViewState extends State<SearchView> {
   void dispose() {
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
-    Get.delete<SearchController>();
+    Get.delete<CampaignSearchController>();
     super.dispose();
+
   }
 
   @override
@@ -82,7 +83,10 @@ class _SearchViewState extends State<SearchView> {
               return const Center(child: CircularProgressIndicator());
             }
             final campaign = searchController.searchResults[index];
-            return LatestCampaignCard(campaign: campaign);
+            return LatestCampaignCard(
+              campaign: campaign,
+              onFavoriteToggle: searchController.toggleFavorite,
+            );
           },
         );
       }),

@@ -87,7 +87,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
 
                     },
                     child: Text(
-                      AppStrings.skip,
+                      AppStrings.skip.tr,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               color: ColorManager.darkGrey,
                       ),

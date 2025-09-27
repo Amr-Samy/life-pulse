@@ -58,7 +58,10 @@ class FavoritesScreen extends StatelessWidget {
             ),
             itemBuilder: (context, index) {
               final campaign = controller.favoriteCampaigns[index];
-              return LatestCampaignCard(campaign: campaign);
+              return LatestCampaignCard(
+                campaign: campaign,
+                onFavoriteToggle: controller.toggleFavorite,
+              );
             },
           );
         }),

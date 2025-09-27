@@ -481,6 +481,7 @@ class AppStrings {
   static const String emailIsRequired = "Email is required.";
   static const String invalidEmailFormat = "Invalid email format.";
   static const String passwordMustBe8Chars = "Password must be at least 8 characters.";
+  static const statistics = "Statistics";
 
 }
 

@@ -46,13 +46,30 @@ class TransactionsScreen extends StatelessWidget {
                   const WalletHeaderWidget(),
                   Expanded(
                     child: Obx(() {
-                      if (transactionsController.isLoading.value) {
+                      if (transactionsController.isLoading.value && transactionsController.groupedTransactions.isEmpty) {
                         return const Center(child: CircularProgressIndicator());
                       }
                       if (transactionsController.groupedTransactions.isEmpty) {
-                        return Center(child: Text(AppStrings.noTransactionsFound.tr));
+                        return RefreshIndicator(
+                          color: Colors.green,
+                          onRefresh: () async {
+                              return transactionsController.fetchTransactions();
+                          },
+                          child: Stack(
+                            children: [
+                              ListView(),
+                              Center(child: Text(AppStrings.noTransactionsFound.tr)),
+                            ],
+                          ),
+                        );
                       }
-                      return ListView.builder(
+
+                      return RefreshIndicator(
+                        color: Colors.green,
+                        onRefresh: () async {
+                            return transactionsController.fetchTransactions();
+                        },
+                        child: ListView.builder(
                         itemCount: transactionsController.groupedTransactions.keys.length,
                         itemBuilder: (context, index) {
                           final String month = transactionsController.groupedTransactions.keys.elementAt(index);
@@ -78,6 +95,7 @@ class TransactionsScreen extends StatelessWidget {
                             ],
                           );
                         },
+                        ),
                       );
                     }),
                   ),

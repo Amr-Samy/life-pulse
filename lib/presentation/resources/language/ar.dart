@@ -468,5 +468,6 @@ Map<String, String> ar = {
   AppStrings.nameIsRequired: "الاسم مطلوب.",
   AppStrings.emailIsRequired: "البريد الإلكتروني مطلوب.",
   AppStrings.invalidEmailFormat: "صيغة البريد الإلكتروني غير صالحة.",
+  AppStrings.statistics: "الإحصائيات"
 
 };

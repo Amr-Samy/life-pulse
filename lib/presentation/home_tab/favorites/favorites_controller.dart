@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/resources/helpers/functions.dart';
 
+import '../home/controllers/home_controller.dart';
 import '../home/models/campaign_model.dart';
 
 class FavoritesController extends GetxController {
@@ -31,6 +32,25 @@ class FavoritesController extends GetxController {
       showErrorSnackBar(message: 'An error occurred: $e');
     } finally {
       isLoading(false);
+    }
+  }
+    Future<void> toggleFavorite(int campaignId) async {
+    try {
+      final response = await Api().post('campaigns/$campaignId/favorite');
+
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        favoriteCampaigns.removeWhere((campaign) => campaign.id == campaignId);
+        if (Get.isRegistered<HomeController>(tag: "HomeController")) {
+          final homeController = Get.find<HomeController>(tag: "HomeController");
+          homeController.updateCampaignFavoriteStatus(campaignId, false);
+        }
+
+        showSuccessSnackBar(message: response.data['message']);
+      } else {
+        showErrorSnackBar(message: 'Failed to update favorite status.');
+      }
+    } catch (e) {
+      showErrorSnackBar(message: 'An error occurred: $e');
     }
   }
 }

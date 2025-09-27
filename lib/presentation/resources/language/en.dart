@@ -465,5 +465,6 @@ Map<String, String> en = {
   AppStrings.nameIsRequired: "Name is required.",
   AppStrings.emailIsRequired: "Email is required.",
   AppStrings.invalidEmailFormat: "Invalid email format.",
+  AppStrings.statistics: "Statistics",
 
 };

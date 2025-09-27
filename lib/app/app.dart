@@ -24,10 +24,10 @@ class _MyAppState extends State<MyApp> {
       return Locale(storedLang);
     }
 
-    final deviceLocale = Platform.localeName.split('_').first;
-    if (_isLanguageSupported(deviceLocale)) {
-      return Locale(deviceLocale);
-    }
+    //final deviceLocale = Platform.localeName.split('_').first;
+    //if (_isLanguageSupported(deviceLocale)) {
+    //  return Locale(deviceLocale);
+    //}
 
     return const Locale('ar');
   }

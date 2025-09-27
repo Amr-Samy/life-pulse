@@ -8,6 +8,7 @@ import '../../widgets/empty_state_place_holder.dart';
 import '../../widgets/setting_tile.dart';
 import '../../widgets/switch.dart';
 import '../partners/success_partners_screen.dart';
+import '../reports/user_stats_screen.dart';
 import 'profile_controller.dart';
 
 class ProfileView extends StatelessWidget {
@@ -178,6 +179,19 @@ class ProfileView extends StatelessWidget {
                   //     size: AppSize.s20,
                   //   ),
                   // ),
+
+                  SettingTile(
+                    icon: ImageAssets.stats,
+                    title: AppStrings.statistics.tr,
+                    onTap: () {
+                      Get.to(UserStatsScreen());
+                    },
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Theme.of(context).textTheme.displayLarge!.color!,
+                      size: AppSize.s20,
+                    ),
+                  ),
 
                   ///Logout
                   ColorFiltered(

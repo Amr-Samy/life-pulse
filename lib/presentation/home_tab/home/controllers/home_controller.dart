@@ -162,26 +162,7 @@ class HomeController extends GetxController{
       if (response.statusCode == 200 && response.data['success'] == true) {
         final bool newIsFavorited = response.data['is_favorited'];
 
-        final latestIndex =
-        latestCampaigns.indexWhere((c) => c.id == campaignId);
-        if (latestIndex != -1) {
-          latestCampaigns[latestIndex] =
-              latestCampaigns[latestIndex].copyWith(isFavorited: newIsFavorited);
-        }
-        final featuredIndex =
-        featuredCampaigns.indexWhere((c) => c.id == campaignId);
-        if (featuredIndex != -1) {
-          featuredCampaigns[featuredIndex] = featuredCampaigns[featuredIndex]
-              .copyWith(isFavorited: newIsFavorited);
-        }
-
-        if (Get.isRegistered<CampaignDetailsController>()) {
-          final detailsController = Get.find<CampaignDetailsController>();
-          if (detailsController.campaignId == campaignId) {
-            detailsController.campaign.value = detailsController.campaign.value
-                ?.copyWith(isFavorited: newIsFavorited);
-          }
-        }
+        updateCampaignFavoriteStatus(campaignId, newIsFavorited);
 
         if (Get.isRegistered<FavoritesController>()) {
           final favoritesController = Get.find<FavoritesController>();
@@ -201,6 +182,30 @@ class HomeController extends GetxController{
       showErrorSnackBar(message: 'An error occurred: $e');
     }
   }
+  void updateCampaignFavoriteStatus(int campaignId, bool newIsFavorited) {
+    final latestIndex = latestCampaigns.indexWhere((c) => c.id == campaignId);
+    if (latestIndex != -1) {
+      latestCampaigns[latestIndex] =
+          latestCampaigns[latestIndex].copyWith(isFavorited: newIsFavorited);
+    }
+
+    final featuredIndex = featuredCampaigns.indexWhere((c) => c.id == campaignId);
+    if (featuredIndex != -1) {
+      featuredCampaigns[featuredIndex] = featuredCampaigns[featuredIndex]
+          .copyWith(isFavorited: newIsFavorited);
+    }
+
+    if (Get.isRegistered<CampaignDetailsController>()) {
+      final detailsController = Get.find<CampaignDetailsController>();
+      if (detailsController.campaignId == campaignId) {
+        detailsController.campaign.value = detailsController.campaign.value
+            ?.copyWith(isFavorited: newIsFavorited);
+      }
+    }
+  }
+
+
+
 
 
   void onPageChanged(int index) {

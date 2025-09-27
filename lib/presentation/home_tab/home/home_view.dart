@@ -33,7 +33,8 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void _onScroll() {
-    final shouldLoadMore = !homeController.isLoadingMoreLatest.value &&
+    final shouldLoadMore = !homeController.isLoadingLatest.value &&
+        !homeController.isLoadingMoreLatest.value &&
         homeController.hasMoreLatest.value &&
         _scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 300;
 
@@ -203,7 +204,10 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   itemBuilder: (context, index) {
                     final campaign = homeController.latestCampaigns[index];
-                    return LatestCampaignCard(campaign: campaign);
+                    return LatestCampaignCard(
+                      campaign: campaign,
+                      onFavoriteToggle: homeController.toggleFavorite,
+                    );
                   },
                 ),
                 Obx(() {
@@ -606,8 +610,9 @@ class CampaignCard extends StatelessWidget {
 
 class LatestCampaignCard extends StatelessWidget {
   final Campaign campaign;
+  final Function(int) onFavoriteToggle;
 
-  const LatestCampaignCard({super.key, required this.campaign});
+  const LatestCampaignCard({super.key, required this.campaign, required this.onFavoriteToggle});
 
   @override
   Widget build(BuildContext context) {
@@ -653,8 +658,7 @@ class LatestCampaignCard extends StatelessWidget {
                       right: 8,
                       child: GestureDetector(
                         onTap: () {
-                          final homeController = Get.find<HomeController>(tag: "HomeController");
-                          homeController.toggleFavorite(campaign.id);
+                          onFavoriteToggle(campaign.id);
                         },
                         child: Container(
                           padding: const EdgeInsets.all(4),

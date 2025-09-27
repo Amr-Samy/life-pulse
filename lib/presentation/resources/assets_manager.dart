@@ -118,6 +118,7 @@ class ImageAssets {
   static const String  anonymous = '$lightIconPath/anonymous.png';
   static const String  quick = '$lightIconPath/light_flash.png';
   static const String  donateHeartFlower = '$lightIconPath/donate-heart-flower.png';
+  static const String  stats = '$lightIconPath/stats.png';
 
 }
 

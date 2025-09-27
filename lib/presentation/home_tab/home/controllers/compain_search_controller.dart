@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../../data/network/api.dart';
 import '../../../../presentation/resources/helpers/functions.dart';
 import '../models/campaign_model.dart';
+import 'home_controller.dart';
 
 class CampaignSearchController extends GetxController {
   final TextEditingController searchEditingController = TextEditingController();
@@ -19,6 +20,12 @@ class CampaignSearchController extends GetxController {
   void onInit() {
     super.onInit();
     debounce(_query, (_) => _searchCampaigns(isNewSearch: true), time: const Duration(milliseconds: 500));
+  }
+
+  @override
+  void onReady() {
+    searchResults.clear();
+    super.onReady();
   }
 
   void onSearchChanged(String val) {
@@ -75,6 +82,33 @@ class CampaignSearchController extends GetxController {
 
     isLoadingMore.value = true;
     await _searchCampaigns();
+  }
+
+  Future<void> toggleFavorite(int campaignId) async {
+    try {
+      final response = await Api().post('campaigns/$campaignId/favorite');
+
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        final bool newIsFavorited = response.data['is_favorited'];
+
+        final index = searchResults.indexWhere((c) => c.id == campaignId);
+        if (index != -1) {
+          searchResults[index] =
+              searchResults[index].copyWith(isFavorited: newIsFavorited);
+        }
+
+        if (Get.isRegistered<HomeController>(tag: "HomeController")) {
+          final homeController = Get.find<HomeController>(tag: "HomeController");
+          homeController.updateCampaignFavoriteStatus(campaignId, newIsFavorited);
+        }
+
+        showSuccessSnackBar(message: response.data['message']);
+      } else {
+        showErrorSnackBar(message: 'Failed to update favorite status.');
+      }
+    } catch (e) {
+      showErrorSnackBar(message: 'An error occurred: $e');
+    }
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:life_pulse/presentation/resources/routes_manager.dart';
 import 'package:life_pulse/presentation/resources/strings_manager.dart';
+import 'package:restart_app/restart_app.dart';
 import '../../../data/network/api.dart';
 import '../../resources/helpers/functions.dart';
 import '../../resources/helpers/storage.dart';
@@ -96,7 +97,11 @@ class SignUpController extends GetxController {
         final secureStorage = TokenStorage();
         await secureStorage.saveToken(responseData['token']);
         showSuccessSnackBar(message: message);
-        Get.offAllNamed(Routes.mainRoute);
+        Restart.restartApp(
+          notificationTitle: 'Restarting App',
+          notificationBody: 'Please tap here to open the app again.',
+        );
+        // Get.offAllNamed(Routes.mainRoute);
       } else {
         String errorMessage = message;
         if (responseData.containsKey('errors') && responseData['errors'] is Map) {

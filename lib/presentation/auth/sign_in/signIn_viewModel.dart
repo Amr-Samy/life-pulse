@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/resources/helpers/storage.dart';
 import 'package:life_pulse/presentation/resources/routes_manager.dart';
+import 'package:restart_app/restart_app.dart';
 import '../../resources/helpers/functions.dart';
 import '../../resources/strings_manager.dart';
 
@@ -72,8 +73,11 @@ class SignInController extends GetxController {
           final secureStorage = TokenStorage();
 
           await secureStorage.saveToken(token);
-
-          Get.offAllNamed(Routes.mainRoute);
+          Restart.restartApp(
+            notificationTitle: 'Restarting App',
+            notificationBody: 'Please tap here to open the app again.',
+          );
+          // Get.offAllNamed(Routes.mainRoute);
         } else {
           throw Exception("Login successful but no token was provided.");
         }

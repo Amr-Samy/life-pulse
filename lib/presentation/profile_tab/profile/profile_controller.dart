@@ -10,6 +10,7 @@ import 'package:life_pulse/data/network/api.dart';
 import 'package:life_pulse/presentation/profile_tab/profile/user_model.dart';
 import 'package:life_pulse/presentation/resources/helpers/storage.dart';
 import 'package:life_pulse/presentation/resources/strings_manager.dart';
+import 'package:restart_app/restart_app.dart';
 import '../../resources/helpers/functions.dart';
 import '../../resources/validation_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -96,6 +97,10 @@ class ProfileController extends GetxController {
       final secureStorage = TokenStorage();
       secureStorage.deleteToken();
       Get.deleteAll();
+      Restart.restartApp(
+        notificationTitle: 'Restarting App',
+        notificationBody: 'Please tap here to open the app again.',
+      );
     }
   }
 

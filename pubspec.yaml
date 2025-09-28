@@ -2,7 +2,7 @@ name: life_pulse
 description: An E-Learning Platform
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.29+9
+version: 1.0.30+10
 
 environment:
   sdk: ">=3.5.0 <4.0.0"

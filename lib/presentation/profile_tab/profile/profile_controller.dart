@@ -55,7 +55,7 @@ class ProfileController extends GetxController {
       fullNameTextController.text = user!.name;
       //nicknameTextController.text = user!.name;
       phoneTextController.text = user!.mobile;
-      // emailTextController.text = user!.email ?? 'mail@example.com';
+      emailTextController.text = user!.email ?? '';
     }
   }
 
@@ -126,6 +126,7 @@ class ProfileController extends GetxController {
       dynamic body = {
         'name': fullNameTextController.text,
         'mobile': phoneTextController.text,
+        'email': emailTextController.text,
         // "current_password": "oldpassword",
         // "password": "newpassword",
         // "password_confirmation": "newpassword"

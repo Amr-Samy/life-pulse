@@ -89,7 +89,9 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton:
+      isGuest() ? const SizedBox() :
+      FloatingActionButton(
         tooltip: AppStrings.quickDonation.tr,
         onPressed: () {
           showQuickDonationSheet(context);

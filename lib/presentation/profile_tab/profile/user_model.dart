@@ -22,11 +22,13 @@ class UserModel {
   final String mobile;
   final double? walletBalance;
   final String? profileImage;
+  final String? email;
   final bool isAdmin;
   final DateTime createdAt;
   final DateTime updatedAt;
 
   UserModel({
+    required this.email,
     required this.id,
     required this.name,
     required this.mobile,
@@ -43,6 +45,7 @@ class UserModel {
     mobile: json["mobile"],
     walletBalance: (json["wallet_balance"] as num).toDouble(),
     profileImage: json["profile_image"],
+    email: json["email"],
     isAdmin: json["is_admin"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),

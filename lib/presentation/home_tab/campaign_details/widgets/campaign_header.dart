@@ -49,7 +49,7 @@ class CampaignHeader extends StatelessWidget {
     return SliverAppBar(
       expandedHeight: 220.0,
       pinned: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFE0F2F1),
       elevation: 1,
       leading: Center(
         child: GestureDetector(
@@ -99,6 +99,11 @@ class CampaignHeader extends StatelessWidget {
             )
             : Container(
                 color: Colors.grey.shade300,
+                foregroundDecoration: BoxDecoration(image: DecorationImage(image:
+                  AssetImage('assets/images/background_pattern.png'),
+
+                )
+                ),
                 child:
                     const Icon(Icons.image, size: 100, color: Colors.grey)),
       ),

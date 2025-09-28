@@ -46,9 +46,9 @@ class ContactUsController extends GetxController {
       isLoadingData.value = true;
       currentPage.value = 1;
       faqsList.clear();
-      hasMoreData.value = true; // Reset this when loading new category
+      hasMoreData.value = true;
     } else {
-      if (!hasMoreData.value) return; // Don't load more if no more data
+      if (!hasMoreData.value) return;
       isLoadMoreLoading.value = true;
     }
 

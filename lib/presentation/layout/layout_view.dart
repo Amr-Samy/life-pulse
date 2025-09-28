@@ -26,7 +26,7 @@ class _LayoutViewState extends State<LayoutView> {
   final profileController = Get.put(ProfileController(), tag: "ProfileController");
   @override
   void initState() {
-    Get.put(WalletController());
+    Get.put(WalletController(),tag: "WalletController");
     super.initState();
     isGuest() ? () {} : profileController.fetchUserProfile();
   }

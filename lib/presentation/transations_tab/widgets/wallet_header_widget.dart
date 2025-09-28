@@ -12,7 +12,7 @@ class WalletHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final WalletController controller = Get.find<WalletController>();
+    final WalletController controller = Get.find<WalletController>( tag: 'WalletController');
 
     return Obx(() {
       if (controller.isLoading.value) {

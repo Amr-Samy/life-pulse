@@ -66,8 +66,8 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
           const SizedBox(height: 16),
           _buildInfoText(darkGreyColor),
           const SizedBox(height: 24),
-          _buildPaymentMethods(),
-          const SizedBox(height: 24),
+          // _buildPaymentMethods(),
+          // const SizedBox(height: 24),
 
           // Donate Now Button
           ElevatedButton(

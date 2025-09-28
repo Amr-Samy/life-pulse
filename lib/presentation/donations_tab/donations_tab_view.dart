@@ -11,13 +11,35 @@ import '../widgets/empty_state_place_holder.dart';
 import 'controllers/donations_controller.dart';
 import 'donation_details_view.dart';
 
-class DonationsScreen extends StatelessWidget {
+class DonationsScreen extends StatefulWidget {
   const DonationsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final DonationsController controller = Get.put(DonationsController());
+  State<DonationsScreen> createState() => _DonationsScreenState();
+}
 
+class _DonationsScreenState extends State<DonationsScreen> {
+    final DonationsController controller = Get.put(DonationsController());
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        controller.loadMore();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return isGuest()
         ? Scaffold(
             body: GestureDetector(
@@ -45,13 +67,12 @@ class DonationsScreen extends StatelessWidget {
             ),
             body: SafeArea(
               child: Obx(() {
-
-                if (controller.isLoading.value && controller.groupedDonations.isEmpty) {
+                if (controller.isLoading.value && controller.donations.isEmpty) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                if (controller.groupedDonations.isEmpty) {
+                if (controller.donations.isEmpty) {
                   return RefreshIndicator(
-                    onRefresh: controller.fetchDonations,
+                    onRefresh: () => controller.fetchDonations(isRefresh: true),
                     color: ColorManager.primary,
                     backgroundColor: Theme.of(context).cardColor,
 
@@ -64,16 +85,26 @@ class DonationsScreen extends StatelessWidget {
                   );
                 }
 
+                final groupedDonations = controller.groupedDonations;
+                final months = groupedDonations.keys.toList();
+
                 return RefreshIndicator(
-                  onRefresh: controller.fetchDonations,
+                  onRefresh: () => controller.fetchDonations(isRefresh: true),
                   color: Colors.green,
 
                   child: ListView.builder(
-
-                  itemCount: controller.groupedDonations.keys.length,
+                    controller: _scrollController,
+                    itemCount: months.length + (controller.isLoadingMore.value ? 1 : 0),
                   itemBuilder: (context, index) {
-                    final String month = controller.groupedDonations.keys.elementAt(index);
-                    final donations = controller.groupedDonations[month]!;
+                      if (index == months.length) {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      }
+
+                      final String month = months[index];
+                      final donations = groupedDonations[month]!;
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +119,7 @@ class DonationsScreen extends StatelessWidget {
                               donation: donations[itemIndex],
                               onTap: () {
                                 Get.to(() => DonationDetailsScreen(donationId: donations[itemIndex].id));
-                                print("Tapped donation ID: ${donations[itemIndex].id}");
+                                //print("Tapped donation ID: ${donations[itemIndex].id}");
                               },
                             );
                           },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:life_pulse/presentation/home_tab/home/home_view.dart';
 import 'package:life_pulse/presentation/resources/color_manager.dart';
+import 'package:life_pulse/presentation/resources/strings_manager.dart';
 
 import 'favorites_controller.dart';
 
@@ -14,7 +15,7 @@ class FavoritesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Favorites'),
+        title: Text(AppStrings.myFavoritesTitle.tr),
         backgroundColor: ColorManager.lightGreenColor,
         elevation: 0,
       ),
@@ -34,14 +35,14 @@ class FavoritesScreen extends StatelessWidget {
                   Icon(Icons.favorite_border,
                       size: 80, color: Colors.grey.shade400),
                   const SizedBox(height: 16),
-                  const Text(
-                    'No Favorites Yet',
-                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                  Text(
+                    AppStrings.noFavoritesYet.tr,
+                    style: const TextStyle(fontSize: 18, color: Colors.grey),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Tap the heart icon on a campaign to add it here.',
-                    style: TextStyle(color: Colors.grey),
+                  Text(
+                    AppStrings.tapHeartToAddFavorite.tr,
+                    style: const TextStyle(color: Colors.grey),
                   ),
                 ],
               ),

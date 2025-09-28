@@ -30,31 +30,48 @@ class SignUpController extends GetxController {
     }
 
   String? validateEmail(String? value) {
+    final RegExp emailRegExp =
+        RegExp(r'^[a-z0-9]+@(gmail|yahoo|hotmail|outlook)\.com$');
+
     if (value == null || value.trim().isEmpty) {
       return AppStrings.emailIsRequired.tr;
     }
-    if (!GetUtils.isEmail(value.trim())) {
+    if (!emailRegExp.hasMatch(value.trim())) {
       return AppStrings.invalidEmailFormat.tr;
     }
     return null;
   }
 
   String? validateMobile(String? value) {
+    final RegExp mobileRegExp = RegExp(r'^01[0-2,5]\d{8}$');
+
     if (value == null || value.trim().isEmpty) {
       return AppStrings.phoneNumberIsRequired.tr;
+    }
+    if (!mobileRegExp.hasMatch(value.trim())) {
+          return "رقم هاتف غير صالح";
     }
     return null;
   }
 
   String? validatePassword(String? value) {
+    final RegExp passwordRegExp =
+    RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+
     if (value == null || value.isEmpty) {
       return AppStrings.passwordIsRequired.tr;
     }
+
     if (value.length < 8) {
       return AppStrings.passwordMustBe8Chars.tr;
     }
-    return null;
+    if (!passwordRegExp.hasMatch(value)) {
+      return AppStrings.passwordComplexityError.tr;
     }
+
+    return null;
+  }
+
 
   String? validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty) {

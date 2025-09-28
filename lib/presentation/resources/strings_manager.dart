@@ -482,6 +482,13 @@ class AppStrings {
   static const String invalidEmailFormat = "Invalid email format.";
   static const String passwordMustBe8Chars = "Password must be at least 8 characters.";
   static const statistics = "Statistics";
+  static const joinOurCommunity = "Join our community";
+  static const loginPromptMessage = "Log in to manage your wallet and favorites.";
+  static const passwordComplexityError = "must include at least one uppercase, lowercase, number, and symbol";
+
+  static const myFavoritesTitle = "My Favorites";
+  static const noFavoritesYet = "No Favorites Yet";
+  static const tapHeartToAddFavorite = "Tap the heart icon on a campaign to add it here.";
 
 }
 

@@ -14,7 +14,36 @@ class CampaignHeader extends StatelessWidget {
     this.isFavorited = false,
     this.onFavoriteTap,
   });
-
+  void _showImageDialog(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.all(10),
+          child: GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: InteractiveViewer(
+              panEnabled: true,
+              minScale: 0.5,
+              maxScale: 4.0,
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.contain,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const Center(child: CircularProgressIndicator());
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.error, color: Colors.white, size: 50);
+                },
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -53,14 +82,21 @@ class CampaignHeader extends StatelessWidget {
       ],
       flexibleSpace: FlexibleSpaceBar(
         background: imageUrl != null
-            ? Image.network(
-                imageUrl!,
-          fit: BoxFit.cover,
-          color: Colors.black.withOpacity(0.3),
-          colorBlendMode: BlendMode.darken,
-                errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.broken_image, size: 100, color: Colors.grey),
-              )
+            ? GestureDetector(
+          onTap: () {
+            if (imageUrl != null && imageUrl!.isNotEmpty) {
+             _showImageDialog(context, imageUrl!);
+            }
+          },
+              child: Image.network(
+                  imageUrl!,
+                        fit: BoxFit.cover,
+                        color: Colors.black.withOpacity(0.3),
+                        colorBlendMode: BlendMode.darken,
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.broken_image, size: 100, color: Colors.grey),
+                ),
+            )
             : Container(
                 color: Colors.grey.shade300,
                 child:

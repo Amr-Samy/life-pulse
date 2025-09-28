@@ -397,7 +397,7 @@ Map<String, String> ar = {
   AppStrings.englishDefault: "en",
   AppStrings.donations: "التبرعات",
   AppStrings.remaining: "مُتبقى",
-  AppStrings.featureCampaign: "حملة مميزة",
+  AppStrings.featureCampaign: "حملات مميزة",
   AppStrings.donationWallet: "محفظة التبرع",
   AppStrings.topUp: "تعبئة رصيد",
   AppStrings.today: "اليوم",
@@ -468,6 +468,12 @@ Map<String, String> ar = {
   AppStrings.nameIsRequired: "الاسم مطلوب.",
   AppStrings.emailIsRequired: "البريد الإلكتروني مطلوب.",
   AppStrings.invalidEmailFormat: "صيغة البريد الإلكتروني غير صالحة.",
-  AppStrings.statistics: "الإحصائيات"
+  AppStrings.statistics: "الإحصائيات",
+  AppStrings.joinOurCommunity: "انضم إلى نبض الحياة!",
+  AppStrings.loginPromptMessage: "قم بتسجيل الدخول لإدارة محفظتك ومفضلاتك.",
+  AppStrings.passwordComplexityError: "يجب أن يتضمن على الأقل حرفًا كبيرًا وحرفًا صغيرًا ورقمًا ورمزًا",
 
+  AppStrings.myFavoritesTitle: "مفضلاتي",
+  AppStrings.noFavoritesYet: "لا توجد مفضلات حتى الآن",
+  AppStrings.tapHeartToAddFavorite: "اضغط على أيقونة القلب في الحملة لإضافتها هنا.",
 };

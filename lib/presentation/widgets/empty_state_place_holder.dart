@@ -13,10 +13,14 @@ class EmptyStateHolder extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-                image,
-                height: 100,
-                color:  ColorManager.primary
+            CircleAvatar(
+              backgroundColor: Color (0xffdae8ca),
+              radius: 50,
+              child: Image.asset(
+                  image,
+                  height: 100,
+                  color:  ColorManager.primary
+              ),
             ),
             const SizedBox(
               height: 16,

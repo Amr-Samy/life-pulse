@@ -178,7 +178,7 @@ class ContactUsTab extends StatelessWidget {
                 if (Platform.isAndroid) {
                   return "https://wa.me/${contactUsController.contactUs?.whatsapp}/?text=${Uri.parse("Hello!")}";
                 } else {
-                  return "https://api.whatsapp.com/send?phone=${contactUsController.contactUs?.whatsapp}=${Uri.parse("Hello!")}";
+                  return "https://api.whatsapp.com/send?phone=${contactUsController.contactUs?.whatsapp}/?text==${Uri.parse("Hello!")}";
                 }
               }
 
@@ -192,7 +192,7 @@ class ContactUsTab extends StatelessWidget {
             icon: ImageAssets.web,
             title: AppStrings.website.tr,
             onTap: () {
-              contactUsController.launchLink(url: "https://www.moss.gov.eg/ar-eg/Pages/default.aspx");
+              contactUsController.launchLink(url: "https://nabd.kirellos.com");
             },
           ),
           CustomCard(

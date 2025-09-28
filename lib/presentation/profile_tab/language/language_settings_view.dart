@@ -65,30 +65,37 @@ class _LanguageSettingsViewState extends State<LanguageSettingsView> {
               onTap: () {
                 profileController.changeLanguage("en");
               },
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
+              trailing: GestureDetector(
+                onTap: () {profileController.changeLanguage("en");},
+                child: Radio(
+                  fillColor: MaterialStateColor.resolveWith((states) =>
+                  states.contains(MaterialState.selected)
+                      ? ColorManager.primary
+                      : ColorManager.primary
+                  ),
+                  value: 0,
+                  groupValue: profileController.selectedLanguage.value,
+                  onChanged: (value) => profileController.onChanged(value!),
+
                 ),
-                value: 0,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
               ),
             ),
             // Arabic
             SettingTile(
               title: 'العربية',
               onTap: () {profileController.changeLanguage("ar");},
-              trailing: Radio(
-                fillColor: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.selected)
-                    ? ColorManager.primary
-                    : ColorManager.primary
+              trailing: GestureDetector(
+                onTap: () {profileController.changeLanguage("ar");},
+                child: Radio(
+                  fillColor: MaterialStateColor.resolveWith((states) =>
+                  states.contains(MaterialState.selected)
+                      ? ColorManager.primary
+                      : ColorManager.primary
+                  ),
+                  value: 6,
+                  groupValue: profileController.selectedLanguage.value,
+                  onChanged: (value) => profileController.onChanged(value!),
                 ),
-                value: 6,
-                groupValue: profileController.selectedLanguage.value,
-                onChanged: (value) => profileController.onChanged(value!),
               ),
             ),
 

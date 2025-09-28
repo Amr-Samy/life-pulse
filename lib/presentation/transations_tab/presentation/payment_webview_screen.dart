@@ -64,7 +64,7 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Complete Payment'),
+        title: Text(AppStrings.payment.tr),
       ),
       body: Stack(
         children: [

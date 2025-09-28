@@ -86,7 +86,7 @@ class ProfileView extends StatelessWidget {
                     icon: ImageAssets.language,
                     title: AppStrings.language.tr,
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.languageSettingsRoute);
+                      _showLanguageSheet(context);
                     },
                     trailing: IntrinsicWidth(
                       child: Row(
@@ -209,6 +209,77 @@ class ProfileView extends StatelessWidget {
               ),
             ),
           );
+  }
+
+  void _showLanguageSheet(BuildContext context) {
+    final profileController = Get.find<ProfileController>(tag: "ProfileController");
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusDirectional.only(
+          topStart: Radius.circular(AppSize.s32),
+          topEnd: Radius.circular(AppSize.s32),
+        ),
+      ),
+      builder: (context) => SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsetsDirectional.only(
+          start: AppPadding.p16,
+          end: AppPadding.p16,
+          bottom: AppPadding.p32,
+          top: AppPadding.p8,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: AppSize.s32,
+              height: AppSize.s2,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppSize.s12),
+                color: isDarkMode() ? ColorManager.dark3 : ColorManager.grey,
+              ),
+            ),
+            SizedBox(height: AppPadding.p16),
+            Text(
+              AppStrings.language.tr,
+              style: getSemiBoldStyle(
+                color: Theme.of(context).textTheme.displayLarge!.color!,
+                fontSize: FontSize.s20,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: AppPadding.p16),
+              child: Divider(height: AppSize.s1, thickness: AppSize.s01),
+            ),
+            // English
+            SettingTile(
+              title: "English",
+              onTap: () {
+                profileController.changeLanguage("en");
+                Navigator.pop(context);
+              },
+              trailing: profileController.getCurrentLanguageName(context) == 'English'
+                  ? Icon(Icons.check, color: ColorManager.primary)
+                  : const SizedBox.shrink(),
+            ),
+            // Arabic Option
+            SettingTile(
+              title: "العربية",
+              onTap: () {
+                profileController.changeLanguage("ar");
+                Navigator.pop(context);
+              },
+              trailing: profileController.getCurrentLanguageName(context) == 'Arabic'
+                  ? Icon(Icons.check, color: ColorManager.primary)
+                  : const SizedBox.shrink(),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void showConfirmationSheet(BuildContext context) {

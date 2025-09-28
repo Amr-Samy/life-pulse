@@ -1,8 +1,10 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:life_pulse/presentation/home_tab/campaign_details/campaign_details_screen.dart';
+import 'package:life_pulse/presentation/home_tab/home/widgets/guest_place_holder.dart';
 import 'package:life_pulse/presentation/home_tab/home/widgets/quick_donation_sheet_view.dart';
 import 'package:life_pulse/presentation/home_tab/home/widgets/search_view.dart';
+import '../../auth/sign_in/signIn_view.dart';
 import '../../layout/layout_controller.dart';
 import '../../profile_tab/profile/profile_controller.dart';
 import '../../resources/index.dart';
@@ -22,7 +24,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final profileController = Get.find<ProfileController>(tag: "ProfileController");
   final homeController = Get.put(HomeController(), tag: "HomeController");
-  final layoutController = Get.find<LayoutController>(tag: "LayoutController");
 
   final ScrollController _scrollController = ScrollController();
 
@@ -50,6 +51,9 @@ class _HomeViewState extends State<HomeView> {
     super.dispose();
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,8 +72,11 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (!isGuest()) const WalletHeaderWidget(),
-                // _buildDonationWalletCard(profileController),
+                (isGuest()) ? GestureDetector(
+                  onTap: () => Get.to(() => const SignInView()),
+                  child: const GuestLoginPromptWidget(),
+                )
+                    :  WalletHeaderWidget(),
                 const SizedBox(height: 24),
                 _buildFeatureCampaignTitle(),
                 const SizedBox(height: 16),
@@ -102,8 +109,8 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildFeatureCampaignList() {
-    const double screenPadding = 0.0;
-    const double cardSpacing = 70.0;
+    const double screenPadding = 16.0;
+    const double cardSpacing = 20.0;
 
     return Obx(() {
       if (homeController.isLoadingFeatured.value && homeController.featuredCampaigns.isEmpty) {
@@ -200,7 +207,7 @@ class _HomeViewState extends State<HomeView> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
-                    childAspectRatio: 0.55,
+                    childAspectRatio: 0.53,
                   ),
                   itemBuilder: (context, index) {
                     final campaign = homeController.latestCampaigns[index];
@@ -242,6 +249,8 @@ class _HomeViewState extends State<HomeView> {
 }
 
 AppBar _buildAppBar(ProfileController profileController) {
+  final layoutController = Get.find<LayoutController>(tag: "LayoutController");
+
   return AppBar(
     elevation: 0,
     backgroundColor: const Color(0xFFD7F0E3),
@@ -254,22 +263,27 @@ AppBar _buildAppBar(ProfileController profileController) {
     title: Row(
       children: [
         if (!isGuest()) ...[
-          Obx(() {
-            final imageUrl = profileController.userImage.value;
-            if (imageUrl != null && imageUrl.isNotEmpty) {
-              return CircleAvatar(
-                radius: 22,
-                backgroundImage: NetworkImage(imageUrl),
-                backgroundColor: Colors.green,
-              );
-            } else {
-              return const CircleAvatar(
-                radius: 22,
-                backgroundColor: Colors.greenAccent,
-                child: Icon(Icons.person, size: 22),
-              );
-            }
-          }),
+          GestureDetector(
+            onTap: () {
+              layoutController.currentPageIndex.value =3;
+            },
+            child: Obx(() {
+              final imageUrl = profileController.userImage.value;
+              if (imageUrl != null && imageUrl.isNotEmpty) {
+                return CircleAvatar(
+                  radius: 22,
+                  backgroundImage: NetworkImage(imageUrl),
+                  backgroundColor: Colors.green,
+                );
+              } else {
+                return const CircleAvatar(
+                  radius: 22,
+                  backgroundColor: Colors.greenAccent,
+                  child: Icon(Icons.person, size: 22),
+                );
+              }
+            }),
+          ),
 
           Expanded(
             child: Padding(
@@ -294,7 +308,21 @@ AppBar _buildAppBar(ProfileController profileController) {
               }),
             ),
           ),
-        ]
+        ] else ...[
+          // CircleAvatar(
+          //   radius: 22,
+          //   backgroundColor: Colors.greenAccent,
+          //   child: Icon(Icons.person, size: 22),
+          // ),
+          // SizedBox(width: 12,),
+          // Text(
+          //   AppStrings.loginPromptMessage.tr,
+          //   style: TextStyle(
+          //     fontSize: 13,
+          //     color: Colors.black54,
+          //   ),
+          // ),
+          ],
       ],
     ),
     actions: [
@@ -480,26 +508,26 @@ class CampaignCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
+               ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+                child: campaign.firstImage != null
+                    ? Image.network(
+                        campaign.firstImage!,
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported, size: 100),
+                      )
+                    : Image.asset(
+                        'assets/images/boarding/boarding1.png',
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.contain,
+                      ),
               ),
-              child: campaign.firstImage != null
-                  ? Image.network(
-                      campaign.firstImage!,
-                      height: 150,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported, size: 100),
-                    )
-                  : Image.asset(
-                      'assets/images/boarding/boarding1.png',
-                      height: 150,
-                      width: double.infinity,
-                      fit: BoxFit.contain,
-                    ),
-            ),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
@@ -710,7 +738,7 @@ class LatestCampaignCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        const Text('By', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                         Text(AppStrings.by.tr, style: TextStyle(color: Colors.grey, fontSize: 12)),
                         const SizedBox(width: 4),
                         Flexible(
                           child: Text(

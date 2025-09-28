@@ -466,5 +466,12 @@ Map<String, String> en = {
   AppStrings.emailIsRequired: "Email is required.",
   AppStrings.invalidEmailFormat: "Invalid email format.",
   AppStrings.statistics: "Statistics",
+  AppStrings.joinOurCommunity: "Join us now!",
+  AppStrings.loginPromptMessage: "Log in to manage your wallet and favorites.",
+  AppStrings.passwordComplexityError: "must include at least one uppercase, lowercase, number, and symbol",
+
+  AppStrings.myFavoritesTitle: "My Favorites",
+  AppStrings.noFavoritesYet: "No Favorites Yet",
+  AppStrings.tapHeartToAddFavorite: "Tap the heart icon on a campaign to add it here.",
 
 };

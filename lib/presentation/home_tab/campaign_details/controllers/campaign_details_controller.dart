@@ -41,4 +41,6 @@ class CampaignDetailsController extends GetxController {
     homeController.toggleFavorite(campaignId);
   }
 
+
+
 }

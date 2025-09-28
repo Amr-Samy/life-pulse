@@ -10,36 +10,13 @@ import 'package:life_pulse/presentation/resources/strings_manager.dart';
 
 class TransactionsController extends GetxController {
   final RxBool isLoading = true.obs;
-  final RxMap<String, List<TransactionModel>> groupedTransactions = <String, List<TransactionModel>>{}.obs;
+  final RxBool isLoadingMore = false.obs;
+  final RxList<TransactionModel> transactions = <TransactionModel>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    if (!isGuest()) fetchTransactions();
-  }
+  int _currentPage = 1;
+  int? _lastPage;
 
-  Future<void> fetchTransactions() async {
-    try {
-      isLoading(true);
-      final response = await Api().get('wallet/transactions');
-
-      if (response.statusCode == 200 && response.data['success'] == true) {
-        final transactions = transactionsResponseFromJson(response.toString()).data;
-        _groupTransactions(transactions);
-      } else {
-        showErrorSnackBar(message: AppStrings.failedToLoadTransactions.tr);
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error fetching transactions: $e');
-      }
-      showErrorSnackBar(message: AppStrings.errorFetchingTransactions.tr);
-    } finally {
-      isLoading(false);
-    }
-  }
-
-  void _groupTransactions(List<TransactionModel> transactions) {
+  Map<String, List<TransactionModel>> get groupedTransactions {
     final data = SplayTreeMap<String, List<TransactionModel>>();
     final now = DateTime.now();
 
@@ -50,10 +27,65 @@ class TransactionsController extends GetxController {
       } else {
         groupKey = DateFormat('MMM yyyy').format(transaction.createdAt);
       }
-
       data.putIfAbsent(groupKey, () => []).add(transaction);
     }
 
-    groupedTransactions.value = Map.fromEntries(data.entries.toList().reversed);
+    return Map.fromEntries(data.entries.toList().reversed);
+  }
+
+
+  @override
+  void onInit() {
+    super.onInit();
+    if (!isGuest()) {
+      fetchTransactions(isRefresh: true);
+    }
+  }
+
+  Future<void> fetchTransactions({bool isRefresh = false}) async {
+    if (isRefresh) {
+      _currentPage = 1;
+      _lastPage = null;
+      isLoading(true);
+    }
+
+    if (isLoadingMore.value || (_lastPage != null && _currentPage > _lastPage!)) {
+      return;
+    }
+
+    if (!isRefresh) {
+      isLoadingMore(true);
+    }
+
+    try {
+      final response = await Api().get('wallet/transactions?page=$_currentPage');
+
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        final transactionsResponse = transactionsResponseFromJson(response.toString());
+        final newTransactions = transactionsResponse.data;
+        _lastPage = transactionsResponse.meta.lastPage;
+
+        if (isRefresh) {
+          transactions.clear();
+        }
+
+        transactions.addAll(newTransactions);
+        _currentPage++;
+      } else {
+        showErrorSnackBar(message: AppStrings.failedToLoadTransactions.tr);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error fetching transactions: $e');
+      }
+      showErrorSnackBar(message: AppStrings.errorFetchingTransactions.tr);
+    } finally {
+      isLoading(false);
+      isLoadingMore(false);
+    }
+  }
+
+  Future<void> loadMore() async {
+    await fetchTransactions();
   }
 }

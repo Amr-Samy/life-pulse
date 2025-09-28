@@ -90,8 +90,28 @@ class CampaignInfoCard extends StatelessWidget {
   }
 
   Widget _buildFundingDetails() {
-    final daysLeft = campaign.endTime!.difference(DateTime.now()).inDays;
-    final daysLeftText = daysLeft > 0 ? '$daysLeft days left' : 'Ended';
+    final now = DateTime.now();
+    final normalizedToday = DateTime(now.year, now.month, now.day);
+    final normalizedEndTime = DateTime(campaign.endTime!.year, campaign.endTime!.month, campaign.endTime!.day);
+    final differenceInDays = normalizedEndTime.difference(normalizedToday).inDays;
+
+    String daysLeftText;
+    Color daysLeftColor;
+
+    if (differenceInDays < 0) {
+      daysLeftText = AppStrings.ended.tr;
+      daysLeftColor = Colors.grey.shade600;
+    } else if (differenceInDays == 0) {
+      daysLeftText = AppStrings.today.tr;
+      daysLeftColor = Colors.deepOrangeAccent;
+    } else if (differenceInDays == 1) {
+      daysLeftText = AppStrings.tomorrow.tr;
+      daysLeftColor = Colors.deepOrangeAccent;
+    } else {
+      daysLeftText = '$differenceInDays ${AppStrings.day.tr} ${AppStrings.remaining.tr}';
+      daysLeftColor = Colors.deepOrangeAccent;
+    }
+
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,7 +124,7 @@ class CampaignInfoCard extends StatelessWidget {
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            color: daysLeft > 0 ? Colors.deepOrangeAccent : Colors.grey.shade600,
+            color: daysLeftColor,
           ),
         ),
       ],

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../resources/index.dart';
+import '../controllers/transactions_controller.dart';
+import '../controllers/wallet_controller.dart';
 
 class PaymentWebViewScreen extends StatefulWidget {
   final String paymentUrl;
@@ -18,6 +20,26 @@ class PaymentWebViewScreen extends StatefulWidget {
 class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
   late final WebViewController _controller;
   int _loadingPercentage = 0;
+  bool _isPopping = false;
+  Future<void> _handlePop() async {
+    if (_isPopping) return;
+    setState(() {
+      _isPopping = true;
+    });
+    print("Back gesture intercepted. Refreshing data...");
+    try {
+      await Future.wait([
+        Get.find<TransactionsController>().fetchTransactions(isRefresh: true),
+        Get.find<WalletController>(tag: "WalletController").fetchWalletData(),
+      ]);
+    } catch (e) {
+      print("An error occurred while fetching data: $e");
+    }
+    if (mounted) {
+      Get.back();
+
+    }
+  }
 
   @override
   void initState() {
@@ -62,18 +84,25 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.payment.tr),
-      ),
-      body: Stack(
-        children: [
-          WebViewWidget(controller: _controller),
-          if (_loadingPercentage < 100)
-            LinearProgressIndicator(
-              value: _loadingPercentage / 100.0,
-            ),
-        ],
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool didPop) {
+        if (didPop) return;
+        _handlePop();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(AppStrings.payment.tr),
+        ),
+        body: Stack(
+          children: [
+            WebViewWidget(controller: _controller),
+            if (_loadingPercentage < 100)
+              LinearProgressIndicator(
+                value: _loadingPercentage / 100.0,
+              ),
+          ],
+        ),
       ),
     );
   }

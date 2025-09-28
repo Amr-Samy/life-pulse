@@ -37,7 +37,8 @@ class TransactionListItemWidget extends StatelessWidget {
           Row(
             children: [
               Icon(
-                transaction.status == 'completed' ? Icons.check : Icons.close,
+                transaction.status == 'completed' ? Icons.verified_outlined : Icons.error_outline,
+                color: transaction.status == 'completed' ? Colors.green : Colors.red,
               ),
               const SizedBox(width: 8),
               Text(

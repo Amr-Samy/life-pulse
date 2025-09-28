@@ -12,6 +12,12 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   final signUpController = Get.put(SignUpController());
+
+  @override
+  void dispose() {
+    Get.delete<SignUpController>();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
 

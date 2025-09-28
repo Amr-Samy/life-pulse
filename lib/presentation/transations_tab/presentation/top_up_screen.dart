@@ -6,6 +6,8 @@ import 'package:life_pulse/presentation/resources/helpers/functions.dart';
 import 'package:life_pulse/presentation/transations_tab/presentation/payment_webview_screen.dart';
 
 import '../../resources/strings_manager.dart';
+import '../controllers/transactions_controller.dart';
+import '../controllers/wallet_controller.dart';
 
 class TopUpScreen extends StatefulWidget {
   const TopUpScreen({super.key});
@@ -15,7 +17,7 @@ class TopUpScreen extends StatefulWidget {
 }
 
 class _TopUpScreenState extends State<TopUpScreen> {
-  static const int _maxTopUpAmount = 100000;
+  static const int _maxTopUpAmount = 10000;
   final List<int> _suggestedAmounts = [100, 200, 500, 1000, 2000, 5000];
   int _selectedAmount = 100;
   bool _isLoading = false;

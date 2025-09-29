@@ -103,20 +103,6 @@ lib/
 - This is an MVP; some endpoints or flows may be mocked or simplified.
 - Replace API base URL and Firebase configs as needed for production.
 
-## 🖼 Screenshots
-
-Add your screenshots here:
-
-```
-assets/images/splash/light_splash_logo_12.png
-assets/images/boarding/boarding1.png
-assets/images/boarding/boarding2.png
-assets/images/boarding/boarding3.png
-```
-
-## 🤝 Contributing
-
-Pull Requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## 📄 License
 

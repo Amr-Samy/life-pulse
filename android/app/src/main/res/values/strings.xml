@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
     <resources>
-    <string name="app_name">Mobeen</string>
-    <string name="default_web_client_id">750960724874-qualun48m66ld5jbahgj875g7h8tc245.apps.googleusercontent.com</string>
-    <string name="facebook_app_id">520957777142038</string>
-    <string name="fb_login_protocol_scheme" >fb520957777142038</string>
-    <string name="facebook_client_token">6c911933dc0af6c529b30db9caec5e0c</string>
+    <string name="app_name">Life-pulse</string>
     </resources>

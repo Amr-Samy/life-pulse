@@ -4,6 +4,16 @@ Empowering charitable giving with transparency, speed, and great UX.
 
 Life Pulse is a modern donations app that helps users discover and support verified humanitarian cases and campaigns. It offers quick, secure payments, multi-language support (Arabic/English), and a clean, intuitive UI to track impact and stay informed with timely updates.
 
+##  Screenshots 📸
+
+Demo screenshots of the app in action:
+
+<p align="center">
+  <img src="https://github.com/Amr-Samy/life-pulse/blob/main/assets/docs/1.jpeg" alt="Home Screen" width="30%">
+  <img src="https://github.com/Amr-Samy/life-pulse/blob/main/assets/docs/2.jpeg" alt="Details View" width="30%">
+  <img src="https://github.com/Amr-Samy/life-pulse/blob/main/assets/docs/3.jpeg" alt="Quick Donation" width="30%">
+</p>
+
 ## ✨ Features
 
 - Discover verified cases and featured campaigns

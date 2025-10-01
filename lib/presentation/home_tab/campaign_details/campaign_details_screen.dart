@@ -33,7 +33,7 @@ class CampaignDetailsScreen extends StatelessWidget {
         return CustomScrollView(
         slivers: [
           CampaignHeader(
-            imageUrl: campaign.firstImage,
+            imageUrls: campaign.images,
             isFavorited: campaign.isFavorited,
             campaignId: campaign.id,
             onFavoriteTap: () => controller.toggleFavorite(),

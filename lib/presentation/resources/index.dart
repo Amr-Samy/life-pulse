@@ -1,4 +1,4 @@
-export 'package:flutter/material.dart';
+export 'package:flutter/material.dart' hide CarouselController;
 export 'package:life_pulse/presentation/resources/assets_manager.dart';
 export 'package:life_pulse/presentation/resources/color_manager.dart';
 export 'package:life_pulse/presentation/resources/constants_manager.dart';

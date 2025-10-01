@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import '../../../../data/network/api.dart';
 import '../model/user_stats_model.dart';
 
-enum ScreenState { loading, success, error }
+enum ScreenState { loading, success, error, empty }
 
 class UserStatsController extends GetxController {
   var screenState = ScreenState.loading.obs;
@@ -22,7 +22,12 @@ class UserStatsController extends GetxController {
       if (response.statusCode == 200 && response.data['success'] == true) {
         final data = response.data['data'];
         userStats.value = UserStats.fromJson(data);
+
+        if (userStats.value?.isEmpty ?? true) {
+          screenState.value = ScreenState.empty;
+        } else {
         screenState.value = ScreenState.success;
+        }
       } else {
         errorMessage.value = response.data['message'] ?? 'Failed to load stats.';
         screenState.value = ScreenState.error;

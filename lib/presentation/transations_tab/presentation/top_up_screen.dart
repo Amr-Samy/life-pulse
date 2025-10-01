@@ -146,7 +146,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
         color: primaryColor,
       ),
       decoration: InputDecoration(
-        prefixText: 'EGP ',
+        prefixText: '${AppStrings.egp.tr} ',
         prefixStyle: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,

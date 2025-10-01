@@ -490,6 +490,16 @@ class AppStrings {
   static const noFavoritesYet = "No Favorites Yet";
   static const tapHeartToAddFavorite = "Tap the heart icon on a campaign to add it here.";
 
+  static const String noActivityYet = "No Activity Yet";
+  static const String impactReportInfo = "Your impact report will appear here once you make your first donation.";
+  static const String totalDonated = "Total Donated";
+  static const String favorites = "Favorites";
+  static const String donationsMade = "Donations Made";
+  static const String campaignsCreated = "Campaigns Created";
+  static const String walletBalance = "Wallet Balance";
+  static const String noMonthlyDonationData = "No monthly donation data available.";
+  static const String monthlyActivity = "Monthly Activity";
+
 }
 
 String ene = 'en';

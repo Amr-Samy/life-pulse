@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import '../../resources/strings_manager.dart';
 import 'controllers/user_stats_controller.dart';
 import 'model/user_stats_model.dart';
 
@@ -15,7 +16,7 @@ class UserStatsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
-        title: const Text('My Impact Report', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title:  Text(AppStrings.statistics.tr, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 1,
         shadowColor: Colors.grey.withOpacity(0.1),
@@ -42,12 +43,37 @@ class UserStatsScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () => controller.fetchUserStats(),
-                      child: const Text('Retry'),
+                      child:  Text(AppStrings.retry.tr),
                     )
                   ],
                 ),
               ),
             );
+
+          case ScreenState.empty:
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.insights, color: Colors.grey[400], size: 60),
+                    const SizedBox(height: 20),
+                     Text(
+                      AppStrings.noActivityYet.tr,
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      AppStrings.impactReportInfo.tr,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                    ),
+                  ],
+                ),
+              ),
+            );
+
           case ScreenState.success:
             return SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -72,15 +98,15 @@ class UserStatsScreen extends StatelessWidget {
       elevation: 2,
       shadowColor: Colors.green.withOpacity(0.1),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: const Color(0xFF1DB954), // Main app green
+      color: const Color(0xFF1DB954),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
         child: Column(
           children: [
             const Icon(Icons.volunteer_activism, color: Colors.white, size: 40),
             const SizedBox(height: 12),
-            const Text(
-              'Total Donated',
+            Text(
+              AppStrings.totalDonated.tr,
               style: TextStyle(color: Colors.white70, fontSize: 16),
             ),
             const SizedBox(height: 4),
@@ -107,10 +133,10 @@ class UserStatsScreen extends StatelessWidget {
       mainAxisSpacing: 16,
       childAspectRatio: 1.2,
       children: [
-        _buildStatCard(Icons.favorite, '${stats.favoriteCampaignsCount}', 'Favorites', Colors.red.shade100),
-        _buildStatCard(Icons.card_giftcard, '${stats.donationsCount}', 'Donations Made', Colors.blue.shade100),
-        _buildStatCard(Icons.add_circle, '${stats.createdCampaignsCount}', 'Campaigns Created', Colors.orange.shade100),
-        _buildStatCard(Icons.account_balance_wallet, NumberFormat.currency(symbol: '\$').format(stats.walletBalance), 'Wallet Balance', Colors.green.shade100),
+        _buildStatCard(Icons.favorite, '${stats.favoriteCampaignsCount}', AppStrings.favorites.tr, Colors.red.shade100),
+        _buildStatCard(Icons.card_giftcard, '${stats.donationsCount}', AppStrings.donationsMade.tr, Colors.blue.shade100),
+        _buildStatCard(Icons.add_circle, '${stats.createdCampaignsCount}', AppStrings.campaignsCreated.tr, Colors.orange.shade100),
+        _buildStatCard(Icons.account_balance_wallet, NumberFormat.currency(symbol: AppStrings.egp.tr).format(stats.walletBalance), AppStrings.walletBalance.tr, Colors.green.shade100),
       ],
     );
   }
@@ -152,6 +178,29 @@ class UserStatsScreen extends StatelessWidget {
   }
 
   Widget _buildMonthlyChart(List<MonthlyDonation> monthlyData) {
+    if (monthlyData.isEmpty) {
+      return Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: SizedBox(
+            height: 254,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.bar_chart_rounded, size: 40, color: Colors.grey[300]),
+                  const SizedBox(height: 16),
+                  Text(AppStrings.noMonthlyDonationData.tr, style: TextStyle(color: Colors.grey[600])),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -161,8 +210,8 @@ class UserStatsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Monthly Activity',
+            Text(
+              AppStrings.monthlyActivity.tr,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 24),

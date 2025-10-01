@@ -1,19 +1,28 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../resources/index.dart';
 
-class CampaignHeader extends StatelessWidget {
+class CampaignHeader extends StatefulWidget {
   final int campaignId;
-  final String? imageUrl;
+  final List<String>? imageUrls;
   final bool isFavorited;
   final VoidCallback? onFavoriteTap;
   const CampaignHeader({
     super.key,
     required this.campaignId,
-    this.imageUrl,
     this.isFavorited = false,
     this.onFavoriteTap,
+    this.imageUrls,
   });
+
+  @override
+  State<CampaignHeader> createState() => _CampaignHeaderState();
+}
+
+class _CampaignHeaderState extends State<CampaignHeader> {
+  int _currentImageIndex = 0;
+
   void _showImageDialog(BuildContext context, String imageUrl) {
     showDialog(
       context: context,
@@ -46,10 +55,12 @@ class CampaignHeader extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+    final hasImages = widget.imageUrls != null && widget.imageUrls!.isNotEmpty;
+
     return SliverAppBar(
-      expandedHeight: 220.0,
+      expandedHeight: 200.0,
       pinned: true,
-      backgroundColor: Color(0xFFE0F2F1),
+      backgroundColor: const Color(0xFFE0F2F1),
       elevation: 1,
       leading: Center(
         child: GestureDetector(
@@ -61,7 +72,7 @@ class CampaignHeader extends StatelessWidget {
         GestureDetector(
           onTap: () {
             final String campaignUrl =
-                'https://nabd.kirellos.com/campaigns/$campaignId';
+                'https://nabd.kirellos.com/campaigns/${widget.campaignId}';
             SharePlus.instance.share(ShareParams(uri: Uri(path: campaignUrl)));
           },
           child: _buildCircularButton(Icons.share_outlined),
@@ -71,39 +82,87 @@ class CampaignHeader extends StatelessWidget {
 
         if(!isGuest())
         GestureDetector(
-          onTap: onFavoriteTap,
+            onTap: widget.onFavoriteTap,
           child: _buildCircularButton(
-            isFavorited ? Icons.favorite : Icons.favorite_border,
-            color: isFavorited ? Colors.red : Colors.white,
+              widget.isFavorited ? Icons.favorite : Icons.favorite_border,
+              color: widget.isFavorited ? Colors.red : Colors.white,
           ),
         ),
 
         const SizedBox(width: 16),
       ],
       flexibleSpace: FlexibleSpaceBar(
-        background: imageUrl != null
-            ? GestureDetector(
+        background: hasImages
+            ? Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  CarouselSlider.builder(
+                    itemCount: widget.imageUrls!.length,
+                    itemBuilder: (context, index, realIndex) {
+                      final imageUrl = widget.imageUrls![index];
+                      return GestureDetector(
           onTap: () {
-            if (imageUrl != null && imageUrl!.isNotEmpty) {
-             _showImageDialog(context, imageUrl!);
+                          if (imageUrl.isNotEmpty) {
+                            _showImageDialog(context, imageUrl);
             }
           },
               child: Image.network(
-                  imageUrl!,
+                          imageUrl,
                         fit: BoxFit.cover,
+                          width: double.infinity,
                         color: Colors.black.withOpacity(0.3),
                         colorBlendMode: BlendMode.darken,
                   errorBuilder: (context, error, stackTrace) =>
                       const Icon(Icons.broken_image, size: 100, color: Colors.grey),
+                        ),
+                      );
+                    },
+                    options: CarouselOptions(
+                      height: 260.0,
+                      viewportFraction: 1.0,
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 4),
+                      autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                      enableInfiniteScroll: widget.imageUrls!.length > 1,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _currentImageIndex = index;
+                        });
+                      },
                 ),
+                  ),
+                  if (widget.imageUrls!.length > 1)
+                    Positioned(
+                      bottom: 10.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: widget.imageUrls!.map((url) {
+                          int index = widget.imageUrls!.indexOf(url);
+                          return Container(
+                            width: 8.0,
+                            height: 8.0,
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 2.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _currentImageIndex == index
+                                  ? Colors.white
+                                  : Colors.white.withOpacity(0.4),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                ],
             )
             : Container(
                 color: Colors.grey.shade300,
-                foregroundDecoration: BoxDecoration(image: DecorationImage(image:
-                  AssetImage('assets/images/background_pattern.png'),
-
-                )
-                ),
+                foregroundDecoration: BoxDecoration(
+                    image: DecorationImage(
+                  image: const AssetImage('assets/images/background_pattern.png'),
+                  fit: BoxFit.cover,
+                  opacity: 0.2,
+                )),
                 child:
                     const Icon(Icons.image, size: 100, color: Colors.grey)),
       ),

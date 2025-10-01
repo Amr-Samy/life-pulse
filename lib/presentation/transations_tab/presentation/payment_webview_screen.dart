@@ -37,7 +37,6 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
     }
     if (mounted) {
       Get.back();
-
     }
   }
 
@@ -62,11 +61,15 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
               _loadingPercentage = 0;
             });
           },
-          onPageFinished: (String url) {
+          onPageFinished: (String url) async {
             debugPrint('Page finished loading======================================: $url');
             if(url == "https://nabd.kirellos.com/login"){
               Get.back();
               Get.back();
+              await Future.wait([
+                Get.find<TransactionsController>().fetchTransactions(isRefresh: true),
+                Get.find<WalletController>(tag: "WalletController").fetchWalletData(),
+              ]);
               showSuccessSnackBar(message:"تم الدفع بنجاح");
             }
             setState(() {

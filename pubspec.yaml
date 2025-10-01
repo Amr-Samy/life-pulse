@@ -2,7 +2,7 @@ name: life_pulse
 description: An E-Learning Platform
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.30+10
+version: 1.0.31+11
 
 environment:
   sdk: ">=3.5.0 <4.0.0"
@@ -41,6 +41,8 @@ dependencies:
   share_plus: ^12.0.0 # Share campaigns
   restart_app: ^1.3.2
   fl_chart: ^0.68.0
+  carousel_slider: 5.1.1
+
 
 
 dev_dependencies:

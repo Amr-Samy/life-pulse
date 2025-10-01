@@ -207,6 +207,17 @@ class FirebaseFcm {
 
 
   static void _showNotification(NotificationEntity message) async {
+    final BigPictureStyleInformation bigPictureStyleInformation =
+        BigPictureStyleInformation(
+          // استخدم FilePathAndroidBitmap بدلاً من DrawableResourceAndroidBitmap
+          // إذا كانت الأيقونة في مجلد drawable
+          DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+          largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+          contentTitle: message.title,
+          htmlFormatContentTitle: true,
+          summaryText: message.body,
+          htmlFormatSummaryText: true,
+        );
     // إعدادات Android
     AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
@@ -217,8 +228,11 @@ class FirebaseFcm {
       ticker: 'New Notification',
       enableLights: true,
       priority: Priority.high ,
-      color: ColorManager.white,
-      icon: '@drawable/ic_launcher',
+          color: ColorManager.primary,
+          icon: '@drawable/ic_notification',
+          largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+          colorized: true,
+          styleInformation: bigPictureStyleInformation,
       visibility: NotificationVisibility.public,
     );
 
@@ -236,7 +250,7 @@ class FirebaseFcm {
       message.title ?? '',
       message.body ?? '',
       platformChannelSpecifics,
-      payload: 'Notification Payload',
+      payload: 'Notification Payload', // يمكنك تمرير بيانات إضافية هنا
     );
   }
 

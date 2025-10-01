@@ -474,4 +474,14 @@ Map<String, String> en = {
   AppStrings.noFavoritesYet: "No Favorites Yet",
   AppStrings.tapHeartToAddFavorite: "Tap the heart icon on a campaign to add it here.",
 
+  AppStrings.noActivityYet: "No Activity Yet",
+  AppStrings.impactReportInfo: "Your impact report will appear here once you make your first donation.",
+  AppStrings.totalDonated: "Total Donated",
+  AppStrings.favorites: "Favorites",
+  AppStrings.donationsMade: "Donations Made",
+  AppStrings.campaignsCreated: "Campaigns Created",
+  AppStrings.walletBalance: "Wallet Balance",
+  AppStrings.noMonthlyDonationData: "No monthly donation data available.",
+  AppStrings.monthlyActivity: "Monthly Activity",
+
 };

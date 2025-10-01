@@ -9,6 +9,7 @@ import '../resources/strings_manager.dart';
 import '../resources/validation_manager.dart';
 import '../widgets/empty_state_place_holder.dart';
 import 'controllers/transactions_controller.dart';
+import 'controllers/wallet_controller.dart';
 
 class TransactionsScreen extends StatefulWidget {
   const TransactionsScreen({super.key});
@@ -39,6 +40,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final walletController = Get.find<WalletController>(tag: 'WalletController');
     return isGuest()
         ? Scaffold(
       body: GestureDetector(
@@ -71,6 +73,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
             const WalletHeaderWidget(),
             Expanded(
               child: Obx(() {
+
                 if (transactionsController.isLoading.value && transactionsController.transactions.isEmpty) {
                   return const Center(child: CircularProgressIndicator());
                 }
@@ -78,7 +81,11 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                   return RefreshIndicator(
                     color: Colors.green,
                     onRefresh: () async {
-                      return transactionsController.fetchTransactions(isRefresh: true);
+                      await Future.wait([
+                       walletController.fetchWalletData(),
+                      transactionsController.fetchTransactions(isRefresh: true)
+                      ]);
+
                     },
                     child: Stack(
                       children: [
@@ -95,7 +102,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                 return RefreshIndicator(
                   color: Colors.green,
                   onRefresh: () async {
-                    return transactionsController.fetchTransactions(isRefresh: true);
+                    await Future.wait([
+                      walletController.fetchWalletData(),
+                      transactionsController.fetchTransactions(isRefresh: true)
+                    ]);
                   },
                   child: ListView.builder(
                     controller: _scrollController,

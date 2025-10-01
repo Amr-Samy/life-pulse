@@ -15,9 +15,10 @@ class WalletController extends GetxController {
   }
 
   Future<void> fetchWalletData() async {
+    print("fetchWalletData!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     try {
-      isLoading(true);
-      final response = await Api().get('wallet');
+      // isLoading(true);
+      final response = await Api().get('wallet/');
 
       if (response.statusCode == 200 && response.data['success'] == true) {
         wallet.value = Wallet.fromJson(response.data['data']);

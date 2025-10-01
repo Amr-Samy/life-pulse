@@ -476,4 +476,15 @@ Map<String, String> ar = {
   AppStrings.myFavoritesTitle: "مفضلاتي",
   AppStrings.noFavoritesYet: "لا توجد مفضلات حتى الآن",
   AppStrings.tapHeartToAddFavorite: "اضغط على أيقونة القلب في الحملة لإضافتها هنا.",
+
+  AppStrings.noActivityYet: "لا يوجد نشاط بعد",
+  AppStrings.impactReportInfo: "سيظهر تقرير تأثيرك هنا بمجرد قيامك بأول تبرع لك.",
+  AppStrings.totalDonated: "إجمالي التبرعات",
+  AppStrings.favorites: "المفضلات",
+  AppStrings.donationsMade: "التبرعات المقدمة",
+  AppStrings.campaignsCreated: "الحملات المنشأة",
+  AppStrings.walletBalance: "رصيد المحفظة",
+  AppStrings.noMonthlyDonationData: "لا توجد بيانات تبرع شهرية متاحة.",
+  AppStrings.monthlyActivity: "النشاط الشهري",
+
 };
